@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { fetchAllProductsAsync } from "../productSlice";
+import { fetchAllProductsAsync, fetchProductsByFilterAsync } from "../productSlice";
 
 const items = [
   {
@@ -259,14 +259,26 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 export default function ProductList() {
   const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector((state) => state.product.products);
+  const [filter, setFilter] = useState({});
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
   }, [dispatch]);
+
+
+  const handleFilter = (e,section,option) =>{
+    const newFilter = {...filter,[section.id]:option.value}
+    console.log("new FIlter",newFilter)
+    console.log("Filter",filter)
+    setFilter(newFilter)
+    dispatch(fetchProductsByFilterAsync(newFilter))
+    console.log(section.id,option.value)
+  }
 
   return (
     <div className="bg-white">
@@ -315,7 +327,7 @@ export default function ProductList() {
                     </button>
                   </div>
 
-                  {/* Filters */}
+                  {/* Filters For mobile view*/}
                   <form className="mt-4 border-t border-gray-200">
                     {filters.map((section) => (
                       <Disclosure
@@ -358,6 +370,7 @@ export default function ProductList() {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
+                                      onChange={(e)=>console.log(e)}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
@@ -500,6 +513,7 @@ export default function ProductList() {
                                   defaultValue={option.value}
                                   type="checkbox"
                                   defaultChecked={option.checked}
+                                  onChange={(e)=>handleFilter(e,section,option)}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
                                 <label
