@@ -11,7 +11,11 @@ import {
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import { fetchAllProductsAsync, fetchProductsByFilterAsync } from "../productSlice";
+import {
+  fetchAllProductsAsync,
+  fetchProductsByFilterAsync,
+  fetchProductsBySortAsync,
+} from "../productSlice";
 
 const items = [
   {
@@ -38,11 +42,9 @@ const items = [
 ];
 
 const sortOptions = [
-  { name: "Most Popular", href: "#", current: true },
-  { name: "Best Rating", href: "#", current: false },
-  { name: "Newest", href: "#", current: false },
-  { name: "Price: Low to High", href: "#", current: false },
-  { name: "Price: High to Low", href: "#", current: false },
+  { name: "Best Rating", sort: "rating", current: false },
+  { name: "Price: Low to High", sort: "price", current: false },
+  { name: "Price: High to Low", sort: "price", current: false },
 ];
 
 const filters = [
@@ -252,33 +254,38 @@ const filters = [
       { value: "YIOSI", label: "YIOSI", checked: false },
     ],
   },
-  
 ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 export default function ProductList() {
   const dispatch = useDispatch();
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const products = useSelector((state) => state.product.products);
   const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
 
   useEffect(() => {
     dispatch(fetchAllProductsAsync());
   }, [dispatch]);
 
+  const handleFilter = (e, section, option) => {
+    const newFilter = { ...filter, [section.id]: option.value };
+    console.log("new FIlter", newFilter);
+    console.log("Filter", filter);
+    setFilter(newFilter);
+    dispatch(fetchProductsByFilterAsync(newFilter));
+    console.log(section.id, option.value);
+  };
 
-  const handleFilter = (e,section,option) =>{
-    const newFilter = {...filter,[section.id]:option.value}
-    console.log("new FIlter",newFilter)
-    console.log("Filter",filter)
-    setFilter(newFilter)
-    dispatch(fetchProductsByFilterAsync(newFilter))
-    console.log(section.id,option.value)
-  }
+  const handleSort = (option) => {
+    const newSort = {...sort, _sort:option.sort};
+    setSort(newSort);
+    dispatch(fetchProductsBySortAsync(newSort));
+    console.log(option.sort, option.order)
+  };
 
   return (
     <div className="bg-white">
@@ -370,7 +377,7 @@ export default function ProductList() {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
-                                      onChange={(e)=>console.log(e)}
+                                      onChange={(e) => console.log(e)}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
@@ -426,8 +433,7 @@ export default function ProductList() {
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <a
-                              href={option.href}
+                            <p
                               className={classNames(
                                 option.current
                                   ? "font-medium text-gray-900"
@@ -435,9 +441,10 @@ export default function ProductList() {
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm"
                               )}
+                              onClick={() => handleSort(option)}
                             >
                               {option.name}
-                            </a>
+                            </p>
                           )}
                         </Menu.Item>
                       ))}
@@ -513,7 +520,9 @@ export default function ProductList() {
                                   defaultValue={option.value}
                                   type="checkbox"
                                   defaultChecked={option.checked}
-                                  onChange={(e)=>handleFilter(e,section,option)}
+                                  onChange={(e) =>
+                                    handleFilter(e, section, option)
+                                  }
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                 />
                                 <label
@@ -539,7 +548,7 @@ export default function ProductList() {
                   <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                       {products.map((product) => (
-                        <Link to="/product-detail">
+                        <Link to="/product-detail" key={product.title}>
                           <div key={product.id} className="group relative">
                             <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
                               <img
@@ -551,13 +560,13 @@ export default function ProductList() {
                             <div className="mt-4 flex justify-between">
                               <div>
                                 <h3 className="text-sm text-gray-700">
-                                  <a href={product.thumbnail}>
+                                  <div href={product.thumbnail}>
                                     <span
                                       aria-hidden="true"
                                       className="absolute inset-0"
                                     />
                                     {product.title}
-                                  </a>
+                                  </div>
                                 </h3>
                                 <p className="mt-1 text-sm text-gray-500">
                                   <StarIcon className="w-6 h-6 inline-block fill-slate-400" />

@@ -1832,11 +1832,12 @@ const products= [
       ]
     }
   ]
-                                         
+                    
+  
+  let queryString = ""
+  const filter = {_sort:'rating',_order:'desc'}
+  for (let key in filter) {
+    queryString += `${key}=${filter[key]}`;
+  }
 
-const categories = [...new Set(products.map((product)=>product.category))]
-
-console.log(categories)
-const ans2 = categories.map((category)=>({value:category,label:category.split('-').join(' '),checked:false}))
-
-console.log(ans2)
+  console.log(queryString)
