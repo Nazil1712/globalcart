@@ -1834,9 +1834,10 @@ const products= [
 ]
                     
 
+let queryString = "";
+const filter= {_page:1, _limt:10};
 
-let obj = {category:["smarthpone","laptops"]}
-
-for(let i in obj) {
-  console.log(obj[i])
+for(let i in filter) {
+  queryString += `${i}=${filter[i]}&`;
 }
+console.log(`http://localhost:8080/products?` + queryString)

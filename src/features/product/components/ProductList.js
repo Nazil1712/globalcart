@@ -14,8 +14,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import {
   fetchAllProductsAsync,
   fetchProductsByFilterAsync,
-  fetchProductsBySortAsync,
 } from "../productSlice";
+import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const items = [
   {
@@ -263,42 +263,48 @@ function classNames(...classes) {
 export default function ProductList() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
+  const totalItems = useSelector((state)=>state.product.totalItems)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    dispatch(fetchAllProductsAsync());
-  }, [dispatch]);
+    const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
+    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
+  }, [dispatch, filter, sort, page]);
 
   const handleFilter = (e, section, option) => {
-    const newFilter = {...filter};
+    const newFilter = { ...filter };
     const checked = e.target.checked;
 
     // section.id = category
     // opton.id = smartphone
-    if(checked) {
-      if(newFilter[section.id]) {
-        newFilter[section.id].push(option.value)
+    if (checked) {
+      if (newFilter[section.id]) {
+        newFilter[section.id].push(option.value);
+      } else {
+        newFilter[section.id] = [option.value];
       }
-      else{
-        newFilter[section.id] = [option.value]
-      }
-    }
-    else{
-      const index = newFilter[section.id].findIndex(el=>el===option.value)
-      newFilter[section.id].splice(index,1);
+    } else {
+      const index = newFilter[section.id].findIndex(
+        (el) => el === option.value
+      );
+      newFilter[section.id].splice(index, 1);
     }
 
-    setFilter(newFilter)
-    dispatch(fetchProductsByFilterAsync(newFilter))
+    setFilter(newFilter);
+    dispatch(fetchProductsByFilterAsync(newFilter));
   };
 
   const handleSort = (option) => {
     const newSort = { ...sort, _sort: option.sort };
     setSort(newSort);
-    dispatch(fetchProductsBySortAsync(newSort));
-    console.log(option.sort, option.order);
+    // console.log(option.sort, option.order);
+  };
+
+  const handlePage = (page) => {
+    setPage(page);
   };
 
   return (
@@ -398,7 +404,7 @@ export default function ProductList() {
         </main>
         {/* Products grid Ends */}
 
-        <Pagination />
+        <Pagination page={page} setPage={setPage} handlePage={handlePage} totalItems={totalItems}/>
       </div>
     </div>
   );
@@ -584,7 +590,7 @@ const DesktopFilter = ({ handleFilter }) => {
   );
 };
 
-const Pagination = () => {
+const Pagination = ({ page, setPage, handlePage, totalItems}) => {
   return (
     <div>
       {/* Pagination */}
@@ -607,9 +613,12 @@ const Pagination = () => {
         <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
           <div>
             <p className="text-sm text-gray-700">
-              Showing <span className="font-medium">1</span> to{" "}
-              <span className="font-medium">10</span> of{" "}
-              <span className="font-medium">97</span> results
+              Showing{" "}
+              <span className="font-medium">
+                {(page - 1) * ITEMS_PER_PAGE + 1}
+              </span>{" "}
+              to <span className="font-medium">{page * ITEMS_PER_PAGE}</span> of{" "}
+              <span className="font-medium">{totalItems}</span> results
             </p>
           </div>
           <div>
@@ -625,19 +634,18 @@ const Pagination = () => {
                 <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
               </a>
               {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
-              <a
-                href="#"
-                aria-current="page"
-                className="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                1
-              </a>
-              <a
-                href="#"
-                className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-              >
-                2
-              </a>
+              {Array.from({
+                length: Math.ceil(totalItems / ITEMS_PER_PAGE),
+              }).map((el,i) => (
+                <div
+                  onClick={()=>handlePage(i+1)}
+                  aria-current="page"
+                  className={`cursor-pointer relative z-10 inline-flex items-center ${page===i+1? 'bg-indigo-600 text-white':'text-gray-400'}  px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                  key={i}
+                >
+                  {i+1}
+                </div>
+              ))}
               <a
                 href="#"
                 className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
