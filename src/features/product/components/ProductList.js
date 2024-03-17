@@ -42,9 +42,9 @@ const items = [
 ];
 
 const sortOptions = [
-  { name: "Best Rating", sort: "rating", current: false },
-  { name: "Price: Low to High", sort: "price", current: false },
-  { name: "Price: High to Low", sort: "price", current: false },
+  { name: "Best Rating", sort: "rating", order:"desc", current: false },
+  { name: "Price: Low to High", sort: "price", order:"asc", current: false },
+  { name: "Price: High to Low", sort: "price", order:"desc", current: false },
 ];
 
 const filters = [
@@ -263,7 +263,7 @@ function classNames(...classes) {
 export default function ProductList() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
-  const totalItems = useSelector((state)=>state.product.totalItems)
+  const totalItems = useSelector((state) => state.product.totalItems);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
@@ -273,6 +273,10 @@ export default function ProductList() {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
   }, [dispatch, filter, sort, page]);
+
+  useEffect(()=>{
+    setPage(1)
+  },[totalItems,sort])
 
   const handleFilter = (e, section, option) => {
     const newFilter = { ...filter };
@@ -298,7 +302,7 @@ export default function ProductList() {
   };
 
   const handleSort = (option) => {
-    const newSort = { ...sort, _sort: option.sort };
+    const newSort = { ...sort, _sort: option.sort , _order:option.order};
     setSort(newSort);
     // console.log(option.sort, option.order);
   };
@@ -404,7 +408,12 @@ export default function ProductList() {
         </main>
         {/* Products grid Ends */}
 
-        <Pagination page={page} setPage={setPage} handlePage={handlePage} totalItems={totalItems}/>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          handlePage={handlePage}
+          totalItems={totalItems}
+        />
       </div>
     </div>
   );
@@ -590,7 +599,7 @@ const DesktopFilter = ({ handleFilter }) => {
   );
 };
 
-const Pagination = ({ page, setPage, handlePage, totalItems}) => {
+const Pagination = ({ page, setPage, handlePage, totalItems }) => {
   return (
     <div>
       {/* Pagination */}
@@ -617,8 +626,13 @@ const Pagination = ({ page, setPage, handlePage, totalItems}) => {
               <span className="font-medium">
                 {(page - 1) * ITEMS_PER_PAGE + 1}
               </span>{" "}
-              to <span className="font-medium">{page * ITEMS_PER_PAGE}</span> of{" "}
-              <span className="font-medium">{totalItems}</span> results
+              to{" "}
+              <span className="font-medium">
+                {page * ITEMS_PER_PAGE > totalItems
+                  ? totalItems
+                  : page * ITEMS_PER_PAGE}
+              </span>{" "}
+              of <span className="font-medium">{totalItems}</span> results
             </p>
           </div>
           <div>
@@ -636,14 +650,18 @@ const Pagination = ({ page, setPage, handlePage, totalItems}) => {
               {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
               {Array.from({
                 length: Math.ceil(totalItems / ITEMS_PER_PAGE),
-              }).map((el,i) => (
+              }).map((el, i) => (
                 <div
-                  onClick={()=>handlePage(i+1)}
+                  onClick={() => handlePage(i + 1)}
                   aria-current="page"
-                  className={`cursor-pointer relative z-10 inline-flex items-center ${page===i+1? 'bg-indigo-600 text-white':'text-gray-400'}  px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                  className={`cursor-pointer relative z-10 inline-flex items-center ${
+                    page === i + 1
+                      ? "bg-indigo-600 text-white"
+                      : "text-gray-400"
+                  }  px-4 py-2 text-sm font-semibold  focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                   key={i}
                 >
-                  {i+1}
+                  {i + 1}
                 </div>
               ))}
               <a
