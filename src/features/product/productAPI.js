@@ -23,7 +23,7 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
   for(let key in sort){
     queryString += `${key}=${sort[key]}&`
   }
-  
+
   for(let key in pagination){
     queryString += `${key}=${pagination[key]}&`
   }
@@ -40,3 +40,19 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
   });
 }
 
+
+export function fetchAllCategoriesAPI() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/category");
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function fetchAllBrandsAPI() {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/brands");
+    const data = await response.json();
+    resolve({ data });
+  });
+}

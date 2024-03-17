@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchAllProductsAPI, fetchProductBySortAPI, fetchProductsByFilterAPI, fetchProductsByPaginationAPI } from './productAPI';
+import { fetchAllBrandsAPI, fetchAllCategoriesAPI, fetchAllProductsAPI, fetchProductBySortAPI, fetchProductsByFilterAPI, fetchProductsByPaginationAPI } from './productAPI';
 
 const initialState = {
   products: [],
+  categories:[],
+  brands:[],
   status: 'idle',
   totalItems : 0
 };
@@ -19,6 +21,20 @@ export const fetchProductsByFilterAsync = createAsyncThunk(
   'product/fetchProductsByFilterAsync',
   async ({filter,sort,pagination}) => {
     const response = await fetchProductsByFilterAPI(filter,sort,pagination);
+    return response.data;
+  }
+);
+export const fetchAllCategoriesAsync = createAsyncThunk(
+  'product/fetchAllCategoriesAsync',
+  async () => {
+    const response = await fetchAllCategoriesAPI();
+    return response.data;
+  }
+);
+export const fetchAllBrandsAsync = createAsyncThunk(
+  'product/fetchAllBrandsAsync',
+  async () => {
+    const response = await fetchAllBrandsAPI();
     return response.data;
   }
 );
@@ -48,6 +64,20 @@ export const productSlice = createSlice({
         state.status = 'idle';
         state.products = action.payload.products;
         state.totalItems = action.payload.totalItems;
+      })
+      .addCase(fetchAllCategoriesAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAllCategoriesAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.categories = action.payload;
+      })
+      .addCase(fetchAllBrandsAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAllBrandsAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.brands = action.payload;
       });
   },
 });
