@@ -1831,13 +1831,12 @@ const products= [
         "https://i.dummyjson.com/data/products/100/thumbnail.jpg"
       ]
     }
-  ]
+]
                     
-  
-  let queryString = ""
-  const filter = {_sort:'rating',_order:'desc'}
-  for (let key in filter) {
-    queryString += `${key}=${filter[key]}`;
-  }
 
-  console.log(queryString)
+
+let obj = {category:["smarthpone","laptops"]}
+
+for(let i in obj) {
+  console.log(obj[i])
+}

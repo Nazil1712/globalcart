@@ -272,12 +272,26 @@ export default function ProductList() {
   }, [dispatch]);
 
   const handleFilter = (e, section, option) => {
-    const newFilter = { ...filter, [section.id]: option.value };
-    console.log("new FIlter", newFilter);
-    console.log("Filter", filter);
-    setFilter(newFilter);
-    dispatch(fetchProductsByFilterAsync(newFilter));
-    console.log(section.id, option.value);
+    const newFilter = {...filter};
+    const checked = e.target.checked;
+
+    // section.id = category
+    // opton.id = smartphone
+    if(checked) {
+      if(newFilter[section.id]) {
+        newFilter[section.id].push(option.value)
+      }
+      else{
+        newFilter[section.id] = [option.value]
+      }
+    }
+    else{
+      const index = newFilter[section.id].findIndex(el=>el===option.value)
+      newFilter[section.id].splice(index,1);
+    }
+
+    setFilter(newFilter)
+    dispatch(fetchProductsByFilterAsync(newFilter))
   };
 
   const handleSort = (option) => {

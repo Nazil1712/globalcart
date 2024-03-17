@@ -9,8 +9,14 @@ export function fetchAllProductsAPI() {
 export function fetchProductsByFilterAPI(filter) {
   let queryString = "";
 
+  // filter = {"category":["smartphone","laptops"]}
   for (let key in filter) {
-    queryString += `${key}=${filter[key]}&`;
+    const categoryArray = filter[key];
+    console.log(categoryArray)
+    if(categoryArray.length) {
+      const lastCategory = categoryArray[categoryArray.length - 1]
+      queryString = `${key}=${lastCategory}`
+    }
   }
   console.log(`http://localhost:8080/products?${queryString}`)
   return new Promise(async (resolve) => {
@@ -25,6 +31,7 @@ export function fetchProductsByFilterAPI(filter) {
 export function fetchProductBySortAPI(filter) {
   let queryString = "";
 
+  // sort = {_sort:"price",_order:"desc"}
   for (let key in filter) {
     queryString += `${key}=${filter[key]}`;
   }
