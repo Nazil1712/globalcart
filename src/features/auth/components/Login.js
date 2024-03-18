@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-// import { increment, incrementAsync, selectCount } from "./counterSlice";
 
 export default function Login() {
-  // const count = useSelector(selectCount);
   const dispatch = useDispatch();
+  const { register, handleSubmit, watch, formState: { errors }} = useForm();
 
   return (
     <div>
@@ -33,7 +33,7 @@ export default function Login() {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
+                  {...register("email")}
                   type="email"
                   autoComplete="email"
                   required
@@ -62,7 +62,7 @@ export default function Login() {
               <div className="mt-2">
                 <input
                   id="password"
-                  name="password"
+                  {...register("password")}
                   type="password"
                   autoComplete="current-password"
                   required
@@ -84,7 +84,7 @@ export default function Login() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
             <Link
-              to='/signup'
+              to="/signup"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
               Create an Account

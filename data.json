@@ -2333,5 +2333,12 @@
       "label": "YIOSI",
       "checked": false
     }
+  ],
+  "users": [
+    {
+      "email": "ndhalwala@gmail.com",
+      "password": "Qwerty123",
+      "id": 1
+    }
   ]
 }
