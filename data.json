@@ -2339,6 +2339,21 @@
       "email": "ndhalwala@gmail.com",
       "password": "Qwerty123",
       "id": 1
+    },
+    {
+      "email": "nazil@gmail.com",
+      "password": "Qwerty123",
+      "id": 2
+    },
+    {
+      "email": "demo@gmail.com",
+      "password": "Qwerty123",
+      "id": 3
+    },
+    {
+      "email": "test@gmail.com",
+      "password": "Qwerty123",
+      "id": 4
     }
   ]
 }

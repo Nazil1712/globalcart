@@ -10,14 +10,23 @@ import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProdctDetails from "./features/product/components/ProductDetails";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import Protected from "./features/auth/components/Protected";
 
 const appRouter = createBrowserRouter([
   {
     path: "/",
     element: (
-      <>
+      <Protected>
         <Home></Home>
-      </>
+      </Protected>
+    ),
+  },
+  {
+    path: "/home",
+    element: (
+      <Protected>
+        <Home></Home>
+      </Protected>
     ),
   },
   {
@@ -29,17 +38,29 @@ const appRouter = createBrowserRouter([
     element: <SignUpPage />,
   },
   {
-    path: '/cart',
-    element: <CartPage/>
+    path: "/cart",
+    element: (
+      <Protected>
+        <CartPage />
+      </Protected>
+    ),
   },
   {
-    path:'/checkout',
-    element:<Checkout/>
+    path: "/checkout",
+    element: (
+      <Protected>
+        <Checkout />
+      </Protected>
+    ),
   },
   {
-    path: '/product-detail/:id',
-    element:<ProductDetailsPage/>
-  }
+    path: "/product-detail/:id",
+    element: (
+      <Protected>
+        <ProdctDetails />
+      </Protected>
+    ),
+  },
 ]);
 
 function App() {
