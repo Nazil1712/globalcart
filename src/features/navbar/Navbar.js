@@ -7,6 +7,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const user = {
   name: "Tom Cook",
@@ -29,6 +30,8 @@ function classNames(...classes) {
 }
 
 const NavBar = ({ children }) => {
+  const items = useSelector((state) => state.cart.items);
+
   return (
     <div className="min-h-full">
       <Disclosure as="nav" className="bg-gray-800">
@@ -80,9 +83,11 @@ const NavBar = ({ children }) => {
                         />
                       </button>
                     </Link>
-                    <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 text-xs -ml-3 font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10">
-                      3
-                    </span>
+                    {items.length && (
+                      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 text-xs -ml-3 font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10">
+                        {items.length}
+                      </span>
+                    )}
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative ml-3">
@@ -188,9 +193,11 @@ const NavBar = ({ children }) => {
                         className="h-6 w-6 relative"
                         aria-hidden="true"
                       />
-                      <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10 relative bottom-10 left-3">
-                        3
-                      </span>
+                      {items.length && (
+                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10 relative bottom-10 left-3">
+                          {items.length}
+                        </span>
+                      )}
                     </button>
                   </Link>
                 </div>
