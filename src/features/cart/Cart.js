@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { updateItemAsync } from "./cartSlice";
+import { deleteItemAsync, updateItemAsync } from "./cartSlice";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -21,6 +21,10 @@ export default function Cart() {
 
   const handleQuantity = (e,item) =>{
     dispatch(updateItemAsync({...item, quantity:+e.target.value}))
+  }
+
+  const handleDelete = (id) =>{
+    dispatch(deleteItemAsync(id))
   }
 
   return (
@@ -72,6 +76,7 @@ export default function Cart() {
 
                       <div className="flex">
                         <button
+                        onClick={()=>handleDelete(product.id)}
                           type="button"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
