@@ -2338,53 +2338,85 @@
     {
       "email": "ndhalwala@gmail.com",
       "password": "Qwerty123",
-      "id": 1
+      "id": 1,
+      "addresses": [
+        {
+          "name": "Nazil",
+          "email": "ndhalwala@gmail.com",
+          "phone": "08469026605",
+          "street": "Anam Apartment, Near Shastri Baug",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
+        },
+        {
+          "name": "Nazil",
+          "email": "nazilDHALWALA@gmail.com",
+          "phone": "08469026605",
+          "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
+        }
+      ]
     },
     {
       "email": "nazil@gmail.com",
       "password": "Qwerty123",
-      "id": 2
+      "id": 2,
+      "addresses": [
+        {
+          "name": "Nazil",
+          "email": "ndhalwala@gmail.com",
+          "phone": "08469026605",
+          "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
+        }
+      ]
     },
     {
       "email": "demo@gmail.com",
       "password": "Qwerty123",
-      "id": 3
+      "id": 3,
+      "addresses": []
     },
     {
       "email": "test@gmail.com",
       "password": "Qwerty123",
-      "id": 4
+      "id": 4,
+      "addresses": []
     },
     {
       "email": "viraj@gmail.com",
       "password": "Qwerty123",
-      "id": 5
+      "id": 5,
+      "addresses": []
     }
   ],
   "cart": [
     {
-      "id": 4,
-      "title": "OPPOF19",
-      "description": "OPPO F19 is officially announced on April 2021.",
-      "price": 280,
-      "discountPercentage": 17.91,
-      "rating": 4.3,
-      "stock": 123,
-      "brand": "OPPO",
-      "category": "smartphones",
-      "thumbnail": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
+      "title": "MacBook Pro",
+      "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+      "price": 1749,
+      "discountPercentage": 11.02,
+      "rating": 4.57,
+      "stock": 83,
+      "brand": "Apple",
+      "category": "laptops",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
       "images": [
-        "https://cdn.dummyjson.com/product-images/4/1.jpg",
-        "https://cdn.dummyjson.com/product-images/4/2.jpg",
-        "https://cdn.dummyjson.com/product-images/4/3.jpg",
-        "https://cdn.dummyjson.com/product-images/4/4.jpg",
-        "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg"
+        "https://cdn.dummyjson.com/product-images/6/1.png",
+        "https://cdn.dummyjson.com/product-images/6/2.jpg",
+        "https://cdn.dummyjson.com/product-images/6/3.png",
+        "https://cdn.dummyjson.com/product-images/6/4.jpg"
       ],
       "quantity": 1,
-      "user": 4
+      "user": 2,
+      "id": 1
     },
     {
-      "id": 1,
       "title": "iPhone 9",
       "description": "An apple mobile which is nothing like apple",
       "price": 549,
@@ -2401,8 +2433,28 @@
         "https://cdn.dummyjson.com/product-images/1/4.jpg",
         "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
       ],
+      "quantity": 3,
+      "user": 1,
+      "id": 2
+    },
+    {
+      "title": "iPhone X",
+      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
+      "price": 899,
+      "discountPercentage": 17.94,
+      "rating": 4.44,
+      "stock": 34,
+      "brand": "Apple",
+      "category": "smartphones",
+      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
+      "images": [
+        "https://cdn.dummyjson.com/product-images/2/1.jpg",
+        "https://cdn.dummyjson.com/product-images/2/2.jpg",
+        "https://cdn.dummyjson.com/product-images/2/3.jpg",
+        "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
+      ],
       "quantity": 1,
-      "user": 2
+      "id": 3
     }
   ]
 }

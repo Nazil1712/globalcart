@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { deleteItemAsync, updateItemAsync } from "./cartSlice";
 
 export default function Cart() {
@@ -29,6 +29,7 @@ export default function Cart() {
 
   return (
     <>
+    {!products.length && <Navigate to={'/'}/>}
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
@@ -92,11 +93,11 @@ export default function Cart() {
         </div>
 
         <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-          <div className="flex justify-between text-base font-medium text-gray-900 border">
+          <div className="flex justify-between text-base font-medium text-gray-900 border-b py-3">
             <p>Total Items in Cart</p>
             <p>{totalItems} Items</p>
           </div>
-          <div className="flex justify-between text-base font-medium text-gray-900 border mt-3">
+          <div className="flex justify-between text-base font-medium text-gray-900  mt-3">
             <p>Subtotal</p>
             <p>$ {totalAmount}</p>
           </div>
