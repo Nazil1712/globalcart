@@ -1835,9 +1835,49 @@ const products= [
                     
 
 let queryString = "";
-const filter= {_page:1, _limt:10};
-
-for(let i in filter) {
-  queryString += `${i}=${filter[i]}&`;
+const filter= [
+  {
+    "title": "MacBook Pro",
+    "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+    "price": 1749,
+    "discountPercentage": 11.02,
+    "rating": 4.57,
+    "stock": 83,
+    "brand": "Apple",
+    "category": "laptops",
+    "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+    "images": [
+      "https://cdn.dummyjson.com/product-images/6/1.png",
+      "https://cdn.dummyjson.com/product-images/6/2.jpg",
+      "https://cdn.dummyjson.com/product-images/6/3.png",
+      "https://cdn.dummyjson.com/product-images/6/4.jpg"
+    ],
+    "quantity": 1,
+    "user": 2,
+    "id": 1
+  },
+  {
+    "title": "iPhone 9",
+    "description": "An apple mobile which is nothing like apple",
+    "price": 549,
+    "discountPercentage": 12.96,
+    "rating": 4.69,
+    "stock": 94,
+    "brand": "Apple",
+    "category": "smartphones",
+    "thumbnail": "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg",
+    "images": [
+      "https://cdn.dummyjson.com/product-images/1/1.jpg",
+      "https://cdn.dummyjson.com/product-images/1/2.jpg",
+      "https://cdn.dummyjson.com/product-images/1/3.jpg",
+      "https://cdn.dummyjson.com/product-images/1/4.jpg",
+      "https://cdn.dummyjson.com/product-images/1/thumbnail.jpg"
+    ],
+    "quantity": 3,
+    "user": 1,
+    "id": 2
+  }];
+for(let i of filter) {
+  console.log(i.title)
 }
-console.log(`http://localhost:8080/products?` + queryString)
+// console.log(`http://localhost:8080/products?` + queryString)

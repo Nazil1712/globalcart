@@ -5,6 +5,7 @@ import { deleteItemAsync, updateItemAsync } from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
 import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";
+import { createOrderAsync } from "../features/order/orderSlice";
 
 export default function Checkout() {
   const {
@@ -18,10 +19,10 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const currentOrder = useSelector((state) => state.order.currentOrder);
   const addresses = loggedInUser.addresses;
   const [selectedAddress, setSelectedAdddress] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState('cash')
-
+  const [paymentMethod, setPaymentMethod] = useState("cash");
 
   const totalAmount = products.reduce(
     (prevAmount, item) => item.quantity * item.price + prevAmount,
@@ -40,17 +41,31 @@ export default function Checkout() {
     dispatch(deleteItemAsync(id));
   };
 
-  const handleAddress = (e,index) =>{
-    setSelectedAdddress(addresses[index])
-  }
+  const handleAddress = (e, index) => {
+    setSelectedAdddress(addresses[index]);
+  };
 
-  const handlePayment = (e) =>{
-    setPaymentMethod(e.target.id)
-  }
+  const handlePayment = (e) => {
+    setPaymentMethod(e.target.id);
+  };
+
+  const handleOrder = () => {
+    const order = {
+      products,
+      totalAmount,
+      totalItems,
+      loggedInUser,
+      paymentMethod,
+      selectedAddress,
+      status: "pending", // Other status can be => delivered, dispathced, received etc.
+    };
+    dispatch(createOrderAsync(order));
+  };
 
   return (
     <>
       {!products.length && <Navigate to={"/"} />}
+      {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`} />}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           {/* Form */}
@@ -242,18 +257,27 @@ export default function Checkout() {
                   <h2 className="text-base font-semibold leading-7 text-gray-900">
                     Address
                   </h2>
-                  <p className="mt-1 text-sm leading-6 text-gray-600">
-                    Choose from existing addresses
-                  </p>
+                  {!addresses.length ? (
+                    <div className="text-center mt-4">
+                      <p className="text-red-500">
+                        Please Add Your shipping address
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="mt-1 text-sm leading-6 text-gray-600">
+                      Choose from existing addresses
+                    </p>
+                  )}
+
                   <ul className="divide-y divide-gray-200">
-                    {addresses.map((addresses,index) => (
+                    {addresses.map((addresses, index) => (
                       <li
                         key={addresses.email}
                         className="flex justify-between gap-x-6 py-5"
                       >
                         <div className="flex min-w-0 gap-x-4">
                           <input
-                            onChange={(e)=>handleAddress(e,index)}
+                            onChange={(e) => handleAddress(e, index)}
                             value={selectedAddress}
                             name="address"
                             type="radio"
@@ -298,11 +322,11 @@ export default function Checkout() {
                         <div className="flex items-center gap-x-3">
                           <input
                             id="cash"
-                            onChange={(e)=>handlePayment(e)}
+                            onChange={(e) => handlePayment(e)}
                             name="payments"
                             type="radio"
                             value={paymentMethod}
-                            checked={paymentMethod==='cash'}
+                            checked={paymentMethod === "cash"}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                           />
                           <label
@@ -315,11 +339,11 @@ export default function Checkout() {
                         <div className="flex items-center gap-x-3">
                           <input
                             id="card"
-                            onChange={(e)=>handlePayment(e)}
+                            onChange={(e) => handlePayment(e)}
                             name="payments"
                             type="radio"
                             value={paymentMethod}
-                            checked={paymentMethod==='card'}
+                            checked={paymentMethod === "card"}
                             className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                           />
                           <label
@@ -411,27 +435,38 @@ export default function Checkout() {
                   <p>Subtotal</p>
                   <p>$ {totalAmount}</p>
                 </div>
-                <div className="mt-6">
-                  <div
-                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                  >
-                    Order Now
+                {selectedAddress === "" ? (
+                  <div className="text-center mt-4">
+                    <p className="text-red-500">
+                      Please Select Shipping address
+                    </p>
                   </div>
-                </div>
-                <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                  <p>
-                    or{" "}
-                    <Link to={"/"}>
-                      <button
-                        type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                ) : (
+                  <>
+                    <div className="mt-6">
+                      <div
+                        onClick={() => handleOrder()}
+                        className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                       >
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
-                    </Link>
-                  </p>
-                </div>
+                        Order Now
+                      </div>
+                    </div>
+                    <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                      <p>
+                        or{" "}
+                        <Link to={"/"}>
+                          <button
+                            type="button"
+                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                          >
+                            Continue Shopping
+                            <span aria-hidden="true"> &rarr;</span>
+                          </button>
+                        </Link>
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

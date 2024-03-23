@@ -10,7 +10,6 @@ export function addToCartAPI(item) {
   });
 }
 
-
 export function fetchItemsByUserIdAPI(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/cart?user=${userId}`);
@@ -19,7 +18,6 @@ export function fetchItemsByUserIdAPI(userId) {
     resolve({ data });
   });
 }
-
 
 export function updateItemAPI(update) {
   return new Promise(async (resolve) => {
@@ -40,6 +38,15 @@ export function deleteItemAPI(id) {
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
-    resolve({ data:{id:id} });
+    resolve({ data: { id: id } });
+  });
+}
+
+export function resetCartAPI(userId) {
+  return new Promise(async (resolve, reject) => {
+    const response = await fetchItemsByUserIdAPI(userId);
+    const items = response.data;
+    for (let item of items) await deleteItemAPI(item.id);
+    resolve({ status: "success" });
   });
 }
