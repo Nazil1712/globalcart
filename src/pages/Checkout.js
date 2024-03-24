@@ -21,6 +21,7 @@ export default function Checkout() {
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   const currentOrder = useSelector((state) => state.order.currentOrder);
   const addresses = loggedInUser.addresses;
+  console.log(addresses)
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
@@ -76,7 +77,7 @@ export default function Checkout() {
                 dispatch(
                   updateUserAsync({
                     ...loggedInUser,
-                    addresses: [...loggedInUser.addresses, data],
+                    addresses: [...addresses, data],
                   })
                 );
                 reset();
@@ -257,57 +258,58 @@ export default function Checkout() {
                   <h2 className="text-base font-semibold leading-7 text-gray-900">
                     Address
                   </h2>
-                  {!addresses.length ? (
-                    <div className="text-center mt-4">
-                      <p className="text-red-500">
-                        Please Add Your shipping address
-                      </p>
-                    </div>
-                  ) : (
+                  {addresses && addresses.length > 0 ? (
                     <p className="mt-1 text-sm leading-6 text-gray-600">
                       Choose from existing addresses
                     </p>
+                  ) : (
+                    <div className="text-center mt-4">
+                      <p className="text-red-500">
+                        Please Add Your shipping address to Order
+                      </p>
+                    </div>
                   )}
 
                   <ul className="divide-y divide-gray-200">
-                    {addresses.map((addresses, index) => (
-                      <li
-                        key={addresses.email}
-                        className="flex justify-between gap-x-6 py-5"
-                      >
-                        <div className="flex min-w-0 gap-x-4">
-                          <input
-                            onChange={(e) => handleAddress(e, index)}
-                            value={selectedAddress}
-                            name="address"
-                            type="radio"
-                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                          <div className="min-w-0 flex-auto">
-                            <p className="text-sm font-semibold leading-6 text-gray-900">
-                              {addresses.name}
+                    {addresses &&
+                      addresses.map((addresses, index) => (
+                        <li
+                          key={index}
+                          className="flex justify-between gap-x-6 py-5"
+                        >
+                          <div className="flex min-w-0 gap-x-4">
+                            <input
+                              onChange={(e) => handleAddress(e, index)}
+                              value={selectedAddress}
+                              name="address"
+                              type="radio"
+                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                            />
+                            <div className="min-w-0 flex-auto">
+                              <p className="text-sm font-semibold leading-6 text-gray-900">
+                                {addresses.name}
+                              </p>
+                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {addresses.email}
+                              </p>
+                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {addresses.phone}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                            <p className="text-sm leading-6 text-gray-900">
+                              {addresses.city}
                             </p>
-                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                              {addresses.email}
+                            <p className="text-sm leading-6 text-gray-900">
+                              {addresses.street}
                             </p>
-                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                              {addresses.phone}
+                            <p className="text-sm leading-6 text-gray-900">
+                              {addresses.pinCode}
                             </p>
                           </div>
-                        </div>
-                        <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                          <p className="text-sm leading-6 text-gray-900">
-                            {addresses.city}
-                          </p>
-                          <p className="text-sm leading-6 text-gray-900">
-                            {addresses.street}
-                          </p>
-                          <p className="text-sm leading-6 text-gray-900">
-                            {addresses.pinCode}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
+                        </li>
+                      ))}
                   </ul>
 
                   <div className="mt-10 space-y-10">

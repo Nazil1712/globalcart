@@ -89,6 +89,7 @@ export const cartSlice = createSlice({
       })
       .addCase(resetCartAsync.fulfilled, (state, action) => {
         state.status = 'idle';
+        state.items = []
       })
   },
 });

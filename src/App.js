@@ -14,6 +14,7 @@ import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
+import UserOrdersPage from "./pages/UserOrdersPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -69,6 +70,14 @@ const appRouter = createBrowserRouter([
     element: <OrderSuccess />,
   },
   {
+    path: "/orders",
+    element: (
+      <Protected>
+        <UserOrdersPage />
+      </Protected>
+    ),
+  },
+  {
     path: "*",
     element: <PageNotFound />,
   },
@@ -77,13 +86,14 @@ const appRouter = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
-  const items = useSelector((state)=>state.cart.items)
+  const items = useSelector((state) => state.cart.items);
+  const orders = useSelector((state) => state.order.orders);
 
   useEffect(() => {
     if (loggedInUser) {
       dispatch(fetchItemsByUserIdAsync(loggedInUser.id));
     }
-  }, [dispatch, loggedInUser, items]);
+  }, [dispatch, loggedInUser, items.length, orders.length]);
 
   return (
     <div className="App">
