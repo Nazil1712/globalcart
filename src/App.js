@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
 import UserOrdersPage from "./pages/UserOrdersPage";
+import UserProfilePage from "./pages/UserProfilePage";
 
 const appRouter = createBrowserRouter([
   {
@@ -78,6 +79,14 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
+    path: "/profile",
+    element: (
+      <Protected>
+        <UserProfilePage/>
+      </Protected>
+    ),
+  },
+  {
     path: "*",
     element: <PageNotFound />,
   },
@@ -85,7 +94,7 @@ const appRouter = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const loggedInUser = useSelector((state) => state.user.loggedInUser);
   const items = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order.orders);
 
