@@ -4,7 +4,7 @@ import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync } from "../productSlice";
 import { useParams } from "react-router-dom";
-import { addToCartAsync } from "../../cart/cartSlice";
+import { addToCartAsync } from "../../cart/cartslice";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },

@@ -10,7 +10,7 @@ import Checkout from "./pages/Checkout";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import Protected from "./features/auth/components/Protected";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
+import { fetchItemsByUserIdAsync } from "./features/cart/";
 import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";

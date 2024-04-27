@@ -46,7 +46,7 @@ export const resetCartAsync = createAsyncThunk(
   }
 );
 
-export const cartSlice = createSlice({
+export const cartslice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
@@ -95,4 +95,4 @@ export const cartSlice = createSlice({
 });
 
 
-export default cartSlice.reducer;
+export default cartslice.reducer;

@@ -1,7 +1,7 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { deleteItemAsync, updateItemAsync } from "../features/cart/cartSlice";
+import { deleteItemAsync, updateItemAsync } from "../features/cart/cartslice";
 import { useForm } from "react-hook-form";
 import { updateUserAsync } from "../features/auth/authSlice";
 import { useState } from "react";

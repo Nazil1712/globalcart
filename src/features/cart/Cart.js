@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
-import { deleteItemAsync, updateItemAsync } from "./cartSlice";
+import { deleteItemAsync, updateItemAsync } from "./cartslice";
 
 export default function Cart() {
   const dispatch = useDispatch();
