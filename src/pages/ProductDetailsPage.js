@@ -1,4 +1,4 @@
-import Navbar from "../features/Navbar/Navbar";
+import Navbar from "../features/navbar/Navbar";
 import ProdctDetails from "../features/product/components/ProductDetails";
 
 const ProductDetailsPage = () => {
