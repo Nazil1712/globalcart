@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { createUserAsync } from "../authSlice";
 
-function SignUp() {
+function Signup() {
   const {
     register,
     handleSubmit,
@@ -147,4 +147,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default Signup;
