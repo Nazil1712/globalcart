@@ -7,7 +7,7 @@ import SignUpPage from "./pages/SignUpPage";
 import Cart from "./features/cart/Cart";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
-import ProductdetailsPage from "./pages/Productdetailspage";
+import Productdetailspage from "./pages/Productdetailspage";
 import Protected from "./features/auth/components/Protected";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartslice";
@@ -62,7 +62,7 @@ const appRouter = createBrowserRouter([
     path: "/product-detail/:id",
     element: (
       <Protected>
-        <ProductdetailsPage />
+        <Productdetailspage />
       </Protected>
     ),
   },
