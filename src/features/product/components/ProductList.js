@@ -15,7 +15,7 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
-} from "../productSlice";
+} from "../productslice";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const items = [
@@ -52,7 +52,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductList() {
+export default function Productlist() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
   const totalItems = useSelector((state) => state.product.totalItems);

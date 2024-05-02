@@ -7,15 +7,15 @@ import SignUpPage from "./pages/SignUpPage";
 import Cart from "./features/cart/Cart";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
-import ProductDetailsPage from "./pages/ProductDetailsPage";
+import ProductdetailsPage from "./pages/Productdetailspage";
 import Protected from "./features/auth/components/Protected";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartslice";
 import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
-import UserOrdersPage from "./pages/UserOrdersPage";
-import UserProfilePage from "./pages/UserProfilePage";
+import UserordersPage from "./pages/UserOrdersPage";
+import UserprofilePage from "./pages/UserProfilePage";
 
 const appRouter = createBrowserRouter([
   {
@@ -62,7 +62,7 @@ const appRouter = createBrowserRouter([
     path: "/product-detail/:id",
     element: (
       <Protected>
-        <ProductDetailsPage />
+        <ProductdetailsPage />
       </Protected>
     ),
   },
@@ -74,7 +74,7 @@ const appRouter = createBrowserRouter([
     path: "/orders",
     element: (
       <Protected>
-        <UserOrdersPage />
+        <UserordersPage />
       </Protected>
     ),
   },
@@ -82,7 +82,7 @@ const appRouter = createBrowserRouter([
     path: "/profile",
     element: (
       <Protected>
-        <UserProfilePage/>
+        <UserprofilePage/>
       </Protected>
     ),
   },

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { checkUserAPI, createUserAPI, updateUserAPI } from './authAPI';
+import { checkUserAPI, createUserAPI, updateUserAPI } from './authapi';
 
 const initialState = {
   loggedInUser: null,
@@ -31,7 +31,7 @@ export const updateUserAsync = createAsyncThunk(
   }
 );
 
-export const authSlice = createSlice({
+export const authslice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -68,4 +68,4 @@ export const authSlice = createSlice({
 });
 
 
-export default authSlice.reducer;
+export default authslice.reducer;

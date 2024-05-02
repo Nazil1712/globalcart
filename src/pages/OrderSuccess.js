@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { resetCartAsync } from "../features/cart/cartslice";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCurrentOrder } from "../features/order/orderSlice";
+import { resetCurrentOrder } from "../features/order/orderslice";
 
 function OrderSuccess() {
   const {id} = useParams();

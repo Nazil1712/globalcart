@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createOrderAPI } from './orderAPI';
+import { createOrderAPI } from './orderapi';
 
 const initialState = {
   orders: [],
@@ -15,7 +15,7 @@ export const createOrderAsync = createAsyncThunk(
   }
 );
 
-export const orderSlice = createSlice({
+export const orderslice = createSlice({
   name: 'order',
   initialState,
   reducers: {
@@ -36,8 +36,8 @@ export const orderSlice = createSlice({
   },
 });
 
-export const {resetCurrentOrder} = orderSlice.actions;
+export const {resetCurrentOrder} = orderslice.actions;
 
 export const selectCount = (state) => state.counter.value;
 
-export default orderSlice.reducer;
+export default orderslice.reducer;

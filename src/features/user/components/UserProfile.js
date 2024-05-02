@@ -5,11 +5,11 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserAsync } from "../../auth/authSlice";
+import { updateUserAsync } from "../../auth/authslice";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-export default function UserProfile() {
+export default function Userprofile() {
   const {
     register,
     handleSubmit,

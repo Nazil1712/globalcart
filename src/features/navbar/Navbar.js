@@ -83,10 +83,10 @@ const Navbar = ({ children }) => {
                         />
                       </button>
                     </Link>
-                    {items.length && (
+                    {items.length > 0 && (
                       <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 text-xs -ml-3 font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10">
                         {items.length}
-                      </span>
+                      </span>                     
                     )}
 
                     {/* Profile dropdown */}

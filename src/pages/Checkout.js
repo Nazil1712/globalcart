@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteItemAsync, updateItemAsync } from "../features/cart/cartslice";
 import { useForm } from "react-hook-form";
-import { updateUserAsync } from "../features/auth/authSlice";
+import { updateUserAsync } from "../features/auth/authslice";
 import { useState } from "react";
-import { createOrderAsync } from "../features/order/orderSlice";
+import { createOrderAsync } from "../features/order/orderslice";
 
 export default function Checkout() {
   const {

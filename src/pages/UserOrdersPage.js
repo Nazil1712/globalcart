@@ -1,7 +1,7 @@
 import Navbar from "../features/navbar/Navbar";
-import UserOrders from "../features/user/components/UserOrders";
+import Userorders from "../features/user/components/Userorders";
 
-function UserOrdersPage() {
+function UserordersPage() {
   return (
     <>
       <Navbar />
@@ -10,9 +10,9 @@ function UserOrdersPage() {
           My Orders
         </h1>
       </div>
-      <UserOrders />
+      <Userorders />
     </>
   );
 }
 
-export default UserOrdersPage;
+export default UserordersPage;

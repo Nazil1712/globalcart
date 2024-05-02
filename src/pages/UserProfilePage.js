@@ -1,13 +1,13 @@
 import Navbar from "../features/navbar/Navbar"
-import UserProfile from "../features/user/components/UserProfile"
+import Userprofile from "../features/user/components/Userprofile"
 
-const UserProfilePage = () => {
+const UserprofilePage = () => {
   return (
     <div>
       <Navbar />
-      <UserProfile/>
+      <Userprofile/>
     </div>
   )
 }
 
-export default UserProfilePage
+export default UserprofilePage;

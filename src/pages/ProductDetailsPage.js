@@ -1,14 +1,14 @@
 import Navbar from "../features/navbar/Navbar";
-import ProdctDetails from "../features/product/components/ProductDetails";
+import Productdetails from "../features/product/components/Productdetails";
 
-const ProductDetailsPage = () => {
+const Productdetailspage = () => {
   return (
     <>
       <Navbar>
-        <ProdctDetails />
+        <Productdetails />
       </Navbar>
     </>
   );
 };
 
-export default ProductDetailsPage;
+export default Productdetailspage;

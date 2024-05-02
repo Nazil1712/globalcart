@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductByIdAsync } from "../productSlice";
+import { fetchProductByIdAsync } from "../productslice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartslice";
 

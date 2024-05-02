@@ -2395,6 +2395,15 @@
           "city": "VADODARA",
           "state": "GUJARAT",
           "pincode": "390017"
+        },
+        {
+          "name": "Nazil",
+          "email": "ndhalwala@gmail.com",
+          "phone": "08469026605",
+          "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
         }
       ]
     },
@@ -3356,6 +3365,70 @@
       },
       "status": "pending",
       "id": 10
+    },
+    {
+      "products": [
+        {
+          "title": "OPPOF19",
+          "description": "OPPO F19 is officially announced on April 2021.",
+          "price": 280,
+          "discountPercentage": 17.91,
+          "rating": 4.3,
+          "stock": 123,
+          "brand": "OPPO",
+          "category": "smartphones",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/4/1.jpg",
+            "https://cdn.dummyjson.com/product-images/4/2.jpg",
+            "https://cdn.dummyjson.com/product-images/4/3.jpg",
+            "https://cdn.dummyjson.com/product-images/4/4.jpg",
+            "https://cdn.dummyjson.com/product-images/4/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 4,
+          "id": 8
+        }
+      ],
+      "totalAmount": 280,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "test@gmail.com",
+        "password": "Qwerty123",
+        "id": 4,
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "test@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ]
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nazil",
+        "email": "test@gmail.com",
+        "phone": "08469026605",
+        "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 11
     }
   ]
 }

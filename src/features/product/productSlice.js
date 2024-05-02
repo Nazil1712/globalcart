@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchAllBrandsAPI, fetchAllCategoriesAPI, fetchAllProductsAPI, fetchProductByIdAPI, fetchProductBySortAPI, fetchProductsByFilterAPI, fetchProductsByPaginationAPI } from './productAPI';
+import { fetchAllBrandsAPI, fetchAllCategoriesAPI, fetchAllProductsAPI, fetchProductByIdAPI, fetchProductBySortAPI, fetchProductsByFilterAPI, fetchProductsByPaginationAPI } from './productapi';
 
 const initialState = {
   products: [],
@@ -48,7 +48,7 @@ export const fetchProductByIdAsync = createAsyncThunk(
 );
 
 
-export const productSlice = createSlice({
+export const productslice = createSlice({
   name: 'product',
   initialState,
   reducers: {
@@ -97,6 +97,6 @@ export const productSlice = createSlice({
   },
 });
 
-export const { increment } = productSlice.actions;
+export const { increment } = productslice.actions;
 
-export default productSlice.reducer;
+export default productslice.reducer;

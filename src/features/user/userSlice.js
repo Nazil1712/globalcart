@@ -1,21 +1,21 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchUserOrdersAPI } from './userAPI';
+import { fetchUserordersAPI } from './userapi';
 
 const initialState = {
-  userOrders: [],
+  Userorders: [],
   status: 'idle',
 };
 
-export const fetchUserOrdersAsync = createAsyncThunk(
-  'user/fetchUserOrdersAsync',
+export const fetchUserordersAsync = createAsyncThunk(
+  'user/fetchUserordersAsync',
   async (userId) => {
-    const response = await fetchUserOrdersAPI(userId);
+    const response = await fetchUserordersAPI(userId);
     return response.data;
   }
 );
 
 
-export const userSlice = createSlice({
+export const userslice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -23,16 +23,16 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserOrdersAsync.pending, (state) => {
+      .addCase(fetchUserordersAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchUserOrdersAsync.fulfilled, (state, action) => {
+      .addCase(fetchUserordersAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.userOrders = action.payload;
+        state.Userorders = action.payload;
       });
   },
 });
 
-export const selectUserOrders = (state)=>state.user.userOrders
+export const selectUserorders = (state)=>state.user.Userorders
 
-export default userSlice.reducer;
+export default userslice.reducer;

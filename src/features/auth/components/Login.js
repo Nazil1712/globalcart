@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { checkUserAsync } from "../authSlice"
+import { checkUserAsync } from "../authslice"
 
 function Login() {
   const {
