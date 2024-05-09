@@ -84,6 +84,7 @@ export default function Userprofile() {
               + Add New Address
             </buttton>
           </p>
+          <p>Your Addresses : </p>
           {showAddAddressForm ? (
             <div className="lg:col-span-3">
               <form

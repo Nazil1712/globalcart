@@ -8,6 +8,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import globalcart from "../../images/navbarlogo.png"
+
 
 const user = {
   name: "Tom Cook",
@@ -22,7 +24,7 @@ const navigation = [
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
   { name: "My Orders", link: "/orders" },
-  { name: "Sign out", link: "/login" },
+  { name: "Sign out", link: "/logout" },
 ];
 
 function classNames(...classes) {
@@ -43,8 +45,8 @@ const Navbar = ({ children }) => {
                   <Link to="/">
                     <div className="flex-shrink-0">
                       <img
-                        className="h-8 w-8"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                        className="h-12 w-25"
+                        src={globalcart}
                         alt="Your Company"
                       />
                     </div>

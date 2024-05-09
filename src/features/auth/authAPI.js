@@ -42,3 +42,9 @@ export function updateUserAPI(update) {
     resolve({ data });
   });
 }
+
+export function signOutAPI(userId) {
+  return new Promise(async (resolve) => {
+    resolve({ data : "success" });
+  });
+}
