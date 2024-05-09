@@ -17,6 +17,7 @@ import OrderSuccess from "./pages/OrderSuccess";
 import UserordersPage from "./pages/UserOrdersPage";
 import UserprofilePage from "./pages/UserProfilePage";
 import Logout from "./features/auth/components/Logout";
+import Forgotpassword from "./features/auth/components/Forgotpassowrd";
 
 const appRouter = createBrowserRouter([
   {
@@ -91,6 +92,12 @@ const appRouter = createBrowserRouter([
     path: "/logout",
     element: (
       <Logout />
+    ),
+  },
+  {
+    path: "/forgot-password",
+    element: (
+      <Forgotpassword />
     ),
   },
   {
