@@ -6,8 +6,10 @@ import {
   ChevronDownIcon,
   FunnelIcon,
   MinusIcon,
+  PencilSquareIcon,
   PlusIcon,
   Squares2X2Icon,
+  TrashIcon,
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
@@ -52,7 +54,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Productlist() {
+export default function Adminproductlist() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.products);
   const totalItems = useSelector((state) => state.product.totalItems);
@@ -94,8 +96,6 @@ export default function Productlist() {
   const handleFilter = (e, section, option) => {
     const newFilter = { ...filter };
     const checked = e.target.checked;
-
-    console.log(section)
 
     // section.id = category
     // opton.id = smartphone
@@ -519,11 +519,20 @@ const ProductGrid = ({ products }) => {
   return (
     <div>
       {/* // This is our product list */}
+      <Link to={"/admin/product-form"}>
+        <buttton className="rounded-md bg-gradient-to-br from-cyan-500 to-blue-500 px-3 ml-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gradient-to-l focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
+          {" "}
+          + Add New Product
+        </buttton>
+      </Link>
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {products.map((product) => (
-              <Link to={`/product-detail/${product.id}`} key={product.title}>
+              <Link
+                to={`/admin/product-detail/${product.id}`}
+                key={product.title}
+              >
                 <div key={product.id} className="group relative">
                   <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
                     <img
@@ -560,6 +569,12 @@ const ProductGrid = ({ products }) => {
                       </p>
                     </div>
                   </div>
+                </div>
+                <div className="sm:flex sm:items-end sm:justify-between mt-1">
+                  <Link to={"/admin/product-form"}>
+                    <PencilSquareIcon className="cursor-pointer w-6 h-6 text-green-600 hover:text-green-500" />
+                  </Link>
+                  <TrashIcon className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500" />
                 </div>
               </Link>
             ))}

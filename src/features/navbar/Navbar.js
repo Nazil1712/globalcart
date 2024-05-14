@@ -8,8 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import globalcart from "../../images/navbarlogo.png"
-
+import globalcart from "../../images/navbarlogo.png";
 
 const user = {
   name: "Tom Cook",
@@ -18,8 +17,8 @@ const user = {
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 };
 const navigation = [
-  { name: "GlobalCart", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
+  { name: "Home", href: "/", user: true, admin:true },
+  { name: "Admin Panel", href: "/admin", admin: true },
 ];
 const userNavigation = [
   { name: "My Profile", link: "/profile" },
@@ -33,6 +32,8 @@ function classNames(...classes) {
 
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
+  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  // console.log(loggedInUser.role);
 
   return (
     <div className="min-h-full">
@@ -53,21 +54,24 @@ const Navbar = ({ children }) => {
                   </Link>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item) => (
-                        <a
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "rounded-md px-3 py-2 text-sm font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </a>
-                      ))}
+                      {navigation.map(
+                        (item) =>
+                          item[loggedInUser.role] && (
+                            <Link
+                              key={item.name}
+                              to={item.href}
+                              className={classNames(
+                                item.current
+                                  ? "bg-gray-900 text-white"
+                                  : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                "rounded-md px-3 py-2 text-sm font-medium"
+                              )}
+                              aria-current={item.current ? "page" : undefined}
+                            >
+                              {item.name}
+                            </Link>
+                          )
+                      )}
                     </div>
                   </div>
                 </div>
@@ -88,7 +92,7 @@ const Navbar = ({ children }) => {
                     {items.length > 0 && (
                       <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 text-xs -ml-3 font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10">
                         {items.length}
-                      </span>                     
+                      </span>
                     )}
 
                     {/* Profile dropdown */}

@@ -50,16 +50,16 @@ export default function Userprofile() {
     dispatch(updateUserAsync(newUser));
   };
 
-  const handleAdd = (e) =>{
-    reset()
-    setShowAddAddressForm(!showAddAddressForm)
-    setSelectedAddressIndex(-1)
-  }
+  const handleAdd = (e) => {
+    reset();
+    setShowAddAddressForm(!showAddAddressForm);
+    setSelectedAddressIndex(-1);
+  };
 
-  const handleCancel = () =>{
-    setShowAddAddressForm(!showAddAddressForm)
-    reset()
-  }
+  const handleCancel = () => {
+    setShowAddAddressForm(!showAddAddressForm);
+    reset();
+  };
 
   return (
     <div>
@@ -71,13 +71,18 @@ export default function Userprofile() {
           <h5 className="text-xl font-bold tracking-tight  mt-3">
             Email : {loggedInUser.email}
           </h5>
+          {loggedInUser.role === "admin" && (
+            <h5 className="text-lg font-bold tracking-tight  mt-3">
+              Role : {loggedInUser.role}
+            </h5>
+          )}
         </div>
 
         <div className="divide-gray-200 px-4 mt-8 sm:px-6">
           <p className="text-gray-900 text-xl font-bold pb-8">
             Shipping Addresses
             <buttton
-              onClick={(e)=>handleAdd(e)}
+              onClick={(e) => handleAdd(e)}
               className="rounded-md bg-green-600 px-3 ml-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 cursor-pointer"
             >
               {" "}
@@ -96,7 +101,7 @@ export default function Userprofile() {
                       addresses: [...addresses, data],
                     })
                   );
-                  handleCancel()
+                  handleCancel();
                 })}
               >
                 <div className="space-y-12">

@@ -18,6 +18,11 @@ import UserordersPage from "./pages/UserOrdersPage";
 import UserprofilePage from "./pages/UserProfilePage";
 import Logout from "./features/auth/components/Logout";
 import Forgotpassword from "./features/auth/components/Forgotpassowrd";
+import Protectedadmin from "./features/auth/components/Protectedadmin";
+import Adminhome from "./pages/admin/Adminhome";
+import Adminproductdetailspage from "./pages/admin/Adminproductdetailspage";
+import Productform from "./features/admin/components/Productform";
+import Productformpage from "./pages/admin/Productformpage";
 
 const appRouter = createBrowserRouter([
   {
@@ -34,6 +39,14 @@ const appRouter = createBrowserRouter([
       <Protected>
         <Home></Home>
       </Protected>
+    ),
+  },
+  {
+    path: "/admin",
+    element: (
+      <Protectedadmin>
+        <Adminhome></Adminhome>
+      </Protectedadmin>
     ),
   },
   {
@@ -69,6 +82,14 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
+    path: "/admin/product-detail/:id",
+    element: (
+      <Protectedadmin>
+        <Adminproductdetailspage />
+      </Protectedadmin>
+    ),
+  },
+  {
     path: "/order-success/:id",
     element: <OrderSuccess />,
   },
@@ -98,6 +119,14 @@ const appRouter = createBrowserRouter([
     path: "/forgot-password",
     element: (
       <Forgotpassword />
+    ),
+  },
+  {
+    path: "/admin/product-form",
+    element: (
+      <Protectedadmin>
+        <Productformpage />
+      </Protectedadmin>
     ),
   },
   {

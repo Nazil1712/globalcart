@@ -15,10 +15,15 @@ function Login() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   const error = useSelector((state)=>state.auth.error)
-
+  // {loggedInUser.role === "admin" ? (
+  //   <Navigate to={"/admin"} replace={true} />
+  // ) : (
+  //   <Navigate to={"/"} replace={true} />
+  // )}
   return (
     <div>
-      {loggedInUser && <Navigate to={'/'} replace={true} />}
+      {loggedInUser? loggedInUser.role==='user' && <Navigate to={'/'} replace={true} />:null}
+      {loggedInUser ? loggedInUser.role==='admin' && <Navigate to={'/admin'} replace={true}/> : null}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
