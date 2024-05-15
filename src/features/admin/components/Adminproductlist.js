@@ -20,30 +20,6 @@ import {
 } from "../productslice";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
-const items = [
-  {
-    id: 1,
-    title: "Back End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 2,
-    title: "Front End Developer",
-    department: "Engineering",
-    type: "Full-time",
-    location: "Remote",
-  },
-  {
-    id: 3,
-    title: "User Interface Designer",
-    department: "Design",
-    type: "Full-time",
-    location: "Remote",
-  },
-];
-
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
@@ -516,6 +492,12 @@ const Pagination = ({ page, setPage, handlePage, totalItems, totalPages }) => {
 };
 
 const ProductGrid = ({ products }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = (id) => {
+    // dispatch(deleteProductAsync(id));
+  };
+
   return (
     <div>
       {/* // This is our product list */}
@@ -528,55 +510,64 @@ const ProductGrid = ({ products }) => {
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => (
-              <Link
-                to={`/admin/product-detail/${product.id}`}
-                key={product.title}
-              >
-                <div key={product.id} className="group relative">
-                  <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
-                    <img
-                      src={product.thumbnail}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                    />
-                  </div>
-                  <div className="mt-4 flex justify-between">
-                    <div>
-                      <h3 className="text-sm text-gray-700">
-                        <div href={product.thumbnail}>
-                          <span
-                            aria-hidden="true"
-                            className="absolute inset-0"
-                          />
-                          {product.title}
-                        </div>
-                      </h3>
-                      <p className="mt-1 text-sm text-gray-500">
-                        <StarIcon className="w-6 h-6 inline-block fill-slate-400" />
-                        <span className="align-bottom">{product.rating}</span>
-                      </p>
+            {products.map((product, i) => (
+              <div key={product.title}>
+                <Link to={`/admin/product-detail/${product.id}`}>
+                  <div key={product.id} className="group relative">
+                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
+                      <img
+                        src={product.thumbnail}
+                        alt={product.title}
+                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                      />
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-gray-900">
-                        $
-                        {Math.round(
-                          product.price * (1 - product.discountPercentage / 100)
-                        )}
-                      </p>
-                      <p className="text-sm font-medium line-through text-gray-400">
-                        ${product.price}
-                      </p>
+                    <div className="mt-4 flex justify-between">
+                      <div>
+                        <h3 className="text-sm text-gray-700">
+                          <div href={product.thumbnail}>
+                            <span
+                              aria-hidden="true"
+                              className="absolute inset-0"
+                            />
+                            {product.title}
+                          </div>
+                        </h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          <StarIcon className="w-6 h-6 inline-block fill-slate-400" />
+                          <span className="align-bottom">{product.rating}</span>
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-900">
+                          $
+                          {Math.round(
+                            product.price *
+                              (1 - product.discountPercentage / 100)
+                          )}
+                        </p>
+                        <p className="text-sm font-medium line-through text-gray-400">
+                          ${product.price}
+                        </p>
+                      </div>
                     </div>
+                    {product.deleted && (
+                      <p className="text-red-400">Deleted Product</p>
+                    )}
                   </div>
-                </div>
-                <div className="sm:flex sm:items-end sm:justify-between mt-1">
-                  <Link to={"/admin/product-form"}>
+                </Link>
+                <div
+                  className="sm:flex sm:items-end sm:justify-between mt-1"
+                  key={i}
+                >
+                  <Link to={`/admin/product-form/edit/${product.id}`}>
                     <PencilSquareIcon className="cursor-pointer w-6 h-6 text-green-600 hover:text-green-500" />
                   </Link>
-                  <TrashIcon className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500" />
+                  <TrashIcon
+                    className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500"
+                    onClick={() => handleDelete(Number(product.id))}
+                  />
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

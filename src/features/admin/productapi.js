@@ -76,3 +76,16 @@ export function createProductAPI(product) {
     resolve({ data });
   });
 }
+
+export function updateProductAPI(update) {
+  return new Promise(async (resolve) => {
+    // console.log(`Update is ${update}`)
+    const response = await fetch(`http://localhost:8080/products/${update.id}`,{
+      method: 'PUT',
+      body: JSON.stringify(update),
+      headers: {'content-type':'application/json'}
+    });
+    const data = await response.json();
+    resolve({ data });
+  });
+}

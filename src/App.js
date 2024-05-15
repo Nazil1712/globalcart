@@ -130,6 +130,14 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
+    path: "/admin/product-form/edit/:id",
+    element: (
+      <Protectedadmin>
+        <Productformpage />
+      </Protectedadmin>
+    ),
+  },
+  {
     path: "*",
     element: <PageNotFound />,
   },
