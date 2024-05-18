@@ -40,16 +40,26 @@ function classNames(...classes) {
 export default function ProdctDetails() {
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const cartItems = useSelector((state) => state.cart.items);
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
   const handleCart = (e) => {
-    e.preventDefault();
-    const newItem = { ...product, quantity: 1, user: loggedInUser.id };
-    delete newItem["id"];
-    dispatch(addToCartAsync(newItem));
+    const index = cartItems.findIndex((item) => item.productId === product.id);
+
+    if (index < 0) { // Means If Item Dosn't exist in Cart
+      e.preventDefault();
+      const newItem = { ...product, quantity: 1, productId:product.id, user: loggedInUser.id };
+      console.log(newItem);
+      delete newItem["id"];
+      dispatch(addToCartAsync(newItem));
+    }
+    else{
+      e.preventDefault();
+      console.log("Item Already Added")
+    }
   };
 
   useEffect(() => {
@@ -142,12 +152,12 @@ export default function ProdctDetails() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-                <p className="text-l line-through tracking-tight text-gray-500">
-                  $ {product.price}
-                </p>
-                <p className="text-3xl tracking-tight text-gray-900">
-                  $ {discountedPrice(product.price, product.discountPercentage)}
-                </p>
+              <p className="text-l line-through tracking-tight text-gray-500">
+                $ {product.price}
+              </p>
+              <p className="text-3xl tracking-tight text-gray-900">
+                $ {discountedPrice(product.price, product.discountPercentage)}
+              </p>
 
               {/* Reviews */}
               <div className="mt-6">
