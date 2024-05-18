@@ -19,6 +19,7 @@ const user = {
 const navigation = [
   { name: "Home", href: "/", user: true, admin:true },
   { name: "Admin Panel", href: "/admin", admin: true },
+  { name: 'Orders', href:'/admin/orders', admin:true}
 ];
 const userNavigation = [
   { name: "My Profile", link: "/profile" },

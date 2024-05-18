@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserordersAsync, selectUserorders } from "../userslice";
+import { discountedPrice } from "../../../app/constants";
 
 export default function Userorders() {
   const dispatch = useDispatch();
@@ -47,11 +48,16 @@ export default function Userorders() {
                             <h3>
                               <a href={product.href}>{product.title}</a>
                             </h3>
-                            <p className="ml-4">$ {product.price}</p>
+                            <p className="ml-4">$ {discountedPrice(product.price, product.discountPercentage)}</p>
                           </div>
                           <p className="mt-1 text-sm text-gray-500">
                             {product.brand}
                           </p>
+                        </div>
+                        <div className="flex flex-1 items-end justify-between text-sm">
+                          <div className="text-gray-500">
+                            Price per Item : $ {discountedPrice(product.price,product.discountPercentage)}
+                          </div>
                         </div>
                         <div className="flex flex-1 items-end justify-between text-sm">
                           <div className="text-gray-500">
@@ -74,9 +80,6 @@ export default function Userorders() {
                 <p>Subtotal</p>
                 <p>$ {order.totalAmount}</p>
               </div>
-              <p className="mt-0.5 text-sm text-gray-500">
-                Shipping and taxes calculated at checkout.
-              </p>
             </div>
             <div className="border-t divide-gray-200 px-4 py-6 sm:px-6">
               <p className="text-gray-900 text-lg font-semibold">

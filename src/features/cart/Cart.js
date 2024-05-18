@@ -6,12 +6,15 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
 import { deleteItemAsync, updateItemAsync } from "./cartslice";
+import { discountedPrice } from "../../app/constants";
 
 export default function Cart() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
   const totalAmount = products.reduce(
-    (prevAmount, item) => item.quantity * item.price + prevAmount,
+    (prevAmount, item) =>
+      item.quantity * discountedPrice(item.price, item.discountPercentage) +
+      prevAmount,
     0
   );
   const totalItems = products.reduce(
@@ -19,17 +22,17 @@ export default function Cart() {
     0
   );
 
-  const handleQuantity = (e,item) =>{
-    dispatch(updateItemAsync({...item, quantity:+e.target.value}))
-  }
+  const handleQuantity = (e, item) => {
+    dispatch(updateItemAsync({ ...item, quantity: +e.target.value }));
+  };
 
-  const handleDelete = (id) =>{
-    dispatch(deleteItemAsync(id))
-  }
+  const handleDelete = (id) => {
+    dispatch(deleteItemAsync(id));
+  };
 
   return (
     <>
-    {!products.length && <Navigate to={'/'}/>}
+      {!products.length && <Navigate to={"/"} />}
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
@@ -57,7 +60,7 @@ export default function Cart() {
                         <h3>
                           <a href={product.href}>{product.title}</a>
                         </h3>
-                        <p className="ml-4">$ {product.price}</p>
+                        <p className="ml-4">$ {discountedPrice(product.price, product.discountPercentage)}</p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
                         {product.brand}
@@ -66,7 +69,10 @@ export default function Cart() {
                     <div className="flex flex-1 items-end justify-between text-sm">
                       <div className="text-gray-500">
                         Qty
-                        <select className="ml-2 h-10" onChange={(e)=>handleQuantity(e,product)}>
+                        <select
+                          className="ml-2 h-10"
+                          onChange={(e) => handleQuantity(e, product)}
+                        >
                           <option value={1}>1</option>
                           <option value={2}>2</option>
                           <option value={3}>3</option>
@@ -77,7 +83,7 @@ export default function Cart() {
 
                       <div className="flex">
                         <button
-                        onClick={()=>handleDelete(product.id)}
+                          onClick={() => handleDelete(product.id)}
                           type="button"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >

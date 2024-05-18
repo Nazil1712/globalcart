@@ -5,7 +5,7 @@
       "description": "An apple mobile which is nothing like apple, Designed by ME",
       "price": 549,
       "discountPercentage": 45,
-      "stock": 94,
+      "stock": 0,
       "brand": "Apple",
       "category": "smartphones",
       "rating": 4.4,
@@ -21,7 +21,7 @@
     {
       "title": "iPhone X",
       "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 8500,
+      "price": 358,
       "discountPercentage": 17.94,
       "stock": 34,
       "brand": "Apple",
@@ -2415,7 +2415,17 @@
       "email": "viraj@gmail.com",
       "password": "Qwerty123",
       "id": 5,
-      "addresses": [],
+      "addresses": [
+        {
+          "name": "Viraj Pankhaniya",
+          "email": "viraj@gmail.com",
+          "phone": "8469560283",
+          "street": "Porbandar Nr. Anuradha Society",
+          "city": "Porbandar",
+          "state": "GUJARAT",
+          "pincode": "363017"
+        }
+      ],
       "role": "user"
     },
     {
@@ -2473,6 +2483,15 @@
           "city": "VADODARA",
           "state": "GUJARAT",
           "pincode": "390017"
+        },
+        {
+          "name": "Aziz",
+          "email": "aziz@gmail.com",
+          "phone": "123456789",
+          "street": "Nr. Pani Tanki , Opp. Crime Police station",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
         }
       ],
       "role": "user",
@@ -2501,29 +2520,26 @@
       ],
       "role": "user",
       "id": 10
+    },
+    {
+      "email": "musharraf1210@gmail.com",
+      "password": "Qwerty123",
+      "addresses": [
+        {
+          "name": "Musharraf Dhalwala",
+          "email": "musharraf1210@gmail.com",
+          "phone": "8460523291",
+          "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+          "city": "VADODARA",
+          "state": "GUJARAT",
+          "pincode": "390017"
+        }
+      ],
+      "role": "user",
+      "id": 11
     }
   ],
   "cart": [
-    {
-      "title": "iPhone X",
-      "description": "SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with ...",
-      "price": 899,
-      "discountPercentage": 17.94,
-      "rating": 4.44,
-      "stock": 34,
-      "brand": "Apple",
-      "category": "smartphones",
-      "thumbnail": "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg",
-      "images": [
-        "https://cdn.dummyjson.com/product-images/2/1.jpg",
-        "https://cdn.dummyjson.com/product-images/2/2.jpg",
-        "https://cdn.dummyjson.com/product-images/2/3.jpg",
-        "https://cdn.dummyjson.com/product-images/2/thumbnail.jpg"
-      ],
-      "quantity": 1,
-      "user": 2,
-      "id": 3
-    },
     {
       "title": "American Vintage Wood Pendant Light",
       "description": "American Vintage Wood Pendant Light Farmhouse Antique Hanging Lamp Lampara Colgante",
@@ -2661,8 +2677,759 @@
         "state": "GUJARAT",
         "pincode": "390017"
       },
-      "status": "pending",
+      "status": "cancelled",
       "id": 1
+    },
+    {
+      "products": [
+        {
+          "title": "HP Pavilion 15-DK1056WM",
+          "description": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+          "price": 1099,
+          "discountPercentage": 6.18,
+          "rating": 4.43,
+          "stock": 89,
+          "brand": "HP Pavilion",
+          "category": "laptops",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/10/thumbnail.jpeg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/10/1.jpg",
+            "https://cdn.dummyjson.com/product-images/10/2.jpg",
+            "https://cdn.dummyjson.com/product-images/10/3.jpg",
+            "https://cdn.dummyjson.com/product-images/10/thumbnail.jpeg"
+          ],
+          "quantity": 1,
+          "user": 8,
+          "id": 7
+        }
+      ],
+      "totalAmount": 1031,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "aziz@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Aziz",
+            "email": "aziz@gmail.com",
+            "phone": "123456789",
+            "street": "Nr. Pani Tanki , Opp. Crime Police station",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 8
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Aziz",
+        "email": "aziz@gmail.com",
+        "phone": "123456789",
+        "street": "Nr. Pani Tanki , Opp. Crime Police station",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "dispatched",
+      "id": 2
+    },
+    {
+      "products": [
+        {
+          "title": "Wholesale cargo lashing Belt",
+          "description": "Wholesale cargo lashing Belt Tie Down end Ratchet strap customized strap 25mm motorcycle 1500kgs with rubber handle",
+          "price": 930,
+          "discountPercentage": 17.67,
+          "rating": 4.21,
+          "stock": 144,
+          "brand": "Xiangle",
+          "category": "motorcycle",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/95/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/95/1.jpg",
+            "https://cdn.dummyjson.com/product-images/95/2.jpg",
+            "https://cdn.dummyjson.com/product-images/95/3.jpg",
+            "https://cdn.dummyjson.com/product-images/95/4.jpg",
+            "https://cdn.dummyjson.com/product-images/95/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 7
+        },
+        {
+          "title": "Crystal chandelier maria theresa for 12 light",
+          "description": "Crystal chandelier maria theresa for 12 light",
+          "price": 47,
+          "discountPercentage": 16,
+          "rating": 4.74,
+          "stock": 133,
+          "brand": "YIOSI",
+          "category": "lighting",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/100/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/100/1.jpg",
+            "https://cdn.dummyjson.com/product-images/100/2.jpg",
+            "https://cdn.dummyjson.com/product-images/100/3.jpg",
+            "https://cdn.dummyjson.com/product-images/100/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 2,
+          "id": 8
+        }
+      ],
+      "totalAmount": 805,
+      "totalItems": 2,
+      "loggedInUser": {
+        "email": "nazil@gmail.com",
+        "password": "Qwerty123",
+        "id": 2,
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Nr FAtima MAsjid",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user"
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nazil",
+        "email": "ndhalwala@gmail.com",
+        "phone": "08469026605",
+        "street": "Nr FAtima MAsjid",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 3
+    },
+    {
+      "products": [
+        {
+          "title": "LouisWill Men Sunglasses",
+          "description": "LouisWill Men Sunglasses Polarized Sunglasses UV400 Sunglasses Day Night Dual Use Safety Driving Night Vision Eyewear AL-MG Frame Sun Glasses with Free Box for Drivers",
+          "price": 50,
+          "discountPercentage": 11.27,
+          "rating": 4.98,
+          "stock": 92,
+          "brand": "LouisWill",
+          "category": "sunglasses",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/85/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/85/1.jpg",
+            "https://cdn.dummyjson.com/product-images/85/2.jpg",
+            "https://cdn.dummyjson.com/product-images/85/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 8,
+          "id": 7
+        },
+        {
+          "title": "new arrivals Fashion motocross goggles",
+          "description": "new arrivals Fashion motocross goggles motorcycle motocross racing motorcycle",
+          "price": 900,
+          "discountPercentage": 3.85,
+          "rating": 4.06,
+          "stock": 109,
+          "brand": "JIEPOLLY",
+          "category": "motorcycle",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/94/thumbnail.webp",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/94/1.webp",
+            "https://cdn.dummyjson.com/product-images/94/2.jpg",
+            "https://cdn.dummyjson.com/product-images/94/3.jpg",
+            "https://cdn.dummyjson.com/product-images/94/thumbnail.webp"
+          ],
+          "quantity": 3,
+          "user": 8,
+          "id": 8
+        }
+      ],
+      "totalAmount": 2639,
+      "totalItems": 4,
+      "loggedInUser": {
+        "email": "aziz@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Aziz",
+            "email": "aziz@gmail.com",
+            "phone": "123456789",
+            "street": "Nr. Pani Tanki , Opp. Crime Police station",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 8
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Aziz",
+        "email": "aziz@gmail.com",
+        "phone": "123456789",
+        "street": "Nr. Pani Tanki , Opp. Crime Police station",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 4
+    },
+    {
+      "products": [
+        {
+          "title": "Infinix INBOOK",
+          "description": "Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey – 1 Year Warranty",
+          "price": 1099,
+          "discountPercentage": 11.83,
+          "rating": 4.54,
+          "stock": 96,
+          "brand": "Infinix",
+          "category": "laptops",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/9/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/9/1.jpg",
+            "https://cdn.dummyjson.com/product-images/9/2.png",
+            "https://cdn.dummyjson.com/product-images/9/3.png",
+            "https://cdn.dummyjson.com/product-images/9/4.jpg",
+            "https://cdn.dummyjson.com/product-images/9/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 8,
+          "id": 7
+        }
+      ],
+      "totalAmount": 969,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "aziz@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Aziz",
+            "email": "aziz@gmail.com",
+            "phone": "123456789",
+            "street": "Nr. Pani Tanki , Opp. Crime Police station",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 8
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Aziz",
+        "email": "aziz@gmail.com",
+        "phone": "123456789",
+        "street": "Nr. Pani Tanki , Opp. Crime Police station",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "delivered",
+      "id": 5
+    },
+    {
+      "products": [
+        {
+          "title": "Microsoft Surface Laptop 4",
+          "description": "Style and speed. Stand out on HD video calls backed by Studio Mics. Capture ideas on the vibrant touchscreen.",
+          "price": 1499,
+          "discountPercentage": 10.23,
+          "rating": 4.43,
+          "stock": 68,
+          "brand": "Microsoft Surface",
+          "category": "laptops",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/8/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/8/1.jpg",
+            "https://cdn.dummyjson.com/product-images/8/2.jpg",
+            "https://cdn.dummyjson.com/product-images/8/3.jpg",
+            "https://cdn.dummyjson.com/product-images/8/4.jpg",
+            "https://cdn.dummyjson.com/product-images/8/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 8,
+          "id": 7
+        }
+      ],
+      "totalAmount": 1346,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "aziz@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Nazil",
+            "email": "ndhalwala@gmail.com",
+            "phone": "08469026605",
+            "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          },
+          {
+            "name": "Aziz",
+            "email": "aziz@gmail.com",
+            "phone": "123456789",
+            "street": "Nr. Pani Tanki , Opp. Crime Police station",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 8
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Nazil",
+        "email": "ndhalwala@gmail.com",
+        "phone": "08469026605",
+        "street": "Wadi taiwada, Opposite panjnigara masjid, Vadodara - 390017",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 6
+    },
+    {
+      "products": [
+        {
+          "title": "MacBook Pro",
+          "description": "MacBook Pro 2021 with mini-LED display may launch between September, November",
+          "price": 1749,
+          "discountPercentage": 11.02,
+          "rating": 4.57,
+          "stock": 83,
+          "brand": "Apple",
+          "category": "laptops",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/6/1.png",
+            "https://cdn.dummyjson.com/product-images/6/2.jpg",
+            "https://cdn.dummyjson.com/product-images/6/3.png",
+            "https://cdn.dummyjson.com/product-images/6/4.jpg"
+          ],
+          "quantity": 1,
+          "user": 5,
+          "id": 7
+        }
+      ],
+      "totalAmount": 1556,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "viraj@gmail.com",
+        "password": "Qwerty123",
+        "id": 5,
+        "addresses": [
+          {
+            "name": "Viraj Pankhaniya",
+            "email": "viraj@gmail.com",
+            "phone": "8469560283",
+            "street": "Porbandar Nr. Anuradha Society",
+            "city": "Porbandar",
+            "state": "GUJARAT",
+            "pincode": "363017"
+          }
+        ],
+        "role": "user"
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Viraj Pankhaniya",
+        "email": "viraj@gmail.com",
+        "phone": "8469560283",
+        "street": "Porbandar Nr. Anuradha Society",
+        "city": "Porbandar",
+        "state": "GUJARAT",
+        "pincode": "363017"
+      },
+      "status": "pending",
+      "id": 7
+    },
+    {
+      "products": [
+        {
+          "title": "Leather Strap Skeleton Watch",
+          "description": "Leather Strap Skeleton Watch for Men - Stylish and Latest Design",
+          "price": 46,
+          "discountPercentage": 10.2,
+          "rating": 4.98,
+          "stock": 61,
+          "brand": "Strap Skeleton",
+          "category": "mens-watches",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/64/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/64/1.jpg",
+            "https://cdn.dummyjson.com/product-images/64/2.webp",
+            "https://cdn.dummyjson.com/product-images/64/3.jpg",
+            "https://cdn.dummyjson.com/product-images/64/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 5,
+          "id": 7
+        }
+      ],
+      "totalAmount": 41,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "viraj@gmail.com",
+        "password": "Qwerty123",
+        "id": 5,
+        "addresses": [
+          {
+            "name": "Viraj Pankhaniya",
+            "email": "viraj@gmail.com",
+            "phone": "8469560283",
+            "street": "Porbandar Nr. Anuradha Society",
+            "city": "Porbandar",
+            "state": "GUJARAT",
+            "pincode": "363017"
+          }
+        ],
+        "role": "user"
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Viraj Pankhaniya",
+        "email": "viraj@gmail.com",
+        "phone": "8469560283",
+        "street": "Porbandar Nr. Anuradha Society",
+        "city": "Porbandar",
+        "state": "GUJARAT",
+        "pincode": "363017"
+      },
+      "status": "cancelled",
+      "id": 8
+    },
+    {
+      "products": [
+        {
+          "title": "Wiley X Night Vision Yellow Glasses",
+          "description": "Wiley X Night Vision Yellow Glasses for Riders - Night Vision Anti Fog Driving Glasses - Free Night Glass Cover - Shield Eyes From Dust and Virus- For Night Sport Matches",
+          "price": 30,
+          "discountPercentage": 6.33,
+          "rating": 4.97,
+          "stock": 115,
+          "brand": "mastar watch",
+          "category": "sunglasses",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/83/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/83/1.jpg",
+            "https://cdn.dummyjson.com/product-images/83/2.jpg",
+            "https://cdn.dummyjson.com/product-images/83/3.jpg",
+            "https://cdn.dummyjson.com/product-images/83/4.jpg",
+            "https://cdn.dummyjson.com/product-images/83/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 5,
+          "id": 7
+        }
+      ],
+      "totalAmount": 28,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "viraj@gmail.com",
+        "password": "Qwerty123",
+        "id": 5,
+        "addresses": [
+          {
+            "name": "Viraj Pankhaniya",
+            "email": "viraj@gmail.com",
+            "phone": "8469560283",
+            "street": "Porbandar Nr. Anuradha Society",
+            "city": "Porbandar",
+            "state": "GUJARAT",
+            "pincode": "363017"
+          }
+        ],
+        "role": "user"
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Viraj Pankhaniya",
+        "email": "viraj@gmail.com",
+        "phone": "8469560283",
+        "street": "Porbandar Nr. Anuradha Society",
+        "city": "Porbandar",
+        "state": "GUJARAT",
+        "pincode": "363017"
+      },
+      "status": "delivered",
+      "id": 9
+    },
+    {
+      "products": [
+        {
+          "title": "Leather Straps Wristwatch",
+          "description": "Style:Sport ,Clasp:Buckles ,Water Resistance Depth:3Bar",
+          "price": 120,
+          "discountPercentage": 7.14,
+          "rating": 4.63,
+          "stock": 91,
+          "brand": "Naviforce",
+          "category": "mens-watches",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/61/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/61/1.jpg",
+            "https://cdn.dummyjson.com/product-images/61/2.png",
+            "https://cdn.dummyjson.com/product-images/61/3.jpg"
+          ],
+          "quantity": 1,
+          "user": 5,
+          "id": 7
+        }
+      ],
+      "totalAmount": 111,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "viraj@gmail.com",
+        "password": "Qwerty123",
+        "id": 5,
+        "addresses": [
+          {
+            "name": "Viraj Pankhaniya",
+            "email": "viraj@gmail.com",
+            "phone": "8469560283",
+            "street": "Porbandar Nr. Anuradha Society",
+            "city": "Porbandar",
+            "state": "GUJARAT",
+            "pincode": "363017"
+          }
+        ],
+        "role": "user"
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Viraj Pankhaniya",
+        "email": "viraj@gmail.com",
+        "phone": "8469560283",
+        "street": "Porbandar Nr. Anuradha Society",
+        "city": "Porbandar",
+        "state": "GUJARAT",
+        "pincode": "363017"
+      },
+      "status": "pending",
+      "id": 10
+    },
+    {
+      "products": [
+        {
+          "title": "Sneakers Joggers Shoes",
+          "description": "Gender: Men , Colors: Same as DisplayedCondition: 100% Brand New",
+          "price": 40,
+          "discountPercentage": 12.57,
+          "rating": 4.38,
+          "stock": 6,
+          "brand": "Sneakers",
+          "category": "mens-shoes",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/56/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/56/1.jpg",
+            "https://cdn.dummyjson.com/product-images/56/2.jpg",
+            "https://cdn.dummyjson.com/product-images/56/3.jpg",
+            "https://cdn.dummyjson.com/product-images/56/4.jpg",
+            "https://cdn.dummyjson.com/product-images/56/5.jpg",
+            "https://cdn.dummyjson.com/product-images/56/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 11,
+          "id": 7
+        }
+      ],
+      "totalAmount": 35,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "musharraf1210@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Musharraf Dhalwala",
+            "email": "musharraf1210@gmail.com",
+            "phone": "8460523291",
+            "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 11
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Musharraf Dhalwala",
+        "email": "musharraf1210@gmail.com",
+        "phone": "8460523291",
+        "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 11
+    },
+    {
+      "products": [
+        {
+          "title": "Mornadi Velvet Bed",
+          "description": "Mornadi Velvet Bed Base with Headboard Slats Support Classic Style Bedroom Furniture Bed Set",
+          "price": 40,
+          "discountPercentage": 17,
+          "rating": 4.16,
+          "stock": 140,
+          "brand": "Furniture Bed Set",
+          "category": "furniture",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/31/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/31/1.jpg",
+            "https://cdn.dummyjson.com/product-images/31/2.jpg",
+            "https://cdn.dummyjson.com/product-images/31/3.jpg",
+            "https://cdn.dummyjson.com/product-images/31/4.jpg",
+            "https://cdn.dummyjson.com/product-images/31/thumbnail.jpg"
+          ],
+          "quantity": 2,
+          "user": 11,
+          "id": 7
+        }
+      ],
+      "totalAmount": 66,
+      "totalItems": 2,
+      "loggedInUser": {
+        "email": "musharraf1210@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Musharraf Dhalwala",
+            "email": "musharraf1210@gmail.com",
+            "phone": "8460523291",
+            "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 11
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Musharraf Dhalwala",
+        "email": "musharraf1210@gmail.com",
+        "phone": "8460523291",
+        "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 12
+    },
+    {
+      "products": [
+        {
+          "title": "American Vintage Wood Pendant Light",
+          "description": "American Vintage Wood Pendant Light Farmhouse Antique Hanging Lamp Lampara Colgante",
+          "price": 46,
+          "discountPercentage": 8.84,
+          "rating": 4.32,
+          "stock": 138,
+          "brand": "Ifei Home",
+          "category": "lighting",
+          "thumbnail": "https://cdn.dummyjson.com/product-images/99/thumbnail.jpg",
+          "images": [
+            "https://cdn.dummyjson.com/product-images/99/1.jpg",
+            "https://cdn.dummyjson.com/product-images/99/2.jpg",
+            "https://cdn.dummyjson.com/product-images/99/3.jpg",
+            "https://cdn.dummyjson.com/product-images/99/4.jpg",
+            "https://cdn.dummyjson.com/product-images/99/thumbnail.jpg"
+          ],
+          "quantity": 1,
+          "user": 11,
+          "id": 7
+        }
+      ],
+      "totalAmount": 42,
+      "totalItems": 1,
+      "loggedInUser": {
+        "email": "musharraf1210@gmail.com",
+        "password": "Qwerty123",
+        "addresses": [
+          {
+            "name": "Musharraf Dhalwala",
+            "email": "musharraf1210@gmail.com",
+            "phone": "8460523291",
+            "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+            "city": "VADODARA",
+            "state": "GUJARAT",
+            "pincode": "390017"
+          }
+        ],
+        "role": "user",
+        "id": 11
+      },
+      "paymentMethod": "cash",
+      "selectedAddress": {
+        "name": "Musharraf Dhalwala",
+        "email": "musharraf1210@gmail.com",
+        "phone": "8460523291",
+        "street": "Wadi , Nr. Shashtri baug, opp. Fatima Madjid, Chella Faliya",
+        "city": "VADODARA",
+        "state": "GUJARAT",
+        "pincode": "390017"
+      },
+      "status": "pending",
+      "id": 13
     }
   ]
 }

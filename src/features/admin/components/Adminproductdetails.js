@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync } from "../productslice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartslice";
+import { discountedPrice } from "../../../app/constants";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -141,9 +142,12 @@ export default function Adminproductdetails() {
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
               <h2 className="sr-only">Product information</h2>
-              <p className="text-3xl tracking-tight text-gray-900">
-                $ {product.price}
-              </p>
+                <p className="text-l line-through tracking-tight text-gray-500">
+                  $ {product.price}
+                </p>
+                <p className="text-3xl tracking-tight text-gray-900">
+                  $ {discountedPrice(product.price, product.discountPercentage)}
+                </p>
 
               {/* Reviews */}
               <div className="mt-6">

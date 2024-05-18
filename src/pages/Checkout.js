@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { updateUserAsync } from "../features/auth/authslice";
 import { useState } from "react";
 import { createOrderAsync } from "../features/order/orderslice";
+import { discountedPrice } from "../app/constants";
 
 export default function Checkout() {
   const {
@@ -21,12 +22,14 @@ export default function Checkout() {
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   const currentOrder = useSelector((state) => state.order.currentOrder);
   const addresses = loggedInUser.addresses;
-  console.log(addresses)
+  console.log(addresses);
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
   const totalAmount = products.reduce(
-    (prevAmount, item) => item.quantity * item.price + prevAmount,
+    (prevAmount, item) =>
+      item.quantity * discountedPrice(item.price, item.discountPercentage) +
+      prevAmount,
     0
   );
   const totalItems = products.reduce(
@@ -240,7 +243,7 @@ export default function Checkout() {
 
                   <div className="mt-6 flex items-center justify-end gap-x-6">
                     <button
-                    onClick={()=>reset()}
+                      onClick={() => reset()}
                       type="button"
                       className="text-sm font-semibold leading-6 text-gray-900"
                     >
@@ -391,7 +394,13 @@ export default function Checkout() {
                               <h3>
                                 <a href={product.href}>{product.title}</a>
                               </h3>
-                              <p className="ml-4">$ {product.price}</p>
+                              <p className="ml-4">
+                                ${" "}
+                                {discountedPrice(
+                                  product.price,
+                                  product.discountPercentage
+                                )}
+                              </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
                               {product.brand}
