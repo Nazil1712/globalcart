@@ -114,7 +114,7 @@ export default function Productlist() {
     }
 
     setFilter(newFilter);
-    dispatch(fetchProductsByFilterAsync(newFilter));
+    // dispatch(fetchProductsByFilterAsync(newFilter));
   };
 
   const handleSort = (option) => {

@@ -73,6 +73,7 @@ export const updateProductAsync = createAsyncThunk(
     //   console.log(i,update[i])
     // }
     const response = await updateProductAPI(update);
+    console.log(response)
     return response.data;
   }
 );
@@ -136,7 +137,8 @@ export const productslice = createSlice({
       .addCase(updateProductAsync.fulfilled, (state, action) => {
         const index = state.products.findIndex((v,i,arr)=>v.id===Number(action.payload.id))
         console.log(action.payload)
-        state.products[index] = action.payload
+        state.products[index] = action.payload;
+        state.selectedProduct = action.payload
       });
   },
 });

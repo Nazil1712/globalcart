@@ -54,8 +54,7 @@ export default function Productform() {
   }, [selectedProduct, setValue, id]);
 
   const handleDelete = () => {
-    const product = {...selectedProduct}
-    product['deleted'] = true
+    const product = {...selectedProduct, deleted : true}
     // console.log(product)
     // console.log("I am called")
     dispatch(updateProductAsync(product))

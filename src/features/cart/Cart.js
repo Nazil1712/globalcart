@@ -7,8 +7,10 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
 import { deleteItemAsync, updateItemAsync } from "./cartslice";
 import { discountedPrice } from "../../app/constants";
+import PopupBox from "../common/Dialog";
 
 export default function Cart() {
+  const [showPopUp, setShowPopUp] = useState(null);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
   const totalAmount = products.reduce(
@@ -30,9 +32,11 @@ export default function Cart() {
     dispatch(deleteItemAsync(id));
   };
 
+
   return (
     <>
       {!products.length && <Navigate to={"/"} />}
+
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
@@ -60,7 +64,13 @@ export default function Cart() {
                         <h3>
                           <a href={product.href}>{product.title}</a>
                         </h3>
-                        <p className="ml-4">$ {discountedPrice(product.price, product.discountPercentage)}</p>
+                        <p className="ml-4">
+                          ${" "}
+                          {discountedPrice(
+                            product.price,
+                            product.discountPercentage
+                          )}
+                        </p>
                       </div>
                       <p className="mt-1 text-sm text-gray-500">
                         {product.brand}
@@ -82,8 +92,19 @@ export default function Cart() {
                       </div>
 
                       <div className="flex">
+                        <PopupBox
+                          title={`Remove ${product.title} ?`}
+                          message={
+                            `Do you really Want to remove this Item from Cart ? After Deleting You won't be able to see this item in cart !`
+                          }
+                          dangerOption={"Remove"}
+                          cancelOption={"Cancel"}
+                          dangerAction={()=>handleDelete(product.id)}
+                          cancleAction={()=>setShowPopUp(-1)}
+                          showPopUp={showPopUp===product.id}
+                        />
                         <button
-                          onClick={() => handleDelete(product.id)}
+                          onClick={() => setShowPopUp(product.id)}
                           type="button"
                           className="font-medium text-indigo-600 hover:text-indigo-500"
                         >
