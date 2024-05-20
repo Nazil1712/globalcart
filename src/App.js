@@ -24,6 +24,11 @@ import Adminproductdetailspage from "./pages/admin/Adminproductdetailspage";
 import Productform from "./features/admin/components/Productform";
 import Productformpage from "./pages/admin/Productformpage";
 import Adminorderspage from "./pages/admin/Adminorderspage";
+import { render } from "react-dom";
+import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
+
+
+
 
 const appRouter = createBrowserRouter([
   {
@@ -106,21 +111,17 @@ const appRouter = createBrowserRouter([
     path: "/profile",
     element: (
       <Protected>
-        <UserprofilePage/>
+        <UserprofilePage />
       </Protected>
     ),
   },
   {
     path: "/logout",
-    element: (
-      <Logout />
-    ),
+    element: <Logout />,
   },
   {
     path: "/forgot-password",
-    element: (
-      <Forgotpassword />
-    ),
+    element: <Forgotpassword />,
   },
   {
     path: "/admin/product-form",
@@ -145,6 +146,12 @@ const appRouter = createBrowserRouter([
         <Adminorderspage />
       </Protectedadmin>
     ),
+  },
+  {
+    path: '/product-list-shimmer',
+    element: (
+      <ProductListShimmerPage/>
+    )
   },
   {
     path: "*",

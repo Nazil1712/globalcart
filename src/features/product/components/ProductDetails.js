@@ -6,6 +6,7 @@ import { fetchProductByIdAsync } from "../productslice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartslice";
 import { discountedPrice } from "../../../app/constants";
+import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
 
 const colors = [
   { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
@@ -38,6 +39,18 @@ function classNames(...classes) {
 }
 
 export default function ProdctDetails() {
+  const notify = () =>
+    toast.warn("Item Already Added!", {
+      position: "bottom-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+      transition: Flip,
+    });
   const [selectedColor, setSelectedColor] = useState(colors[0]);
   const [selectedSize, setSelectedSize] = useState(sizes[2]);
   const cartItems = useSelector((state) => state.cart.items);
@@ -49,16 +62,33 @@ export default function ProdctDetails() {
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.productId === product.id);
 
-    if (index < 0) { // Means If Item Dosn't exist in Cart
+    if (index < 0) {
+      // Means If Item Dosn't exist in Cart
       e.preventDefault();
-      const newItem = { ...product, quantity: 1, productId:product.id, user: loggedInUser.id };
+      const newItem = {
+        ...product,
+        quantity: 1,
+        productId: product.id,
+        user: loggedInUser.id,
+      };
       console.log(newItem);
       delete newItem["id"];
       dispatch(addToCartAsync(newItem));
-    }
-    else{
+      toast.success("Item Added In cart", {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        transition: Flip,
+      });
+    } else {
       e.preventDefault();
-      console.log("Item Already Added")
+      notify();
+      console.log("Item Already Added");
     }
   };
 
@@ -312,6 +342,19 @@ export default function ProdctDetails() {
                 >
                   Add to Cart
                 </button>
+
+                <ToastContainer
+                  position="top-right"
+                  autoClose={1000}
+                  hideProgressBar
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss={false}
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                />
               </form>
             </div>
 

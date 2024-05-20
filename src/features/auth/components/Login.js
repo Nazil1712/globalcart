@@ -1,10 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { checkUserAsync } from "../authslice"
-import globalcart from "../../../images/logo.png"
+import { checkUserAsync } from "../authslice";
+import globalcart from "../../../images/logo.png";
+import { Bounce, toast } from "react-toastify";
+
 
 function Login() {
+  
   const {
     register,
     handleSubmit,
@@ -14,7 +17,7 @@ function Login() {
 
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
-  const error = useSelector((state)=>state.auth.error)
+  const error = useSelector((state) => state.auth.error);
   // {loggedInUser.role === "admin" ? (
   //   <Navigate to={"/admin"} replace={true} />
   // ) : (
@@ -22,8 +25,14 @@ function Login() {
   // )}
   return (
     <div>
-      {loggedInUser? loggedInUser.role==='user' && <Navigate to={'/'} replace={true} />:null}
-      {loggedInUser ? loggedInUser.role==='admin' && <Navigate to={'/admin'} replace={true}/> : null}
+      {loggedInUser
+        ? loggedInUser.role === "user" && <Navigate to={"/"} replace={true} />
+        : null}
+      {loggedInUser
+        ? loggedInUser.role === "admin" && (
+            <Navigate to={"/admin"} replace={true} />
+          )
+        : null}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -87,7 +96,7 @@ function Login() {
                 </label>
                 <div className="text-sm">
                   <Link
-                    to='/forgot-password'
+                    to="/forgot-password"
                     className="font-semibold text-indigo-600 hover:text-indigo-500"
                   >
                     Forgot password?

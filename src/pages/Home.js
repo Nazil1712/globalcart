@@ -1,14 +1,27 @@
+import { useSelector } from "react-redux";
+import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import Productlist from "../features/product/components/Productlist";
+import ProductListShimmerPage from "./shimmer/ProductListShimmerPage";
 
 function Home() {
-    return ( 
+  const listStatus = useSelector((state) => state.product.status);
+  console.log(listStatus);
+
+
+  return (
+    <>
+      {listStatus === "loading" ? (
         <>
-        <Navbar>
-            <Productlist></Productlist>
-        </Navbar>
+          <ProductListShimmerPage />
         </>
-     );
+      ) : null}
+      <Navbar>
+        <Productlist></Productlist>
+      </Navbar>
+      <Footer />
+    </>
+  );
 }
 
 export default Home;
