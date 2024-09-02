@@ -35,6 +35,7 @@ export const fetchProductsByFilterAsync = createAsyncThunk(
     return response.data;
   }
 );
+
 export const fetchAllCategoriesAsync = createAsyncThunk(
   "product/fetchAllCategoriesAsync",
   async () => {
@@ -42,6 +43,7 @@ export const fetchAllCategoriesAsync = createAsyncThunk(
     return response.data;
   }
 );
+
 export const fetchAllBrandsAsync = createAsyncThunk(
   "product/fetchAllBrandsAsync",
   async () => {
@@ -49,6 +51,7 @@ export const fetchAllBrandsAsync = createAsyncThunk(
     return response.data;
   }
 );
+
 export const fetchProductByIdAsync = createAsyncThunk(
   "product/fetchProductByIdAsync",
   async (id) => {

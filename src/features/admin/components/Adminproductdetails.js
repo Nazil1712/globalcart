@@ -98,38 +98,139 @@ export default function Adminproductdetails() {
           </nav>
 
           {/* Image gallery */}
-          <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-              <img
-                src={product.images[0]}
-                alt={product.title}
-                className="h-full w-full object-cover object-center"
-              />
+          {product.images.length === 4 ? (
+            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+                <img
+                  src={product.images[0]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[2]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
+                <img
+                  src={product.images[3]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
             </div>
-            <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+          ) : product.images.length === 3 ? (
+            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+                <img
+                  src={product.images[0]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[2]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
                 <img
                   src={product.images[1]}
                   alt={product.title}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
-              <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+            </div>
+          ) : product.images.length === 2 ? (
+            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
                 <img
-                  src={product.images[2]}
+                  src={product.images[0]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+              <div className="aspect-h-5 aspect-w-5 lg:aspect-h-4 lg:aspect-w-4 sm:overflow-hidden sm:rounded-lg">
+                <img
+                  src={product.images[1]}
                   alt={product.title}
                   className="h-full w-full object-cover object-center"
                 />
               </div>
             </div>
-            <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-              <img
-                src={product.images[3]}
-                alt={product.title}
-                className="h-full w-full object-cover object-center"
-              />
+          ) : (
+            <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+              <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8 invisible">
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[1]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                  <img
+                    src={product.images[2]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+              <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+                <img
+                  src={product.images[0]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg invisible">
+                <img
+                  src={product.images[3]}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Product info */}
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
@@ -173,7 +274,7 @@ export default function Adminproductdetails() {
 
               <form className="mt-10">
                 {/* Colors */}
-                <div>
+                {/* <div>
                   <h3 className="text-sm font-medium text-gray-900">Color</h3>
 
                   <RadioGroup
@@ -212,10 +313,10 @@ export default function Adminproductdetails() {
                       ))}
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
 
                 {/* Sizes */}
-                <div className="mt-10">
+                {/* <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
                     <a
@@ -293,7 +394,7 @@ export default function Adminproductdetails() {
                       ))}
                     </div>
                   </RadioGroup>
-                </div>
+                </div> */}
 
                 <button
                   type="submit"

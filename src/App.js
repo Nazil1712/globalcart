@@ -26,6 +26,7 @@ import Productformpage from "./pages/admin/Productformpage";
 import Adminorderspage from "./pages/admin/Adminorderspage";
 import { render } from "react-dom";
 import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
+import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
 
 
 
@@ -151,6 +152,12 @@ const appRouter = createBrowserRouter([
     path: '/product-list-shimmer',
     element: (
       <ProductListShimmerPage/>
+    )
+  },
+  {
+    path: '/shimmer',
+    element:(
+      <ProductdetailShimmer/>
     )
   },
   {

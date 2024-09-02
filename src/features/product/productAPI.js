@@ -11,6 +11,11 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
   // sort = {_sort:"price",_order="desc"}
   // pagination = {_page:1,_limit=10}
   // TODO : on server we will support multi values in filter
+  console.log("Filter =>",filter)
+  console.log("Sort =>",sort)
+  console.log("Pagination =>",pagination)
+
+  
   let queryString = "";
   for (let key in filter) {
     const categoryArray = filter[key];
@@ -28,7 +33,7 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
     queryString += `${key}=${pagination[key]}&`
   }
 
-  // console.log(`http://localhost:8080/products?${queryString}`)
+  console.log(`http://localhost:8080/products?${queryString}`)
   return new Promise(async (resolve) => {
     const response = await fetch(
       `http://localhost:8080/products?` + queryString

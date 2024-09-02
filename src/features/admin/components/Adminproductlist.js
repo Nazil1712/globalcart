@@ -88,6 +88,7 @@ export default function Adminproductlist() {
       newFilter[section.id].splice(index, 1);
     }
 
+    console.log("Filter",newFilter)
     setFilter(newFilter);
     dispatch(fetchProductsByFilterAsync(newFilter));
   };
@@ -502,10 +503,10 @@ const ProductGrid = ({ products }) => {
     <div>
       {/* // This is our product list */}
       <Link to={"/admin/product-form"}>
-        <buttton className="rounded-md bg-gradient-to-br from-cyan-500 to-blue-500 px-3 ml-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gradient-to-l focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
+        <button className="rounded-md bg-gradient-to-br from-cyan-500 to-blue-500 px-3 ml-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gradient-to-l focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
           {" "}
           + Add New Product
-        </buttton>
+        </button>
       </Link>
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
