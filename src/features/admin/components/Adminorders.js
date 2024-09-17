@@ -234,7 +234,7 @@ const Adminorders = () => {
                       <span className="font-bold">User Name : </span>
                       {order.selectedAddress.name} <br />
                       <span className="font-bold">Email : </span>
-                      {order.loggedInUser.email}
+                      {order.user.email}
                     </p>
                   </td>
                   <td className="p-4 border-b text-gray-500 border-x borde-y">

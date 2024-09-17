@@ -34,7 +34,7 @@ export function fetchAllOrdersAPI(sort, pagination) {
 export function updateOrderAPI(order) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/order/${order.id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },
     });

@@ -25,13 +25,6 @@ const sizes = [
   { name: "3XL", inStock: true },
 ];
 
-const highlights = [
-  "Hand cut and sewn locally",
-  "Dyed with our proprietary colors",
-  "Pre-washed & pre-shrunk",
-  "Ultra-soft 100% cotton",
-];
-
 const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
@@ -59,20 +52,19 @@ export default function ProdctDetails() {
   const product = useSelector((state) => state.product.selectedProduct);
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
+  console.log(product)
   const handleCart = (e) => {
-    const index = cartItems.findIndex((item) => item.productId === product.id);
+    const index = cartItems.findIndex((item) => item.product.id === product.id);
 
     if (index < 0) {
       // Means If Item Dosn't exist in Cart
       e.preventDefault();
       const newItem = {
-        ...product,
         quantity: 1,
-        productId: product.id,
+        product: product.id,
         user: loggedInUser.id,
       };
-      console.log(newItem);
-      delete newItem["id"];
+      console.log("New item from detail",newItem);
       dispatch(addToCartAsync(newItem));
       toast.success("Item Added In cart", {
         position: "bottom-center",
@@ -472,7 +464,7 @@ export default function ProdctDetails() {
                 </div>
               </div>
 
-              <div className="mt-10">
+              {/* <div className="mt-10">
                 <h3 className="text-sm font-medium text-gray-900">
                   Highlights
                 </h3>
@@ -486,7 +478,7 @@ export default function ProdctDetails() {
                     ))}
                   </ul>
                 </div>
-              </div>
+              </div> */}
 
               <div className="mt-10">
                 <h2 className="text-sm font-medium text-gray-900">Details</h2>

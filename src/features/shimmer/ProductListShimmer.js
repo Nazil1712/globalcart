@@ -26,7 +26,7 @@ const ProductListShimmer = () => {
 
         <div className="relative left-[22rem] top-12 w-8/12 flex flex-wrap gap-x-8 gap-y-8  ">
           {product.map((v, i, arr) => (
-            <div>
+            <div key={v}>
               <div className="bg-shimmer w-44 h-56 rounded-lg  "></div>
               <div className="bg-shimmer w-44 h-4 rounded-lg mt-2  "></div>
               <div className="bg-shimmer w-44 h-2 rounded-lg mt-2  "></div>

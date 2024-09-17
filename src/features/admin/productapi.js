@@ -47,7 +47,7 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
 
 export function fetchAllCategoriesAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/category");
+    const response = await fetch("http://localhost:8080/categories");
     const data = await response.json();
     resolve({ data });
   });

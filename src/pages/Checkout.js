@@ -1,12 +1,16 @@
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { deleteItemAsync, updateItemAsync } from "../features/cart/cartslice";
+import {
+  deleteFromCartAsync,
+  updateCartAsync,
+} from "../features/cart/cartslice";
 import { useForm } from "react-hook-form";
-import { updateUserAsync } from "../features/auth/authslice";
 import { useState } from "react";
 import { createOrderAsync } from "../features/order/orderslice";
 import { discountedPrice } from "../app/constants";
+import PopupBox from "../features/common/Dialog";
+import { updateUserAsync } from "../features/user/userslice";
 
 export default function Checkout() {
   const {
@@ -18,31 +22,35 @@ export default function Checkout() {
   } = useForm();
 
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.cart.items);
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const [showPopUp, setShowPopUp] = useState(null);
+
+  const items = useSelector((state) => state.cart.items);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const currentOrder = useSelector((state) => state.order.currentOrder);
-  const addresses = loggedInUser.addresses;
+  const addresses = userInfo.addresses;
   console.log(addresses);
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
-  const totalAmount = products.reduce(
+  const totalAmount = items.reduce(
     (prevAmount, item) =>
-      item.quantity * discountedPrice(item.price, item.discountPercentage) +
+      item.quantity *
+        discountedPrice(item.product.price, item.product.discountPercentage) +
       prevAmount,
     0
   );
-  const totalItems = products.reduce(
+
+  const totalItems = items.reduce(
     (prevCount, item) => item.quantity + prevCount,
     0
   );
 
   const handleQuantity = (e, item) => {
-    dispatch(updateItemAsync({ ...item, quantity: +e.target.value }));
+    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
   };
 
   const handleDelete = (id) => {
-    dispatch(deleteItemAsync(id));
+    dispatch(deleteFromCartAsync(id));
   };
 
   const handleAddress = (e, index) => {
@@ -55,10 +63,10 @@ export default function Checkout() {
 
   const handleOrder = () => {
     const order = {
-      products,
+      items,
       totalAmount,
       totalItems,
-      loggedInUser,
+      user:userInfo.id,
       paymentMethod,
       selectedAddress,
       status: "pending", // Other status can be => delivered, dispathced, received etc.
@@ -68,7 +76,7 @@ export default function Checkout() {
 
   return (
     <>
-      {!products.length && <Navigate to={"/"} />}
+      {!items.length && <Navigate to={"/"} />}
       {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`} />}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
@@ -79,8 +87,8 @@ export default function Checkout() {
               onSubmit={handleSubmit((data) => {
                 dispatch(
                   updateUserAsync({
-                    ...loggedInUser,
-                    addresses: [...addresses, data],
+                    ...userInfo,
+                    addresses: addresses? [...addresses, data] : data,
                   })
                 );
                 reset();
@@ -374,16 +382,17 @@ export default function Checkout() {
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
                   Cart
                 </h1>
+                {/* 244 */}
               </div>
               <div className="border-t border-gray-200 px-2 py-4 sm:px-4">
                 <div className="flow-root">
                   <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {products.map((product) => (
-                      <li key={product.id} className="flex py-6">
+                    {items.map((product) => (
+                      <li key={product.product.id} className="flex py-6">
                         <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                           <img
-                            src={product.thumbnail}
-                            alt={product.title}
+                            src={product.product.thumbnail}
+                            alt={product.product.title}
                             className="h-full w-full object-cover object-center"
                           />
                         </div>
@@ -392,18 +401,20 @@ export default function Checkout() {
                           <div>
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
-                                <a href={product.href}>{product.title}</a>
+                                <a href={product.product.href}>
+                                  {product.product.title}
+                                </a>
                               </h3>
                               <p className="ml-4">
                                 ${" "}
                                 {discountedPrice(
-                                  product.price,
-                                  product.discountPercentage
+                                  product.product.price,
+                                  product.product.discountPercentage
                                 )}
                               </p>
                             </div>
                             <p className="mt-1 text-sm text-gray-500">
-                              {product.brand}
+                              {product.product.brand}
                             </p>
                           </div>
                           <div className="flex flex-1 items-end justify-between text-sm">
@@ -412,18 +423,34 @@ export default function Checkout() {
                               <select
                                 className="ml-2 h-10"
                                 onChange={(e) => handleQuantity(e, product)}
+                                value={product.quantity}
                               >
                                 <option value={1}>1</option>
                                 <option value={2}>2</option>
                                 <option value={3}>3</option>
                                 <option value={4}>4</option>
                                 <option value={5}>5</option>
+                                <option value={6}>6</option>
+                                <option value={7}>7</option>
+                                <option value={8}>8</option>
+                                <option value={9}>9</option>
+                                <option value={10}>10</option>
                               </select>
                             </div>
 
                             <div className="flex">
+                              <PopupBox
+                                title={`Remove ${product.product.title} ?`}
+                                message={`Do you really Want to remove this Item from Cart ? After Deleting You won't be able to see this item in cart !`}
+                                dangerOption={"Remove"}
+                                cancelOption={"Cancel"}
+                                dangerAction={() => handleDelete(product.id)}
+                                cancleAction={() => setShowPopUp(-1)}
+                                showPopUp={showPopUp === product.id}
+                              />
+
                               <button
-                                onClick={() => handleDelete(product.id)}
+                                onClick={() => setShowPopUp(product.id)}
                                 type="button"
                                 className="font-medium text-indigo-600 hover:text-indigo-500"
                               >

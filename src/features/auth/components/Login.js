@@ -38,7 +38,7 @@ function Login() {
           <img
             className="mx-auto h-20 w-auto"
             src={globalcart}
-            alt="Your Company"
+            alt="Comapny Logo"
           />
           {/* <img
             className="mx-auto h-10 w-auto"

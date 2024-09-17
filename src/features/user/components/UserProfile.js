@@ -5,9 +5,9 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserAsync } from "../../auth/authslice";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { updateUserAsync } from "../../user/userslice";
 
 export default function Userprofile() {
   const {
@@ -20,8 +20,8 @@ export default function Userprofile() {
   } = useForm();
 
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
-  const addresses = loggedInUser.addresses;
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const addresses = userInfo.addresses;
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
 
@@ -39,13 +39,13 @@ export default function Userprofile() {
   };
 
   const handleEdit = (addressUpdate, index) => {
-    const newUser = { ...loggedInUser, addresses: [loggedInUser.addresses] };
+    const newUser = { ...userInfo, addresses: [userInfo.addresses] };
     newUser.addresses.splice(index, 1, addressUpdate);
     dispatch(updateUserAsync(newUser));
     setSelectedAddressIndex(-1);
   };
   const handleRemove = (e, index) => {
-    const newUser = { ...loggedInUser, addresses: [...loggedInUser.addresses] };
+    const newUser = { ...userInfo, addresses: [...userInfo.addresses] };
     newUser.addresses.splice(index, 1);
     dispatch(updateUserAsync(newUser));
   };
@@ -66,14 +66,14 @@ export default function Userprofile() {
       <div className={`mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8`}>
         <div className="border-b border-gray-200 px-4 py-6 sm:px-6">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900 mt-3">
-            Name : {loggedInUser.name ? loggedInUser.name : "Guest User"}
+            Name : {userInfo.name ? userInfo.name : "Guest User"}
           </h1>
           <h5 className="text-xl font-bold tracking-tight  mt-3">
-            Email : {loggedInUser.email}
+            Email : {userInfo.email}
           </h5>
-          {loggedInUser.role === "admin" && (
+          {userInfo.role === "admin" && (
             <h5 className="text-lg font-bold tracking-tight  mt-3">
-              Role : {loggedInUser.role}
+              Role : {userInfo.role}
             </h5>
           )}
         </div>
@@ -97,7 +97,7 @@ export default function Userprofile() {
                 onSubmit={handleSubmit((data) => {
                   dispatch(
                     updateUserAsync({
-                      ...loggedInUser,
+                      ...userInfo,
                       addresses: [...addresses, data],
                     })
                   );
@@ -272,7 +272,7 @@ export default function Userprofile() {
               </form>
             </div>
           ) : null}
-          {loggedInUser.addresses.map((v, i, arr) => (
+          {addresses && userInfo.addresses.map((v, i, arr) => (
             <>
               {/* Form For Editing the Address */}
               {selectedAddressIndex === i ? (

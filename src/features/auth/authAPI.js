@@ -1,6 +1,6 @@
 export function createUserAPI(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/users", {
+    const response = await fetch("http://localhost:8080/auth/signup", {
       method: "POST",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
@@ -12,39 +12,34 @@ export function createUserAPI(userData) {
 
 export function checkUserAPI(loginInfo) {
   return new Promise(async (resolve, reject) => {
-    const email = loginInfo.email;
-    const password = loginInfo.password;
-
-    const response = await fetch("http://localhost:8080/users?email=" + email);
-    const data = await response.json();
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        body: JSON.stringify(loginInfo),
+        headers: { "content-type": "application/json" },
+      });
+      const data = await response.json();
+      console.log("data from frontend AUTH",data)
+      resolve({ data });
+    } catch (error) {
+      console.log(error)
+      reject(error);
+    }
     // console.log(data)
 
-    if (data.length) {
-      if (data[0].password === password) {
-        resolve({ data: data[0] });
-      } else {
-        reject({ message: "Wrong Credentials" });
-      }
-    } else {
-      reject({ message: "User not found" });
-    }
-  });
-}
-
-export function updateUserAPI(update) {
-  return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/users/${update.id}`, {
-      method: "PUT",
-      body: JSON.stringify(update),
-      headers: { "content-type": "application/json" },
-    });
-    const data = await response.json();
-    resolve({ data });
+    // if (data.length) {
+    //     resolve({ data: data[0] });
+    //   } else {
+    //     reject({ message: "Wrong Credentials" });
+    //   }
+    // } else {
+    //   reject({ message: "User not found" });
+    // }
   });
 }
 
 export function signOutAPI(userId) {
   return new Promise(async (resolve) => {
-    resolve({ data : "success" });
+    resolve({ data: "success" });
   });
 }

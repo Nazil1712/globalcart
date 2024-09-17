@@ -1,6 +1,7 @@
 export function addToCartAPI(item) {
+  console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/cart", {
+    const response = await fetch(`http://localhost:8080/cart?user=${item.user}`, {
       method: "POST",
       body: JSON.stringify(item),
       headers: { "content-type": "application/json" },
@@ -10,28 +11,33 @@ export function addToCartAPI(item) {
   });
 }
 
-export function fetchItemsByUserIdAPI(userId) {
+export function fetchCartByUserAPI(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/cart?user=${userId}`);
     const data = await response.json();
-    // console.log(data)
+    console.log("Cart Data from frontend",data)
     resolve({ data });
   });
 }
 
-export function updateItemAPI(update) {
-  return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart/${update.id}`, {
-      method: "PUT",
-      body: JSON.stringify(update),
-      headers: { "content-type": "application/json" },
-    });
-    const data = await response.json();
-    resolve({ data });
+export function updateCartAPI(update) {
+  return new Promise(async (resolve,reject) => {
+    try{
+
+      const response = await fetch(`http://localhost:8080/cart/${update.id}`, {
+        method: "PATCH",
+        body: JSON.stringify(update),
+        headers: { "content-type": "application/json" },
+      });
+      const data = await response.json();
+      resolve({ data });
+    }catch (error) {
+      reject(error);  
+    }
   });
 }
 
-export function deleteItemAPI(id) {
+export function deleteFromCartAPI(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/cart/${id}`, {
       method: "DELETE",
@@ -44,9 +50,9 @@ export function deleteItemAPI(id) {
 
 export function resetCartAPI(userId) {
   return new Promise(async (resolve, reject) => {
-    const response = await fetchItemsByUserIdAPI(userId);
+    const response = await fetchCartByUserAPI(userId);
     const items = response.data;
-    for (let item of items) await deleteItemAPI(item.id);
+    for (let item of items) await deleteFromCartAPI(item.id);
     resolve({ status: "success" });
   });
 }

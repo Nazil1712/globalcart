@@ -10,7 +10,7 @@ import Checkout from "./pages/Checkout";
 import Productdetailspage from "./pages/Productdetailspage";
 import Protected from "./features/auth/components/Protected";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchItemsByUserIdAsync } from "./features/cart/cartslice";
+import { fetchCartByUserAsync } from "./features/cart/cartslice";
 import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -27,6 +27,7 @@ import Adminorderspage from "./pages/admin/Adminorderspage";
 import { render } from "react-dom";
 import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
 import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
+import { fetchLoggedInUserAsync } from "./features/user/userslice";
 
 
 
@@ -168,13 +169,14 @@ const appRouter = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.user.loggedInUser);
+  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   const items = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order.orders);
 
   useEffect(() => {
     if (loggedInUser) {
-      dispatch(fetchItemsByUserIdAsync(loggedInUser.id));
+      dispatch(fetchCartByUserAsync(loggedInUser.id));
+      dispatch(fetchLoggedInUserAsync(loggedInUser.id))
     }
   }, [dispatch, loggedInUser, items.length, orders.length]);
 
