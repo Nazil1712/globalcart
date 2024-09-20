@@ -7,8 +7,8 @@ export default function Userorders() {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
   const Userorders = useSelector((state)=>state.user.userInfo.orders);
-  console.log("USer,", loggedInUser);
-  console.log("User Orders",Userorders);
+  // console.log("USer,", loggedInUser);
+  // console.log("User Orders",Userorders);
 
   useEffect(() => {
     dispatch(fetchUserordersAsync(loggedInUser.id));

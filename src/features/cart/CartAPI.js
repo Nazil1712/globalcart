@@ -1,5 +1,5 @@
 export function addToCartAPI(item) {
-  console.log("Item from ADD to cart",item)
+  // console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/cart?user=${item.user}`, {
       method: "POST",
@@ -15,7 +15,7 @@ export function fetchCartByUserAPI(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/cart?user=${userId}`);
     const data = await response.json();
-    console.log("Cart Data from frontend",data)
+    // console.log("Cart Data from frontend",data)
     resolve({ data });
   });
 }

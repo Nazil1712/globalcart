@@ -28,7 +28,7 @@ export default function Checkout() {
   const userInfo = useSelector((state) => state.user.userInfo);
   const currentOrder = useSelector((state) => state.order.currentOrder);
   const addresses = userInfo.addresses;
-  console.log(addresses);
+  // console.log(addresses);
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 

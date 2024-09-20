@@ -43,7 +43,7 @@ export default function ProductdetailShimmer() {
         productId: product.id,
         user: loggedInUser.id,
       };
-      console.log(newItem);
+      // console.log(newItem);
       delete newItem["id"];
       dispatch(addToCartAsync(newItem));
       toast.success("Item Added In cart", {
@@ -60,7 +60,7 @@ export default function ProductdetailShimmer() {
     } else {
       e.preventDefault();
       notify();
-      console.log("Item Already Added");
+      // console.log("Item Already Added");
     }
   };
 

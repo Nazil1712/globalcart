@@ -6,14 +6,14 @@ export function fetchAllProductsAPI() {
   });
 }
 
-export function fetchProductsByFilterAPI(filter,sort,pagination) {
+export function fetchProductsByFilterAPI(filter,sort,pagination,admin) {
   // filter = {"category":["smartphone","laptops"]}
   // sort = {_sort:"price",_order="desc"}
   // pagination = {_page:1,_limit=10}
   // TODO : on server we will support multi values in filter
-  console.log("Filter =>",filter)
-  console.log("Sort =>",sort)
-  console.log("Pagination =>",pagination)
+  // console.log("Filter =>",filter)
+  // console.log("Sort =>",sort)
+  // console.log("Pagination =>",pagination)
 
   
   let queryString = "";
@@ -32,8 +32,12 @@ export function fetchProductsByFilterAPI(filter,sort,pagination) {
   for(let key in pagination){
     queryString += `${key}=${pagination[key]}&`
   }
+  
+  if(admin) {
+    queryString += `admin=true&`
+  }
 
-  console.log(`http://localhost:8080/products?${queryString}`)
+  // console.log(`http://localhost:8080/products?${queryString}`)
   return new Promise(async (resolve) => {
     const response = await fetch(
       `http://localhost:8080/products?` + queryString
@@ -65,6 +69,31 @@ export function fetchAllBrandsAPI() {
 export function fetchProductByIdAPI(id) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/products/"+id);
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function createProductAPI(product) {
+  return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/products/",{
+      method: 'POST',
+      body: JSON.stringify(product),
+      headers: {'content-type':'application/json'}
+    });
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+
+export function updateProductAPI(update) {
+  return new Promise(async (resolve) => {
+    // console.log(`Update is ${update}`)
+    const response = await fetch(`http://localhost:8080/products/${update.id}`,{
+      method: 'PATCH',
+      body: JSON.stringify(update),
+      headers: {'content-type':'application/json'}
+    });
     const data = await response.json();
     resolve({ data });
   });

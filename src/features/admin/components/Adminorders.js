@@ -22,6 +22,8 @@ const Adminorders = () => {
   const [editOrderId, setEditOrderId] = useState(-1);
   const totalPages = Math.ceil(totalOrders / ITEMS_PER_PAGE);
 
+  console.log("Orders",orders)
+
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
     dispatch(fetchAllOrdersAsync({ sort, pagination }));
@@ -34,7 +36,7 @@ const Adminorders = () => {
   const handleSort = (option) => {
     const newSort = { ...sort, _sort: option.sort, _order: option.order };
     setSort(newSort);
-    console.log(newSort);
+    // console.log(newSort);
     // console.log(option.sort, option.order);
   };
 
@@ -137,7 +139,7 @@ const Adminorders = () => {
             </thead>
             <tbody>
               {orders.map((order, orderIndex, arr) => (
-                <tr className="cursor-pointer border-x border-y border-gray-200 border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
+                <tr className="cursor-pointer border-x border-y border-gray-200 border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50" key={order.id}>
                   <td className="p-4 border-b border-blue-gray-50 border-x borde-y">
                     <div className="flex items-center gap-3">
                       <div className="flex flex-col">
@@ -151,39 +153,40 @@ const Adminorders = () => {
                     </div>
                   </td>
                   <td className="p-4 border-b border-blue-gray-50 border-x borde-y">
-                    {order.products.map((product, i, arr) => (
+                    {order.items.map((item, i, arr) => (
                       <div
                         className={`flex items-center gap-3 ${
                           i > 0 ? "mt-5" : null
                         }`}
+                        key={item.id}
                       >
                         <img
-                          src={product.thumbnail}
+                          src={item.product.thumbnail}
                           alt="John Michael"
                           className="inline-block relative object-cover object-center !rounded-full w-12 h-12"
                         />
                         <div className="flex flex-col">
                           <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal">
-                            {product.title} (Qty : {product.quantity})
+                            {item.product.title} (Qty : {item.quantity})
                           </p>
                           <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal opacity-70">
                             ${" "}
                             {discountedPrice(
-                              product.price,
-                              product.discountPercentage
+                              item.product.price,
+                              item.product.discountPercentage
                             )}
                           </p>
                           <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-normal opacity-70">
                             Net Amt :{" "}
                             {discountedPrice(
-                              product.price,
-                              product.discountPercentage
+                              item.product.price,
+                              item.product.discountPercentage
                             )}{" "}
-                            x {product.quantity} ={" "}
+                            x {item.quantity} ={" "}
                             {discountedPrice(
-                              product.price,
-                              product.discountPercentage
-                            ) * product.quantity}
+                              item.product.price,
+                              item.product.discountPercentage
+                            ) * item.quantity}
                           </p>
                         </div>
                       </div>

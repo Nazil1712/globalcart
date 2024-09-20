@@ -15,7 +15,7 @@ export default function Cart() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
 
-  console.log(products)
+  // console.log(products)
   const totalAmount = products.reduce(
     (prevAmount, item) =>
       item.quantity * discountedPrice(item.product.price, item.product.discountPercentage) +
@@ -48,7 +48,7 @@ export default function Cart() {
       </header>
 
       {products.length === 0 ? (
-        <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto  bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
             <div className="flow-root">
               <img src={emptyCartUpper} alt="empty_cart_img" className="mx-auto"/>
@@ -71,7 +71,7 @@ export default function Cart() {
           </div>
         </div>
       ) : (
-        <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">

@@ -19,10 +19,10 @@ export function checkUserAPI(loginInfo) {
         headers: { "content-type": "application/json" },
       });
       const data = await response.json();
-      console.log("data from frontend AUTH",data)
+      // console.log("data from frontend AUTH",data)
       resolve({ data });
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       reject(error);
     }
     // console.log(data)

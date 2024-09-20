@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { MoonIcon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -17,7 +17,8 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
-} from "../productslice";
+  updateProductAsync,
+} from "../../product/productslice";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [
@@ -57,7 +58,9 @@ export default function Adminproductlist() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
+    dispatch(
+      fetchProductsByFilterAsync({ filter, sort, pagination, admin: true })
+    );
   }, [dispatch, filter, sort, page]);
 
   useEffect(() => {
@@ -88,9 +91,9 @@ export default function Adminproductlist() {
       newFilter[section.id].splice(index, 1);
     }
 
-    console.log("Filter",newFilter)
+    // console.log("Filter",newFilter)
     setFilter(newFilter);
-    dispatch(fetchProductsByFilterAsync(newFilter));
+    dispatch(fetchProductsByFilterAsync({ newFilter, admin: true }));
   };
 
   const handleSort = (option) => {
@@ -496,7 +499,13 @@ const ProductGrid = ({ products }) => {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    // dispatch(deleteProductAsync(id));
+    const product = { id, deleted: true };
+    dispatch(updateProductAsync(product));
+  };
+
+  const handleAdd = (id) => {
+    const product = { id, deleted: false };
+    dispatch(updateProductAsync(product));
   };
 
   return (
@@ -512,7 +521,7 @@ const ProductGrid = ({ products }) => {
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {products.map((product, i) => (
-              <div key={product.title} >
+              <div key={product.title}>
                 <Link to={`/admin/product-detail/${product.id}`}>
                   <div key={product.id} className="group relative">
                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
@@ -552,7 +561,7 @@ const ProductGrid = ({ products }) => {
                       </div>
                     </div>
                     {product.deleted && (
-                      <p className="text-red-400">Deleted Product</p>
+                      <p className="text-red-400 text-center">Deleted Product</p>
                     )}
                     {product.stock <= 0 && (
                       <p className="text-white bg-red-600 text-center">
@@ -568,10 +577,17 @@ const ProductGrid = ({ products }) => {
                   <Link to={`/admin/product-form/edit/${product.id}`}>
                     <PencilSquareIcon className="cursor-pointer w-6 h-6 text-green-600 hover:text-green-500" />
                   </Link>
-                  <TrashIcon
-                    className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500"
-                    onClick={() => handleDelete(Number(product.id))}
-                  />
+                  {product.deleted ? (
+                    <PlusIcon
+                      className="cursor-pointer w-6 h-6 text-blue-600 hover:text-cyan-500"
+                      onClick={() => handleAdd(product.id)}
+                    />
+                  ) : (
+                    <TrashIcon
+                      className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500"
+                      onClick={() => handleDelete(product.id)}
+                    />
+                  )}
                 </div>
               </div>
             ))}

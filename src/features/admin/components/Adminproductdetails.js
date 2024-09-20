@@ -2,54 +2,70 @@ import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductByIdAsync } from "../productslice";
+import { fetchProductByIdAsync } from "../../product/productslice";
 import { useParams } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartslice";
 import { discountedPrice } from "../../../app/constants";
-
-const colors = [
-  { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-  { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-  { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-];
-
-const sizes = [
-  { name: "XXS", inStock: false },
-  { name: "XS", inStock: true },
-  { name: "S", inStock: true },
-  { name: "M", inStock: true },
-  { name: "L", inStock: true },
-  { name: "XL", inStock: true },
-  { name: "2XL", inStock: true },
-  { name: "3XL", inStock: true },
-];
-
-const highlights = [
-  'Hand cut and sewn locally',
-  'Dyed with our proprietary colors',
-  'Pre-washed & pre-shrunk',
-  'Ultra-soft 100% cotton',
-]
-
-const reviews = { href: "#", average: 4, totalCount: 117 };
+import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Adminproductdetails() {
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const notify = () =>
+    toast.warn("Item Already Added!", {
+      position: "bottom-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+      theme: "colored",
+      transition: Flip,
+    });
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
+  const cartItems = useSelector((state) => state.cart.items);
+
   const loggedInUser = useSelector((state)=>state.auth.loggedInUser)
 
   const handleCart = (e) =>{
-    e.preventDefault()
-    const newItem = {...product, quantity:1, user:loggedInUser.id};
-    delete newItem['id']
-    dispatch(addToCartAsync(newItem))
+    // e.preventDefault()
+    // const newItem = {...product, quantity:1, user:loggedInUser.id};
+    // delete newItem['id']
+    // dispatch(addToCartAsync(newItem))
+    const index = cartItems.findIndex((item) => item.product.id === product.id);
+    console.log("Admin add",index," ", cartItems)
+
+    if (index < 0) {
+      // Means If Item Dosn't exist in Cart
+      e.preventDefault();
+      const newItem = {
+        quantity: 1,
+        product: product.id,
+        user: loggedInUser.id,
+      };
+      // console.log("New item from detail",newItem);
+      dispatch(addToCartAsync(newItem));
+      toast.success("Item Added In cart", {
+        position: "bottom-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+        transition: Flip,
+      });
+    } else {
+      e.preventDefault();
+      notify();
+      // console.log("Item Already Added");
+    }
   }
 
   useEffect(() => {
@@ -423,7 +439,7 @@ export default function Adminproductdetails() {
                   Highlights
                 </h3>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <ul className="list-disc space-y-2 pl-4 text-sm">
                     {highlights.map((highlight) => (
                         <li key={highlight} className="text-gray-400">
@@ -431,7 +447,7 @@ export default function Adminproductdetails() {
                         </li>
                       ))}
                   </ul>
-                </div>
+                </div> */}
               </div>
 
               <div className="mt-10">

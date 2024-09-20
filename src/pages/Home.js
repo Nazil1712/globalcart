@@ -8,7 +8,7 @@ import { fetchCartByUserAsync } from "../features/cart/cartslice";
 
 function Home() {
   const listStatus = useSelector((state) => state.product.status);
-  console.log(listStatus);
+  // console.log(listStatus);
 
   return (
     <>

@@ -9,7 +9,7 @@ const initialState = {
 export const addToCartAsync = createAsyncThunk(
   'cart/addToCartAsync',
   async (item) => {
-    console.log("Item from Add Async",item)
+    // console.log("Item from Add Async",item)
     const response = await addToCartAPI(item);
     return response.data;
   }
@@ -73,7 +73,7 @@ export const cartslice = createSlice({
       })
       .addCase(updateCartAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        console.log("Items from Redux",action.payload)
+        // console.log("Items from Redux",action.payload)
         const index = state.items.findIndex((item)=>item.id===action.payload.id)
         state.items[index] = action.payload
       })
@@ -82,7 +82,7 @@ export const cartslice = createSlice({
       })
       .addCase(deleteFromCartAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        console.log(action.payload)
+        // console.log(action.payload)
         const index = state.items.findIndex((item)=>item.id===action.payload.id)
         state.items.splice(index,1);
       })

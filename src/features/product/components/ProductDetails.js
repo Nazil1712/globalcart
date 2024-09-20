@@ -52,7 +52,7 @@ export default function ProdctDetails() {
   const product = useSelector((state) => state.product.selectedProduct);
   const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
-  console.log(product)
+  // console.log(product)
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.product.id === product.id);
 
@@ -64,7 +64,7 @@ export default function ProdctDetails() {
         product: product.id,
         user: loggedInUser.id,
       };
-      console.log("New item from detail",newItem);
+      // console.log("New item from detail",newItem);
       dispatch(addToCartAsync(newItem));
       toast.success("Item Added In cart", {
         position: "bottom-center",
@@ -80,7 +80,7 @@ export default function ProdctDetails() {
     } else {
       e.preventDefault();
       notify();
-      console.log("Item Already Added");
+      // console.log("Item Already Added");
     }
   };
 

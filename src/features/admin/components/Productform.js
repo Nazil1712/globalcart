@@ -2,13 +2,13 @@ import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearSelectedProduct,
   createProductAsync,
   fetchProductByIdAsync,
   updateProductAsync,
-} from "../productslice";
+} from "../../product/productslice";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import { Flip, toast } from "react-toastify";
 
 export default function Productform() {
   const categories = useSelector((state) => state.product.categories);
@@ -16,7 +16,7 @@ export default function Productform() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const selectedProduct = useSelector((state) => state.product.selectedProduct);
-  const [submitted, setSubmitted] = useState(false)
+  const [submitted, setSubmitted] = useState(false);
   // console.log(selectedProduct)
 
   const {
@@ -32,7 +32,7 @@ export default function Productform() {
     if (id) {
       dispatch(fetchProductByIdAsync(id));
     } else {
-      dispatch(clearSelectedProduct());
+      // dispatch(clearSelectedProduct());
     }
   }, [dispatch, id]);
 
@@ -54,15 +54,14 @@ export default function Productform() {
   }, [selectedProduct, setValue, id]);
 
   const handleDelete = () => {
-    const product = {...selectedProduct, deleted : true}
+    const product = { ...selectedProduct, deleted: true };
     // console.log(product)
     // console.log("I am called")
-    dispatch(updateProductAsync(product))
+    dispatch(updateProductAsync(product));
   };
 
-
-  if(submitted) {
-    return <Navigate to={'/admin'} replace={true}></Navigate>
+  if (submitted) {
+    return <Navigate to={"/admin"} replace={true}></Navigate>;
   }
 
   return (
@@ -72,12 +71,31 @@ export default function Productform() {
           noValidate
           onSubmit={handleSubmit((data) => {
             const product = { ...data };
-            product.images = [
-              product.image1,
-              product.image2,
-              product.image3,
-              product.thumbnail,
-            ];
+            if(product.image1!=="" && product.image2!=="" && product.image3!==""){
+              product.images = [
+                product.image1,
+                product.image2,
+                product.image3,
+                product.thumbnail,
+              ];
+            }
+            else if(product.image1!=="" && product.image2!=="" ){
+              product.images = [
+                product.image1,
+                product.image2,
+                product.thumbnail,
+              ];
+            }
+            else if(product.image1!==""){
+              product.images = [
+                product.image1,
+                product.thumbnail,
+              ];
+            }else{
+              product.images = [
+                product.thumbnail,
+              ];
+            }
             product.rating = Number(data.rating);
             delete product["image1"];
             delete product["image2"];
@@ -85,19 +103,45 @@ export default function Productform() {
             product.stock = +product.stock;
             product.price = +product.price;
             product.discountPercentage = +product.discountPercentage;
-            product.id = Number(id);
+            product.id = id;
+
             if (id) {
               dispatch(updateProductAsync(product));
-              // console.log(id);
-              // console.log(product);
+              toast.success("Product Updated Successfully", {
+                position: "bottom-center",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "colored",
+                transition: Flip,
+              });
             } else {
               dispatch(createProductAsync(product));
+              toast.success("Product Created", {
+                position: "bottom-center",
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: false,
+                progress: undefined,
+                theme: "light",
+                transition: Flip,
+              });
             }
 
-            setSubmitted(true)
+            setSubmitted(true);
           })}
         >
+          
           <div className="space-y-12">
+            {selectedProduct && selectedProduct.deleted ? <h2 className="font-semibold text-red-600">
+              ! This Product is deleted
+            </h2>:null}
+            
             <div className="border-b border-gray-900/10 pb-12">
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Profile
@@ -121,11 +165,17 @@ export default function Productform() {
                         type="text"
                         {...register("title", {
                           required: "Title is Required",
+                          message: "Title is Required",
                         })}
                         id="title"
                         autoComplete="title"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
+                      {errors.title && (
+                        <p className="text-red-500 relative top-9 right-[18rem]">
+                          {errors.title.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -142,11 +192,17 @@ export default function Productform() {
                       id="description"
                       {...register("description", {
                         required: "Description is Required",
+                        message: "Description is Required",
                       })}
                       rows={3}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       defaultValue={""}
                     />
+                    {errors.description && (
+                      <p className="text-red-500 relative top-9 right-[18rem]">
+                        {errors.description.message}
+                      </p>
+                    )}
                   </div>
                   <p className="mt-3 text-sm leading-6 text-gray-600">
                     Write a few sentences about product.
@@ -166,8 +222,8 @@ export default function Productform() {
                         type="number"
                         {...register("price", {
                           required: "Price is Required",
-                          max: 100000,
-                          min: 10,
+                          max: 10000000,
+                          min: 0.1,
                           pattern: {
                             message: "Please provide Price in range",
                           },
@@ -176,6 +232,11 @@ export default function Productform() {
                         autoComplete="price"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
+                      {errors.price && (
+                        <p className="text-red-500 relative top-9 right-[18rem]">
+                          {errors.price.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -193,11 +254,17 @@ export default function Productform() {
                         type="number"
                         {...register("discountPercentage", {
                           required: "Discount % is Required",
+                          message: "Discount % is Required",
                         })}
                         id="discountPercentage"
                         autoComplete="discountPercentage"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
+                      {errors.discountPercentage && (
+                        <p className="text-red-500 relative top-9 right-[18rem]">
+                          {errors.discountPercentage.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -215,11 +282,17 @@ export default function Productform() {
                         type="number"
                         {...register("stock", {
                           required: "Available stock is Required",
+                          message: "Available stock is Required",
                         })}
                         id="stock"
                         autoComplete="stock"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                       />
+                      {errors.stock && (
+                        <p className="text-red-500 relative top-9 right-[18rem]">
+                          {errors.stock.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -235,6 +308,7 @@ export default function Productform() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     {...register("brand", {
                       required: "Brand is Required",
+                      message: "Brand is Required",
                     })}
                   >
                     <option value="">-- Choose Brand --</option>
@@ -244,6 +318,11 @@ export default function Productform() {
                       </option>
                     ))}
                   </select>
+                  {errors.brand && (
+                    <p className="text-red-500 relative top-9 right-[18rem]">
+                      {errors.brand.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="sm:col-span-2">
@@ -257,6 +336,7 @@ export default function Productform() {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                     {...register("category", {
                       required: "Category is Required",
+                      message: "Category is Required",
                     })}
                   >
                     <option value="">-- Choose Category --</option>
@@ -266,6 +346,11 @@ export default function Productform() {
                       </option>
                     ))}
                   </select>
+                  {errors.category && (
+                    <p className="text-red-500 relative top-9 right-[18rem]">
+                      {errors.category.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="sm:col-span-2">
@@ -281,12 +366,18 @@ export default function Productform() {
                       type="text"
                       {...register("rating", {
                         required: "rating is Required",
+                        message : "rating is Required",
                       })}
                       id="rating"
                       autoComplete="rating"
                       className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 pl-3"
                       placeholder="Rating of Product"
                     />
+                    {errors.rating && (
+                      <p className="text-red-500 relative top-9 right-[18rem]">
+                        {errors.rating.message}
+                      </p>
+                    )}
                   </div>
                   {/* </div> */}
                 </div>
@@ -304,12 +395,18 @@ export default function Productform() {
                         type="text"
                         {...register("thumbnail", {
                           required: "Thumbnail is Required",
+                          message: "Thumbnail is Required",
                         })}
                         id="thumbnail"
                         autoComplete="thumbnail"
                         className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 pl-3"
                         placeholder="Link of Thumbnail"
                       />
+                      {errors.thumbnail && (
+                        <p className="text-red-500 relative top-9 right-[18rem]">
+                          {errors.thumbnail.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -325,9 +422,7 @@ export default function Productform() {
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <input
                         type="text"
-                        {...register("image1", {
-                          required: "Image1 is Required",
-                        })}
+                        {...register("image1", {})}
                         id="image1"
                         autoComplete="image1"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -348,9 +443,7 @@ export default function Productform() {
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <input
                         type="text"
-                        {...register("image2", {
-                          required: "Image2 is Required",
-                        })}
+                        {...register("image2", {})}
                         id="image2"
                         autoComplete="image2"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -371,9 +464,7 @@ export default function Productform() {
                     <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                       <input
                         type="text"
-                        {...register("image3", {
-                          required: "Image3 is Required",
-                        })}
+                        {...register("image3", {})}
                         id="image3"
                         autoComplete="image3"
                         className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"

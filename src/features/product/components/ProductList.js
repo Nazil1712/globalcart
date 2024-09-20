@@ -73,7 +73,7 @@ export default function Productlist() {
     const newFilter = { ...filter };
     const checked = e.target.checked;
 
-    console.log(section);
+    // console.log(section);
 
     // section.id = category
     // opton.id = smartphone
