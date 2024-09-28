@@ -1,7 +1,7 @@
 export function addToCartAPI(item) {
   // console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart?user=${item.user}`, {
+    const response = await fetch(`http://localhost:8080/cart`, {
       method: "POST",
       body: JSON.stringify(item),
       headers: { "content-type": "application/json" },
@@ -11,9 +11,9 @@ export function addToCartAPI(item) {
   });
 }
 
-export function fetchCartByUserAPI(userId) {
+export function fetchCartByUserAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart?user=${userId}`);
+    const response = await fetch(`http://localhost:8080/cart/own`);
     const data = await response.json();
     // console.log("Cart Data from frontend",data)
     resolve({ data });
@@ -48,9 +48,9 @@ export function deleteFromCartAPI(id) {
   });
 }
 
-export function resetCartAPI(userId) {
+export function resetCartAPI() {
   return new Promise(async (resolve, reject) => {
-    const response = await fetchCartByUserAPI(userId);
+    const response = await fetchCartByUserAPI();
     const items = response.data;
     for (let item of items) await deleteFromCartAPI(item.id);
     resolve({ status: "success" });

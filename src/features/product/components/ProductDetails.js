@@ -50,7 +50,6 @@ export default function ProdctDetails() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
   // console.log(product)
   const handleCart = (e) => {
@@ -61,8 +60,7 @@ export default function ProdctDetails() {
       e.preventDefault();
       const newItem = {
         quantity: 1,
-        product: product.id,
-        user: loggedInUser.id,
+        product: product.id
       };
       // console.log("New item from detail",newItem);
       dispatch(addToCartAsync(newItem));

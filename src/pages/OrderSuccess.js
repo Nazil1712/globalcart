@@ -8,15 +8,14 @@ import orderSucess from "../images/order_sucess.png";
 function OrderSuccess() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
   useEffect(() => {
     // Clear Cart
-    dispatch(resetCartAsync(loggedInUser.id));
+    dispatch(resetCartAsync());
 
     // Clear Order
     dispatch(resetCurrentOrder());
-  }, [dispatch, loggedInUser]);
+  }, [dispatch]);
 
   return (
     <>

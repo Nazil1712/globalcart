@@ -1,6 +1,6 @@
-export function fetchUserordersAPI(userId) {
+export function fetchOrderByUserAPI(userId) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/order/user/${userId}`);
+    const response = await fetch(`http://localhost:8080/order/users/own`);
     const data = await response.json();
     console.warn("Response from backend",data)
     resolve({ data });
@@ -8,9 +8,9 @@ export function fetchUserordersAPI(userId) {
 }
 
 
-export function fetchLoggedInUserAPI(userId) {
+export function fetchloggedInUserAPI() {
   return new Promise(async (resolve) =>{
-    const response = await fetch(`http://localhost:8080/users/${userId}`) 
+    const response = await fetch(`http://localhost:8080/users/own`) 
     const data = await response.json()
     resolve({data})
   }

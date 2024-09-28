@@ -2940,7 +2940,7 @@
         ],
         "totalAmount": 6144,
         "totalItems": 6,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "test1@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -2995,7 +2995,7 @@
         ],
         "totalAmount": 1031,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "aziz@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3080,7 +3080,7 @@
         ],
         "totalAmount": 805,
         "totalItems": 2,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "nazil@gmail.com",
           "password": "Qwerty123",
           "id": 2,
@@ -3163,7 +3163,7 @@
         ],
         "totalAmount": 2639,
         "totalItems": 4,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "aziz@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3228,7 +3228,7 @@
         ],
         "totalAmount": 969,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "aziz@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3293,7 +3293,7 @@
         ],
         "totalAmount": 1346,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "aziz@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3357,7 +3357,7 @@
         ],
         "totalAmount": 1556,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "viraj@gmail.com",
           "password": "Qwerty123",
           "id": 5,
@@ -3412,7 +3412,7 @@
         ],
         "totalAmount": 41,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "viraj@gmail.com",
           "password": "Qwerty123",
           "id": 5,
@@ -3468,7 +3468,7 @@
         ],
         "totalAmount": 28,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "viraj@gmail.com",
           "password": "Qwerty123",
           "id": 5,
@@ -3522,7 +3522,7 @@
         ],
         "totalAmount": 111,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "viraj@gmail.com",
           "password": "Qwerty123",
           "id": 5,
@@ -3579,7 +3579,7 @@
         ],
         "totalAmount": 35,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "musharraf1210@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3635,7 +3635,7 @@
         ],
         "totalAmount": 66,
         "totalItems": 2,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "musharraf1210@gmail.com",
           "password": "Qwerty123",
           "addresses": [
@@ -3691,7 +3691,7 @@
         ],
         "totalAmount": 42,
         "totalItems": 1,
-        "loggedInUser": {
+        "loggedInUserToken": {
           "email": "musharraf1210@gmail.com",
           "password": "Qwerty123",
           "addresses": [

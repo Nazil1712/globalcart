@@ -1,13 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { checkUserAsync } from "../authslice";
+import { loginUserAsync } from "../authslice";
 import globalcart from "../../../images/logo.png";
 import { Bounce, toast } from "react-toastify";
 
-
 function Login() {
-  
   const {
     register,
     handleSubmit,
@@ -16,23 +14,14 @@ function Login() {
   } = useForm();
 
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const loggedInUserToken = useSelector((state) => state.auth.loggedInUserToken);
   const error = useSelector((state) => state.auth.error);
-  // {loggedInUser.role === "admin" ? (
-  //   <Navigate to={"/admin"} replace={true} />
-  // ) : (
-  //   <Navigate to={"/"} replace={true} />
-  // )}
+
+  console.log("Logged In user Login.js",loggedInUserToken)
+
   return (
     <div>
-      {loggedInUser
-        ? loggedInUser.role === "user" && <Navigate to={"/"} replace={true} />
-        : null}
-      {loggedInUser
-        ? loggedInUser.role === "admin" && (
-            <Navigate to={"/admin"} replace={true} />
-          )
-        : null}
+      {loggedInUserToken && <Navigate to={"/"} replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -56,7 +45,7 @@ function Login() {
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
               dispatch(
-                checkUserAsync({ email: data.email, password: data.password })
+                loginUserAsync({ email: data.email, password: data.password })
               );
             })}
           >

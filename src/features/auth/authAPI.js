@@ -10,7 +10,8 @@ export function createUserAPI(userData) {
   });
 }
 
-export function checkUserAPI(loginInfo) {
+export function loginUserAPI(loginInfo) {
+  console.log("Login Info",loginInfo)
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
@@ -18,27 +19,22 @@ export function checkUserAPI(loginInfo) {
         body: JSON.stringify(loginInfo),
         headers: { "content-type": "application/json" },
       });
-      const data = await response.json();
-      // console.log("data from frontend AUTH",data)
-      resolve({ data });
+      if(response.ok) {
+        const data = await response.json();
+        console.log("data from frontend AUTH",data)
+        resolve({ data });
+      }else{
+        const error = await response.text();
+        reject(error)
+      }
     } catch (error) {
-      // console.log(error)
-      reject(error);
+      console.log("Error",error)
+      reject({error: error});
     }
-    // console.log(data)
-
-    // if (data.length) {
-    //     resolve({ data: data[0] });
-    //   } else {
-    //     reject({ message: "Wrong Credentials" });
-    //   }
-    // } else {
-    //   reject({ message: "User not found" });
-    // }
   });
 }
 
-export function signOutAPI(userId) {
+export function signOutAPI() {
   return new Promise(async (resolve) => {
     resolve({ data: "success" });
   });

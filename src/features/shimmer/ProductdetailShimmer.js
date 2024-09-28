@@ -29,7 +29,6 @@ export default function ProductdetailShimmer() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
 
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.productId === product.id);
@@ -40,8 +39,7 @@ export default function ProductdetailShimmer() {
       const newItem = {
         ...product,
         quantity: 1,
-        productId: product.id,
-        user: loggedInUser.id,
+        productId: product.id
       };
       // console.log(newItem);
       delete newItem["id"];

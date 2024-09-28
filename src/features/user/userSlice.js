@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchUserordersAPI, updateUserAPI, fetchLoggedInUserAPI } from './userapi';
+import { fetchOrderByUserAPI, updateUserAPI, fetchloggedInUserAPI } from './userapi';
 
 const initialState = {
   userInfo : null,
@@ -7,19 +7,19 @@ const initialState = {
   status: 'idle',
 };
 
-export const fetchUserordersAsync = createAsyncThunk(
-  'user/fetchUserordersAsync',
-  async (userId) => {
-    const response = await fetchUserordersAPI(userId);
+export const fetchOrderByUserAsync = createAsyncThunk(
+  'user/fetchOrderByUserAsync',
+  async () => {
+    const response = await fetchOrderByUserAPI();
     return response.data;
   }
 );
 
 
-export const fetchLoggedInUserAsync = createAsyncThunk(
-  'user/fetchLoggedInUserAsync',
-  async (userId) =>{
-    const response  = await fetchLoggedInUserAPI(userId);
+export const fetchloggedInUserAsync = createAsyncThunk(
+  'user/fetchloggedInUserAsync',
+  async () =>{
+    const response  = await fetchloggedInUserAPI();
     return response.data;
   }
 )
@@ -41,10 +41,10 @@ export const userslice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserordersAsync.pending, (state) => {
+      .addCase(fetchOrderByUserAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchUserordersAsync.fulfilled, (state, action) => {
+      .addCase(fetchOrderByUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.userInfo.orders = action.payload;
       })
@@ -55,10 +55,10 @@ export const userslice = createSlice({
         state.status = 'idle';
         state.userInfo = action.payload;
       })
-      .addCase(fetchLoggedInUserAsync.pending, (state) => {
+      .addCase(fetchloggedInUserAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchLoggedInUserAsync.fulfilled, (state, action) => {
+      .addCase(fetchloggedInUserAsync.fulfilled, (state, action) => {
         state.status = 'idle';
         state.userInfo = action.payload;
       })

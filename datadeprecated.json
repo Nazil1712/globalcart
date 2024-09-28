@@ -12510,7 +12510,7 @@
       ],
       "totalAmount": 84,
       "totalItems": 1,
-      "loggedInUser": {
+      "loggedInUserToken": {
         "email": "ndhalwala@gmail.com",
         "password": "Qwerty123",
         "id": 1,
@@ -12610,7 +12610,7 @@
       ],
       "totalAmount": 1696,
       "totalItems": 4,
-      "loggedInUser": {
+      "loggedInUserToken": {
         "email": "ndhalwala@gmail.com",
         "password": "Qwerty123",
         "id": 1,
@@ -12775,7 +12775,7 @@
       ],
       "totalAmount": 294,
       "totalItems": 4,
-      "loggedInUser": {
+      "loggedInUserToken": {
         "email": "ndhalwala@gmail.com",
         "password": "Qwerty123",
         "id": 1,
@@ -12874,7 +12874,7 @@
       ],
       "totalAmount": 73,
       "totalItems": 1,
-      "loggedInUser": {
+      "loggedInUserToken": {
         "email": "ndhalwala@gmail.com",
         "password": "Qwerty123",
         "id": 1,
@@ -12972,7 +12972,7 @@
       ],
       "totalAmount": 36,
       "totalItems": 4,
-      "loggedInUser": {
+      "loggedInUserToken": {
         "email": "ndhalwala@gmail.com",
         "password": "Qwerty123",
         "id": 1,

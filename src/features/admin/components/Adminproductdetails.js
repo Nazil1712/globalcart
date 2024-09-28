@@ -30,11 +30,9 @@ export default function Adminproductdetails() {
   const product = useSelector((state) => state.product.selectedProduct);
   const cartItems = useSelector((state) => state.cart.items);
 
-  const loggedInUser = useSelector((state)=>state.auth.loggedInUser)
-
   const handleCart = (e) =>{
-    // e.preventDefault()
-    // const newItem = {...product, quantity:1, user:loggedInUser.id};
+    e.preventDefault()
+    // const newItem = {...product, quantity:1, user:loggedInUserToken.id};
     // delete newItem['id']
     // dispatch(addToCartAsync(newItem))
     const index = cartItems.findIndex((item) => item.product.id === product.id);
@@ -44,9 +42,8 @@ export default function Adminproductdetails() {
       // Means If Item Dosn't exist in Cart
       e.preventDefault();
       const newItem = {
-        quantity: 1,
         product: product.id,
-        user: loggedInUser.id,
+        quantity: 1
       };
       // console.log("New item from detail",newItem);
       dispatch(addToCartAsync(newItem));

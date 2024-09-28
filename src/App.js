@@ -27,7 +27,7 @@ import Adminorderspage from "./pages/admin/Adminorderspage";
 import { render } from "react-dom";
 import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
 import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
-import { fetchLoggedInUserAsync } from "./features/user/userslice";
+import { fetchloggedInUserAsync } from "./features/user/userslice";
 
 
 
@@ -169,16 +169,16 @@ const appRouter = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.auth.loggedInUser);
+  const loggedInUserToken = useSelector((state) => state.auth.loggedInUserToken);
   const items = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order.orders);
 
   useEffect(() => {
-    if (loggedInUser) {
-      dispatch(fetchCartByUserAsync(loggedInUser.id));
-      dispatch(fetchLoggedInUserAsync(loggedInUser.id))
+    if (loggedInUserToken) {
+      dispatch(fetchCartByUserAsync());
+      dispatch(fetchloggedInUserAsync())
     }
-  }, [dispatch, loggedInUser, items.length, orders.length]);
+  }, [dispatch, loggedInUserToken, items.length, orders.length]);
 
   return (
     <div className="App">
