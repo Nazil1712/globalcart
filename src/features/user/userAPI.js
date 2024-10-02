@@ -2,7 +2,7 @@ export function fetchOrderByUserAPI(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(`http://localhost:8080/order/users/own`);
     const data = await response.json();
-    console.warn("Response from backend",data)
+    // console.warn("Response from backend",data)
     resolve({ data });
   });
 }
@@ -12,6 +12,7 @@ export function fetchloggedInUserAPI() {
   return new Promise(async (resolve) =>{
     const response = await fetch(`http://localhost:8080/users/own`) 
     const data = await response.json()
+    // console.log("UserInfo",data)
     resolve({data})
   }
   );

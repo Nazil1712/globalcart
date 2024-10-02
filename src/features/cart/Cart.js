@@ -1,9 +1,5 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { increment, incrementAsync, selectCount } from "./counterSlice";
-import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, Navigate } from "react-router-dom";
 import { deleteFromCartAsync, updateCartAsync } from "./cartslice";
 import { discountedPrice } from "../../app/constants";

@@ -5,7 +5,8 @@ const initialState = {
   orders: [],
   status: 'idle',
   currentOrder : null,
-  totalOrders : 0
+  totalOrders : 0,
+  ordersLoaded: false
 };
 
 export const createOrderAsync = createAsyncThunk(

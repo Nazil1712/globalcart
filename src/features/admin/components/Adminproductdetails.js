@@ -36,7 +36,7 @@ export default function Adminproductdetails() {
     // delete newItem['id']
     // dispatch(addToCartAsync(newItem))
     const index = cartItems.findIndex((item) => item.product.id === product.id);
-    console.log("Admin add",index," ", cartItems)
+    // console.log("Admin add",index," ", cartItems)
 
     if (index < 0) {
       // Means If Item Dosn't exist in Cart

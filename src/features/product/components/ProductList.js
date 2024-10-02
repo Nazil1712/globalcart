@@ -1,7 +1,7 @@
 import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { MoonIcon, StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -10,7 +10,6 @@ import {
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,

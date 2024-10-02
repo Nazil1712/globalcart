@@ -22,7 +22,7 @@ const Adminorders = () => {
   const [editOrderId, setEditOrderId] = useState(-1);
   const totalPages = Math.ceil(totalOrders / ITEMS_PER_PAGE);
 
-  console.log("Orders",orders)
+  // console.log("Orders",orders)
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };

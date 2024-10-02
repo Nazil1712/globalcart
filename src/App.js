@@ -28,9 +28,7 @@ import { render } from "react-dom";
 import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
 import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
 import { fetchloggedInUserAsync } from "./features/user/userslice";
-
-
-
+import { checkAuthAsync } from "../src/features/auth/authslice";
 
 const appRouter = createBrowserRouter([
   {
@@ -150,16 +148,12 @@ const appRouter = createBrowserRouter([
     ),
   },
   {
-    path: '/product-list-shimmer',
-    element: (
-      <ProductListShimmerPage/>
-    )
+    path: "/product-list-shimmer",
+    element: <ProductListShimmerPage />,
   },
   {
-    path: '/shimmer',
-    element:(
-      <ProductdetailShimmer/>
-    )
+    path: "/shimmer",
+    element: <ProductdetailShimmer />,
   },
   {
     path: "*",
@@ -169,20 +163,29 @@ const appRouter = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-  const loggedInUserToken = useSelector((state) => state.auth.loggedInUserToken);
+  const loggedInUserToken = useSelector(
+    (state) => state.auth.loggedInUserToken
+  );
   const items = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order.orders);
+  const userChecked = useSelector((state) => state.auth.userChecked);
+
+  useEffect(() => {
+    dispatch(checkAuthAsync());
+  }, [dispatch]);
+
+  // console.log("loggedInUserToken",loggedInUserToken)
 
   useEffect(() => {
     if (loggedInUserToken) {
       dispatch(fetchCartByUserAsync());
-      dispatch(fetchloggedInUserAsync())
+      dispatch(fetchloggedInUserAsync());
     }
   }, [dispatch, loggedInUserToken, items.length, orders.length]);
 
   return (
     <div className="App">
-      <RouterProvider router={appRouter} />
+      {userChecked && <RouterProvider router={appRouter} />}
     </div>
   );
 }

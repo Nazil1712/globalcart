@@ -11,7 +11,7 @@ export function createUserAPI(userData) {
 }
 
 export function loginUserAPI(loginInfo) {
-  console.log("Login Info",loginInfo)
+  // console.log("Login Info",loginInfo)
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("http://localhost:8080/auth/login", {
@@ -21,14 +21,33 @@ export function loginUserAPI(loginInfo) {
       });
       if(response.ok) {
         const data = await response.json();
-        console.log("data from frontend AUTH",data)
+        // console.log("data from frontend AUTH",data)
         resolve({ data });
       }else{
         const error = await response.text();
         reject(error)
       }
     } catch (error) {
-      console.log("Error",error)
+      // console.log("Error",error)
+      reject({error: error});
+    }
+  });
+}
+
+export function checkAuthAPI() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/check");
+      if(response.ok) {
+        const data = await response.json();
+        // console.log("data from frontend AUTH",data)
+        resolve({ data });
+      }else{
+        const error = await response.text();
+        reject(error)
+      }
+    } catch (error) {
+      // console.log("Error",error)
       reject({error: error});
     }
   });
