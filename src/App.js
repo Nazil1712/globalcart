@@ -29,6 +29,7 @@ import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
 import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
 import { fetchloggedInUserAsync } from "./features/user/userslice";
 import { checkAuthAsync } from "../src/features/auth/authslice";
+import StripeCheckout from "./pages/StripeCheckout";
 
 const appRouter = createBrowserRouter([
   {
@@ -147,6 +148,15 @@ const appRouter = createBrowserRouter([
       </Protectedadmin>
     ),
   },
+  {
+    path: "/stripe-checkout",
+    element: (
+      <Protected>
+        <StripeCheckout/>
+      </Protected>
+    ),
+  },
+
   {
     path: "/product-list-shimmer",
     element: <ProductListShimmerPage />,

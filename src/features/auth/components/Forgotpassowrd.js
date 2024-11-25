@@ -38,7 +38,7 @@ const Forgotpassword = () => {
             noValidate
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
-                // console.log(data)
+                console.log(data)
             })}
           >
             <div>

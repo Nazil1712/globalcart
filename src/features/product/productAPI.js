@@ -1,6 +1,6 @@
 export function fetchAllProductsAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products");
+    const response = await fetch("/products");
     const data = await response.json();
     resolve({ data });
   });
@@ -37,10 +37,10 @@ export function fetchProductsByFilterAPI(filter,sort,pagination,admin) {
     queryString += `admin=true&`
   }
 
-  // console.log(`http://localhost:8080/products?${queryString}`)
+  // console.log(`/products?${queryString}`)
   return new Promise(async (resolve) => {
     const response = await fetch(
-      `http://localhost:8080/products?` + queryString
+      `/products?` + queryString
     );
     const data = await response.json();
     const totalItems = await response.headers.get("X-Total-Count");
@@ -52,7 +52,7 @@ export function fetchProductsByFilterAPI(filter,sort,pagination,admin) {
 
 export function fetchAllCategoriesAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/categories");
+    const response = await fetch("/categories");
     const data = await response.json();
     resolve({ data });
   });
@@ -60,7 +60,7 @@ export function fetchAllCategoriesAPI() {
 
 export function fetchAllBrandsAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/brands");
+    const response = await fetch("/brands");
     const data = await response.json();
     resolve({ data });
   });
@@ -68,7 +68,7 @@ export function fetchAllBrandsAPI() {
 
 export function fetchProductByIdAPI(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products/"+id);
+    const response = await fetch("/products/"+id);
     const data = await response.json();
     resolve({ data });
   });
@@ -76,7 +76,7 @@ export function fetchProductByIdAPI(id) {
 
 export function createProductAPI(product) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/products/",{
+    const response = await fetch("/products/",{
       method: 'POST',
       body: JSON.stringify(product),
       headers: {'content-type':'application/json'}
@@ -89,7 +89,7 @@ export function createProductAPI(product) {
 export function updateProductAPI(update) {
   return new Promise(async (resolve) => {
     // console.log(`Update is ${update}`)
-    const response = await fetch(`http://localhost:8080/products/${update.id}`,{
+    const response = await fetch(`/products/${update.id}`,{
       method: 'PATCH',
       body: JSON.stringify(update),
       headers: {'content-type':'application/json'}

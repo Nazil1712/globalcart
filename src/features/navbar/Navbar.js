@@ -1,8 +1,7 @@
-import { Children, Fragment } from "react";
+import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
   ShoppingCartIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -14,7 +13,7 @@ const user = {
   name: "Tom Cook",
   email: "tom@example.com",
   imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIM54VJaavVOZrtYjjS7NGrFK8i-FzlXb94g&s",
 };
 const navigation = [
   { name: "Home", href: "/", user: true, admin: true },
@@ -34,7 +33,6 @@ function classNames(...classes) {
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
   const userInfo = useSelector((state) => state.user.userInfo);
-  // console.log(loggedInUserToken.role);
 
   return (
     <>

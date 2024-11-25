@@ -26,9 +26,10 @@ export default function Checkout() {
 
   const items = useSelector((state) => state.cart.items);
   const userInfo = useSelector((state) => state.user.userInfo);
+  // console.log("===>UserInfo",userInfo)
   const currentOrder = useSelector((state) => state.order.currentOrder);
-  const addresses = userInfo.addresses;
-  // console.log(addresses);
+  const addresses = userInfo?.addresses;
+  // console.log("addresses",addresses);
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
@@ -71,13 +72,16 @@ export default function Checkout() {
       selectedAddress,
       status: "pending", // Other status can be => delivered, dispathced, received etc.
     };
+    // console.log("order",order)
     dispatch(createOrderAsync(order));
   };
 
   return (
     <>
       {!items.length && <Navigate to={"/"} />}
-      {currentOrder && <Navigate to={`/order-success/${currentOrder.id}`} />}
+      {currentOrder && currentOrder.paymentMethod==='cash' && <Navigate to={`/order-success/${currentOrder.id}`} />}
+      {currentOrder && currentOrder.paymentMethod==='card' && <Navigate to={`/stripe-checkout/`} />}
+
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           {/* Form */}

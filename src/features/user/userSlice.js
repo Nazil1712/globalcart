@@ -63,6 +63,7 @@ export const userslice = createSlice({
       .addCase(fetchloggedInUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.userInfo = action.payload;
+        // console.log("user Info",state.userInfo)
         state.userLoaded = true;
       })
       .addCase(fetchloggedInUserAsync.rejected, (state, action) => {

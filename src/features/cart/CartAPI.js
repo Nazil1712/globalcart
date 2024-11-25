@@ -1,7 +1,7 @@
 export function addToCartAPI(item) {
   // console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart`, {
+    const response = await fetch(`/cart`, {
       method: "POST",
       body: JSON.stringify(item),
       headers: { "content-type": "application/json" },
@@ -13,7 +13,7 @@ export function addToCartAPI(item) {
 
 export function fetchCartByUserAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart/own`);
+    const response = await fetch(`/cart/own`);
     const data = await response.json();
     // console.log("Cart Data from frontend",data)
     resolve({ data });
@@ -24,7 +24,7 @@ export function updateCartAPI(update) {
   return new Promise(async (resolve,reject) => {
     try{
 
-      const response = await fetch(`http://localhost:8080/cart/${update.id}`, {
+      const response = await fetch(`/cart/${update.id}`, {
         method: "PATCH",
         body: JSON.stringify(update),
         headers: { "content-type": "application/json" },
@@ -39,7 +39,7 @@ export function updateCartAPI(update) {
 
 export function deleteFromCartAPI(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/cart/${id}`, {
+    const response = await fetch(`/cart/${id}`, {
       method: "DELETE",
       headers: { "content-type": "application/json" },
     });
