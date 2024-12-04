@@ -1,21 +1,24 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { loginUserAsync } from "../authslice";
+import { loginUserAsync, resetPasswordRequestAsync } from "../authslice";
 import globalcart from "../../../images/logo.png";
 
 const Forgotpassword = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm();
 
   const dispatch = useDispatch();
+  const mailSent = useSelector((state) => state.auth.mailSent);
 
   return (
     <div>
+      {mailSent && <Navigate to={"/email-sent"} replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -38,7 +41,8 @@ const Forgotpassword = () => {
             noValidate
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
-                console.log(data)
+              console.log(data);
+              dispatch(resetPasswordRequestAsync(data.email));
             })}
           >
             <div>
@@ -64,6 +68,9 @@ const Forgotpassword = () => {
                 {errors.email && (
                   <p className="text-red-500">{errors.email.message}</p>
                 )}
+                {/* {mailSent === true && (
+                  <p className="text-green-500">Mail Sent</p>
+                )} */}
               </div>
             </div>
 
@@ -78,7 +85,7 @@ const Forgotpassword = () => {
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
-            Take me back to {" "}
+            Take me back to{" "}
             <Link
               to="/login"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"

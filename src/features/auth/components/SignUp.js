@@ -2,7 +2,9 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { createUserAsync } from "../authslice";
-import globalcart from "../../../images/logo.png"
+import globalcart from "../../../images/logo.png";
+import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 function Signup() {
   const {
@@ -11,13 +13,20 @@ function Signup() {
     formState: { errors },
   } = useForm();
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const dispatch = useDispatch();
-  const loggedInUserToken = useSelector((state)=>state.auth.loggedInUserToken)
+  const loggedInUserToken = useSelector(
+    (state) => state.auth.loggedInUserToken
+  );
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div>
-      {loggedInUserToken && <Navigate to={'/'} replace={true}/>}
+      {loggedInUserToken && <Navigate to={"/"} replace={true} />}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -35,7 +44,14 @@ function Signup() {
             noValidate
             className="space-y-6"
             onSubmit={handleSubmit((data) => {
-              dispatch(createUserAsync({email:data.email, password:data.password, addresses:[], role:'user'}))
+              dispatch(
+                createUserAsync({
+                  email: data.email,
+                  password: data.password,
+                  addresses: [],
+                  role: "user",
+                })
+              );
             })}
           >
             <div>
@@ -86,9 +102,20 @@ function Signup() {
                       - Can contain special characters`,
                     },
                   })}
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                 {passwordVisible ? (
+                  <EyeSlashIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <EyeIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
                 {errors.password && (
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
@@ -109,11 +136,23 @@ function Signup() {
                   id="confirm-password"
                   {...register("confirmPassword", {
                     required: "confirmPassword is required",
-                    validate: (value, formValues) => value === formValues.password || 'Password not matching',
+                    validate: (value, formValues) =>
+                      value === formValues.password || "Password not matching",
                   })}
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {passwordVisible ? (
+                  <EyeSlashIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <EyeIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
                 {errors.confirmPassword && (
                   <p className="text-red-500">
                     {errors.confirmPassword.message}

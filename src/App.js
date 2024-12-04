@@ -30,6 +30,10 @@ import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
 import { fetchloggedInUserAsync } from "./features/user/userslice";
 import { checkAuthAsync } from "../src/features/auth/authslice";
 import StripeCheckout from "./pages/StripeCheckout";
+import ResetPassword from "./features/auth/components/ResetPassword";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import EmailSent from "./pages/EmailSent";
+import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 
 const appRouter = createBrowserRouter([
   {
@@ -152,11 +156,22 @@ const appRouter = createBrowserRouter([
     path: "/stripe-checkout",
     element: (
       <Protected>
-        <StripeCheckout/>
+        <StripeCheckout />
       </Protected>
     ),
   },
-
+  {
+    path: "/reset-password",
+    element: <ResetPasswordPage />,
+  },
+  {
+    path: "/reset-password-success",
+    element: <ResetPasswordSuccess />,
+  },
+  {
+    path: "/email-sent",
+    element: <EmailSent/>
+  },
   {
     path: "/product-list-shimmer",
     element: <ProductListShimmerPage />,

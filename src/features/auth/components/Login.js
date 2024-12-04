@@ -4,6 +4,8 @@ import { Link, Navigate } from "react-router-dom";
 import { loginUserAsync } from "../authslice";
 import globalcart from "../../../images/logo.png";
 import { Bounce, toast } from "react-toastify";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { useState } from "react";
 
 function Login() {
   const {
@@ -13,11 +15,19 @@ function Login() {
     formState: { errors },
   } = useForm();
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const dispatch = useDispatch();
-  const loggedInUserToken = useSelector((state) => state.auth.loggedInUserToken);
+  const loggedInUserToken = useSelector(
+    (state) => state.auth.loggedInUserToken
+  );
   const error = useSelector((state) => state.auth.error);
 
-  console.log("Logged In user Login.js",loggedInUserToken)
+  console.log("Logged In user Login.js", loggedInUserToken);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div>
@@ -105,10 +115,22 @@ function Login() {
                     - Can contain special characters`,
                     },
                   })}
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   autoComplete="password"
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {passwordVisible ? (
+                  <EyeSlashIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <EyeIcon
+                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+
                 {errors.password && (
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
