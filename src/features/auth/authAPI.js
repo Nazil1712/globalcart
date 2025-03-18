@@ -37,10 +37,7 @@ export function loginUserAPI(loginInfo) {
 export function checkAuthAPI() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/check", {
-        method: "GET",
-        credentials: "include",
-      });
+      const response = await fetch("/auth/check");
       if (response.ok) {
         const data = await response.json();
         // console.log("data from frontend AUTH",data)
@@ -104,7 +101,21 @@ export function resetPasswordAPI(data) {
 }
 
 export function signOutAPI() {
-  return new Promise(async (resolve) => {
-    resolve({ data: "success" });
+  console.log("SignOut API called")
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch("/auth/logout");
+      console.log("SignOut Response",response)
+      if (response.ok) {
+        const data = await response.json();
+        resolve({ data });
+      } else {
+        const error = await response.text();
+        reject(error);
+      }
+    } catch (error) {
+      // console.log("Error",error)
+      reject({ error: error });
+    }
   });
 }

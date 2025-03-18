@@ -7,6 +7,7 @@ const Logout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state)=>state.auth.loggedInUserToken)
 
+  console.log("User ==>",user)
   useEffect(()=>{
     dispatch(signOutAsync())
   })

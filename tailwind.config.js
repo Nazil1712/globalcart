@@ -8,6 +8,7 @@ module.exports = {
       },
       colors:{
         shimmer : '#f0f0f0',
+        shimmerdark : "#acacac"
       }
     },
   },

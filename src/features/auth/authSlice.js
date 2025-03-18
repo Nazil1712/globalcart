@@ -77,10 +77,13 @@ export const resetPasswordAsync = createAsyncThunk(
   }
 );
 
-export const signOutAsync = createAsyncThunk("auth/signOutAsync", async () => {
-  const response = await signOutAPI();
-  return response.data;
-});
+export const signOutAsync = createAsyncThunk(
+  "auth/signOutAsync", 
+  async () => {
+    const response = await signOutAPI();
+    return response.data;
+  }
+);
 
 export const authslice = createSlice({
   name: "auth",

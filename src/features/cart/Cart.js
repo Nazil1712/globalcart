@@ -4,7 +4,7 @@ import { Link, Navigate } from "react-router-dom";
 import { deleteFromCartAsync, updateCartAsync } from "./cartslice";
 import { discountedPrice } from "../../app/constants";
 import PopupBox from "../common/Dialog";
-import emptyCartUpper from "../../images/empty_cart_upper.png"
+import emptyCartUpper from "../../images/empty_cart_upper.png";
 
 export default function Cart() {
   const [showPopUp, setShowPopUp] = useState(null);
@@ -14,7 +14,11 @@ export default function Cart() {
   // console.log(products)
   const totalAmount = products.reduce(
     (prevAmount, item) =>
-      item.quantity * discountedPrice(item.product.price, item.product.discountPercentage) +
+      item.quantity *
+        discountedPrice(
+          item.product.price   ,
+          item.product.discountPercentage
+        ) +
       prevAmount,
     0
   );
@@ -47,22 +51,30 @@ export default function Cart() {
         <div className="mx-auto  bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
             <div className="flow-root">
-              <img src={emptyCartUpper} alt="empty_cart_img" className="mx-auto"/>
-              <p className="text-red-800 text-center text-5xl font-extrabold">Oops!</p>
-              <p className="text-yellow-600 text-center text-6xl mt-6">Your Cart Is Empty</p>
-              <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-              <p>
-                <Link to={"/"}>
-                  <button
-                    type="button"
-                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                  >
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                  </button>
-                </Link>
+              <img
+                src={emptyCartUpper}
+                alt="empty_cart_img"
+                className="mx-auto"
+              />
+              <p className="text-red-800 text-center text-5xl font-extrabold">
+                Oops!
               </p>
-            </div>
+              <p className="text-yellow-600 text-center text-6xl mt-6">
+                Your Cart Is Empty
+              </p>
+              <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
+                <p>
+                  <Link to={"/"}>
+                    <button
+                      type="button"
+                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                    >
+                      Continue Shopping
+                      <span aria-hidden="true"> &rarr;</span>
+                    </button>
+                  </Link>
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -85,12 +97,14 @@ export default function Cart() {
                       <div>
                         <div className="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href={product.product.href}>{product.product.title}</a>
+                            <a href={product.product.href}>
+                              {product.product.title}
+                            </a>
                           </h3>
                           <p className="ml-4">
-                            ${" "}
+                            ₹{" "}
                             {discountedPrice(
-                              product.product.price,
+                              product.product.price   ,
                               product.product.discountPercentage
                             )}
                           </p>
@@ -119,7 +133,6 @@ export default function Cart() {
                             <option value={10}>10</option>
                           </select>
                         </div>
-
 
                         <div className="flex">
                           <PopupBox
@@ -155,7 +168,7 @@ export default function Cart() {
             </div>
             <div className="flex justify-between text-base font-medium text-gray-900  mt-3">
               <p>Subtotal</p>
-              <p>$ {totalAmount}</p>
+              <p>₹ {totalAmount}</p>
             </div>
             <p className="mt-0.5 text-sm text-gray-500">
               Shipping and taxes calculated at checkout.

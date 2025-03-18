@@ -34,6 +34,8 @@ import ResetPassword from "./features/auth/components/ResetPassword";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import EmailSent from "./pages/EmailSent";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
+import NavbarShimmer from "./features/shimmer/NavbarShimmer";
+import ProductDetailsShimmerPage from "./pages/shimmer/ProductDetailsShimmerPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -179,6 +181,10 @@ const appRouter = createBrowserRouter([
   {
     path: "/shimmer",
     element: <ProductdetailShimmer />,
+  },
+  {
+    path: "/navbar-shimmer",
+    element: <NavbarShimmer />,
   },
   {
     path: "*",
