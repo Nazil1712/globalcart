@@ -6,7 +6,7 @@ import {
   checkAuthAPI,
   resetPasswordRequestAPI,
   resetPasswordAPI,
-} from "./authapi";
+} from "./authAPI";
 
 const initialState = {
   loggedInUserToken: null,
@@ -58,7 +58,7 @@ export const resetPasswordRequestAsync = createAsyncThunk(
       const response = await resetPasswordRequestAPI(email);
       return response.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return rejectWithValue(error);
     }
   }
@@ -71,7 +71,7 @@ export const resetPasswordAsync = createAsyncThunk(
       const response = await resetPasswordAPI(data);
       return response.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return rejectWithValue(error);
     }
   }

@@ -12041,6 +12041,6 @@ const uniqueItems = brands.filter((item, index, self) =>
     index === self.findIndex((t) => t.value === item.value)
   );
   
-  console.log(uniqueItems);
+  // console.log(uniqueItems);
 
 // 'Chicken Meat','Tissue Paper Box', 'Black Aluminium Cup', 'Mug Tree Stand', 'Apple iPhone Charger', 'Apple MagSafe Battery Pack','Monopod'

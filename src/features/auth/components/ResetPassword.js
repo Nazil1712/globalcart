@@ -26,8 +26,8 @@ const ResetPassword = () => {
   const query = new URLSearchParams(window.location.search);
   const token = query.get("token");
   const email = query.get("email");
-  console.log("TOken", token);
-  console.log("Email", email);
+  // console.log("TOken", token);
+  // console.log("Email", email);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -60,7 +60,7 @@ const ResetPassword = () => {
                 noValidate
                 className="space-y-6"
                 onSubmit={handleSubmit((data) => {
-                  console.log(data);
+                  // console.log(data);
                   dispatch(
                     resetPasswordAsync({
                       email,

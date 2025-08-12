@@ -17,13 +17,24 @@ export function fetchProductsByFilterAPI(filter,sort,pagination,admin) {
 
   
   let queryString = "";
+
   for (let key in filter) {
     const categoryArray = filter[key];
     if (categoryArray.length) {
-      const lastCategoryValue = categoryArray[categoryArray.length - 1];
-      queryString += `${key}=${lastCategoryValue}&`;
+      // const lastCategoryValue = categoryArray[categoryArray.length - 1];
+      // queryString += `${key}=${lastCategoryValue}&`;
+      queryString += `${key}=`;
+      for(let i=0; i<categoryArray.length; i++) {
+        if(i===categoryArray.length-1){
+          queryString += `${categoryArray[i]}&`
+        }
+        else{
+          queryString += `${categoryArray[i]}_`
+        }
+      }
     }
   }
+
 
   for(let key in sort){
     queryString += `${key}=${sort[key]}&`
@@ -36,6 +47,9 @@ export function fetchProductsByFilterAPI(filter,sort,pagination,admin) {
   if(admin) {
     queryString += `admin=true&`
   }
+
+  console.log("Query String",queryString)
+
 
   // console.log(`/products?${queryString}`)
   return new Promise(async (resolve) => {

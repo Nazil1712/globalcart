@@ -15,7 +15,7 @@ const stripePromise = loadStripe("pk_test_51OtpkYSGP9Cy7vF1YkIxwEDGJq7qAKU0IH5Ck
 export default function StripeCheckout() {
   const [clientSecret, setClientSecret] = useState("");
   const currentOrder = useSelector((state)=>state.order.currentOrder)
-  console.log("CurrentOrder",currentOrder)
+  // console.log("CurrentOrder",currentOrder)
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -41,7 +41,7 @@ export default function StripeCheckout() {
     appearance,
   };
 
-  console.log("Options",options)
+  // console.log("Options",options)
 
   return (
     <div className="Stripe">

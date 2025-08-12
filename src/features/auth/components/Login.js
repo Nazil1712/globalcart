@@ -23,7 +23,7 @@ function Login() {
   );
   const error = useSelector((state) => state.auth.error);
 
-  console.log("Logged In user Login.js", loggedInUserToken);
+  // console.log("Logged In user Login.js", loggedInUserToken);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);

@@ -19,6 +19,7 @@ import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
 import Pagination from "../../common/Pagination";
 
 const sortOptions = [
+  { name: "Reset", sort: "reset", order: "reset", current: false},
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
@@ -47,7 +48,7 @@ export default function Productlist() {
       options: categories,
     },
     {
-      id: "Brand",
+      id: "brand",
       name: "Brands",
       options: brands,
     },
@@ -86,14 +87,28 @@ export default function Productlist() {
         (el) => el === option.value
       );
       newFilter[section.id].splice(index, 1);
+      console.log("==>",newFilter[section.id].length)
     }
+
+    // console.log("Filter",filter)
+    console.log("New Filter",newFilter)
 
     setFilter(newFilter);
     // dispatch(fetchProductsByFilterAsync(newFilter));
   };
 
   const handleSort = (option) => {
+    option.current = true;
+    // console.log("Sort",sort)
+    if(sort._sort) {
+      console.log("I am in")
+      const prevSortOption = sortOptions.find((v,i,arr)=>v.sort==sort._sort)
+      console.log(prevSortOption)
+      prevSortOption.current = false;
+      console.log(prevSortOption)
+    }
     const newSort = { ...sort, _sort: option.sort, _order: option.order };
+    // console.log("New Sort",newSort)
     setSort(newSort);
     // console.log(option.sort, option.order);
   };
@@ -401,7 +416,7 @@ const ProductGrid = ({ products }) => {
         <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {products.map((product) => {
-              console.log(product)
+              // console.log(product)
               const pricediscounted = discountedPrice(product.price  , product.discountPercentage);
 
               const price = Math.round(product.price)  ;

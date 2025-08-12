@@ -7,9 +7,9 @@ export default function Userorders() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
   const Userorders = useSelector((state) => state.user.userInfo?.orders);
-  console.log("UserInfo from userOrder", userInfo);
+  // console.log("UserInfo from userOrder", userInfo);
   // console.log("USer,", loggedInUserToken);
-  console.log("User Orders", Userorders);
+  // console.log("User Orders", Userorders);
 
   useEffect(() => {
     if (userInfo && !Userorders) {

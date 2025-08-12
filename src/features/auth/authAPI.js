@@ -101,11 +101,11 @@ export function resetPasswordAPI(data) {
 }
 
 export function signOutAPI() {
-  console.log("SignOut API called")
+  // console.log("SignOut API called")
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch("/auth/logout");
-      console.log("SignOut Response",response)
+      // console.log("SignOut Response",response)
       if (response.ok) {
         const data = await response.json();
         resolve({ data });

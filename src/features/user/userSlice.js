@@ -3,7 +3,7 @@ import {
   fetchOrderByUserAPI,
   updateUserAPI,
   fetchloggedInUserAPI,
-} from "./userapi";
+} from "./userAPI";
 
 const initialState = {
   userInfo: null,

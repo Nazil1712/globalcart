@@ -50,7 +50,7 @@ export default function Adminproductlist() {
       options: categories,
     },
     {
-      id: "Brand",
+      id: "brand",
       name: "Brands",
       options: brands,
     },
@@ -93,7 +93,7 @@ export default function Adminproductlist() {
 
     // console.log("Filter",newFilter)
     setFilter(newFilter);
-    dispatch(fetchProductsByFilterAsync({ newFilter, admin: true }));
+    // dispatch(fetchProductsByFilterAsync({ newFilter, admin: true }));
   };
 
   const handleSort = (option) => {
