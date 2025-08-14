@@ -3,7 +3,7 @@ import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import Productdetails from "../features/product/components/ProductDetails";
 
-const Productdetailspage = () => {
+const ProductDetailsPage = () => {
   const productFetched = useSelector((state) => state.product.status);
 
   return (
@@ -16,4 +16,4 @@ const Productdetailspage = () => {
   );
 };
 
-export default Productdetailspage;
+export default ProductDetailsPage;
