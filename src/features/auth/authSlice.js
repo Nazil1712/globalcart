@@ -30,6 +30,8 @@ export const loginUserAsync = createAsyncThunk(
   async (loginInfo, { rejectWithValue }) => {
     try {
       const response = await loginUserAPI(loginInfo);
+        console.log("Data (from Thunk)==> Response : ",response)
+        console.log("Data (from Thunk)==> Data : ",response.data)
       return response.data;
     } catch (error) {
       // console.log(error);
@@ -103,6 +105,7 @@ export const authslice = createSlice({
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
+        console.log("LoggedInUserToken: ",action.payload)
         state.loggedInUserToken = action.payload;
       })
       .addCase(loginUserAsync.rejected, (state, action) => {

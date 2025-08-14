@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { loginUserAsync } from "../authslice";
 import globalcart from "../../../images/logo.png";
-import { Bounce, toast } from "react-toastify";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
@@ -21,6 +20,7 @@ function Login() {
   const loggedInUserToken = useSelector(
     (state) => state.auth.loggedInUserToken
   );
+  // const loggedInUserToken = true; 
   const error = useSelector((state) => state.auth.error);
 
   // console.log("Logged In user Login.js", loggedInUserToken);
@@ -39,11 +39,6 @@ function Login() {
             src={globalcart}
             alt="Comapny Logo"
           />
-          {/* <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          /> */}
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Log in to your account
           </h2>

@@ -1,7 +1,11 @@
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 export function createOrderAPI(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/order", {
+    const response = await fetch(`${API_URL}/order`, {
       method: "POST",
+      credentials:"include",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },
     });
@@ -23,7 +27,10 @@ export function fetchAllOrdersAPI(sort, pagination) {
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`/order?` + queryString);
+    const response = await fetch(`${API_URL}/order?` + queryString,{
+      method:"GET",
+      credentials:"include"
+    });
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
     resolve({ data: { orders: data, total_Orders: +totalOrders } });
@@ -33,8 +40,9 @@ export function fetchAllOrdersAPI(sort, pagination) {
 
 export function updateOrderAPI(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`/order/${order.id}`, {
+    const response = await fetch(`${API_URL}/order/${order.id}`, {
       method: "PATCH",
+      credentials:"include",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },
     });

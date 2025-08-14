@@ -1,8 +1,12 @@
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 export function addToCartAPI(item) {
   // console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
-    const response = await fetch(`/cart`, {
+    const response = await fetch(`${API_URL}/cart`, {
       method: "POST",
+      credentials:"include",
       body: JSON.stringify(item),
       headers: { "content-type": "application/json" },
     });
@@ -13,7 +17,10 @@ export function addToCartAPI(item) {
 
 export function fetchCartByUserAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`/cart/own`);
+    const response = await fetch(`${API_URL}/cart/own`,{
+      method:"GET",
+      credentials:"include"
+    });
     const data = await response.json();
     // console.log("Cart Data from frontend",data)
     resolve({ data });
@@ -24,8 +31,9 @@ export function updateCartAPI(update) {
   return new Promise(async (resolve,reject) => {
     try{
 
-      const response = await fetch(`/cart/${update.id}`, {
+      const response = await fetch(`${API_URL}/cart/${update.id}`, {
         method: "PATCH",
+        credentials:"include",
         body: JSON.stringify(update),
         headers: { "content-type": "application/json" },
       });
@@ -39,8 +47,9 @@ export function updateCartAPI(update) {
 
 export function deleteFromCartAPI(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`/cart/${id}`, {
+    const response = await fetch(`${API_URL}/cart/${id}`, {
       method: "DELETE",
+      credentials:"include",
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();

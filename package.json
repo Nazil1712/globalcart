@@ -1,8 +1,6 @@
 {
   "name": "globalcart",
   "version": "0.1.0",
-  "proxy": "http://localhost:8080",
-  "private": true,
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
@@ -14,6 +12,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.5.2",
+    "axios": "^1.11.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",

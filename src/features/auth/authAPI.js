@@ -1,7 +1,11 @@
+const API_URL = process.env.REACT_APP_API_URL;
+
+
 export function createUserAPI(userData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("/auth/signup", {
+    const response = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
+      credentials:"include",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
     });
@@ -12,16 +16,23 @@ export function createUserAPI(userData) {
 
 export function loginUserAPI(loginInfo) {
   // console.log("Login Info",loginInfo)
+  console.log("Calling : ", `${API_URL}/auth/login`)
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/login", {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
+        credentials: "include",
         body: JSON.stringify(loginInfo),
         headers: { "content-type": "application/json" },
       });
+
+      // console.log("Login Response : ",response)
       if (response.ok) {
         const data = await response.json();
         // console.log("data from frontend AUTH",data)
+        const {token, user} = data;
+        localStorage.setItem("token",token)
+        console.log("Data (from API)==>",data)
         resolve({ data });
       } else {
         const error = await response.text();
@@ -34,10 +45,15 @@ export function loginUserAPI(loginInfo) {
   });
 }
 
+const token = localStorage.getItem("token")
+
 export function checkAuthAPI() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/check");
+      const response = await fetch(`${API_URL}/auth/check`,{
+        method: "GET",
+        credentials: "include"
+      });
       if (response.ok) {
         const data = await response.json();
         // console.log("data from frontend AUTH",data)
@@ -56,8 +72,9 @@ export function checkAuthAPI() {
 export function resetPasswordRequestAPI(email) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/reset-password-request", {
+      const response = await fetch(`${API_URL}/auth/reset-password-request`, {
         method: "POST",
+        credentials:"include",
         body: JSON.stringify({email}),
         headers: { "content-type": "application/json" },
       });
@@ -80,8 +97,9 @@ export function resetPasswordRequestAPI(email) {
 export function resetPasswordAPI(data) {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/reset-password", {
+      const response = await fetch(`${API_URL}/auth/reset-password`, {
         method: "POST",
+        credentials: "include",
         body: JSON.stringify(data),
         headers: { "content-type": "application/json" },
       });
@@ -104,7 +122,10 @@ export function signOutAPI() {
   // console.log("SignOut API called")
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch("/auth/logout");
+      const response = await fetch(`${API_URL}/auth/logout`,{
+        method:"GET",
+        credentials:"include"
+      });
       // console.log("SignOut Response",response)
       if (response.ok) {
         const data = await response.json();
