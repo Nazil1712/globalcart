@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { signOutAsync } from "../authslice";
+import { signOutAsync } from "../authSlice";
 import { Navigate } from "react-router-dom";
 
 const Logout = () => {

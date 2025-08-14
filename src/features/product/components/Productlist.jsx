@@ -14,7 +14,7 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
-} from "../productslice";
+} from "../productSlice";
 import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
 import Pagination from "../../common/Pagination";
 

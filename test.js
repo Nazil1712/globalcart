@@ -3170,13 +3170,13 @@ const products = [
     id: 55,
     title: "Egg Slicer",
     description:
-      "The Egg Slicer is a convenient tool for slicing boiled eggs evenly. It's perfect for salads, sandwiches, and other dishes where sliced eggs are desired.",
+      "The Egg Slicer is a convenient tool for slicing boiled eggs evenly. It's perfect for salads, sandwiches, and other dishes where Sliced eggs are desired.",
     category: "kitchen-accessories",
     price: 6.99,
     discountPercentage: 9.6,
     rating: 2.91,
     stock: 30,
-    tags: ["kitchen tools", "slicers"],
+    tags: ["kitchen tools", "Slicers"],
     sku: "WG4L41YK",
     weight: 5,
     dimensions: {

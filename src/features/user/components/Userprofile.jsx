@@ -7,7 +7,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { updateUserAsync } from "../../user/userslice";
+import { updateUserAsync } from "../../user/userSlice";
 
 export default function Userprofile() {
   const {

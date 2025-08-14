@@ -5,7 +5,7 @@ import {
   loginUserAsync,
   resetPasswordAsync,
   resetPasswordRequestAsync,
-} from "../authslice";
+} from "../authSlice";
 import globalcart from "../../../images/logo.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";

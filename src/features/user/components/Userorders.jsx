@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrderByUserAsync } from "../userslice";
+import { fetchOrderByUserAsync } from "../userSlice";
 import { discountedPrice } from "../../../app/constants";
 
 export default function Userorders() {

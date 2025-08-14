@@ -18,7 +18,7 @@ import {
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
   updateProductAsync,
-} from "../../product/productslice";
+} from "../../product/productSlice";
 import { ITEMS_PER_PAGE } from "../../../app/constants";
 
 const sortOptions = [

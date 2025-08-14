@@ -4,7 +4,7 @@ import Navbar from "../features/navbar/Navbar";
 import Productlist from "../features/product/components/Productlist";
 import ProductListShimmerPage from "./shimmer/ProductListShimmerPage";
 import { useEffect } from "react";
-import { fetchCartByUserAsync } from "../features/cart/cartslice";
+import { fetchCartByUserAsync } from "../features/cart/cartSlice";
 
 function Home() {
   const listStatus = useSelector((state) => state.product.status);

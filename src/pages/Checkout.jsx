@@ -4,13 +4,13 @@ import { Link, Navigate } from "react-router-dom";
 import {
   deleteFromCartAsync,
   updateCartAsync,
-} from "../features/cart/cartslice";
+} from "../features/cart/cartSlice";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { createOrderAsync } from "../features/order/orderslice";
+import { createOrderAsync } from "../features/order/orderSlice";
 import { discountedPrice } from "../app/constants";
 import PopupBox from "../features/common/Dialog";
-import { updateUserAsync } from "../features/user/userslice";
+import { updateUserAsync } from "../features/user/userSlice";
 
 export default function Checkout() {
   const {

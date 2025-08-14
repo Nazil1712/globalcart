@@ -63,7 +63,7 @@ export const updateProductAsync = createAsyncThunk(
 
 
 
-export const productslice = createSlice({
+export const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
@@ -120,6 +120,6 @@ export const productslice = createSlice({
   },
 });
 
-export const { increment } = productslice.actions;
+export const { increment } = productSlice.actions;
 
-export default productslice.reducer;
+export default productSlice.reducer;

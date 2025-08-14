@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { resetCartAsync } from "../features/cart/cartslice";
+import { resetCartAsync } from "../features/cart/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { resetCurrentOrder } from "../features/order/orderslice";
+import { resetCurrentOrder } from "../features/order/orderSlice";
 import orderSucess from "../images/order_sucess.png";
 import { EnvelopeIcon, KeyIcon } from "@heroicons/react/16/solid";
 

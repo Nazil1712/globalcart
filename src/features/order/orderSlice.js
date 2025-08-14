@@ -34,7 +34,7 @@ export const updateOrderAsync = createAsyncThunk(
   }
 );
 
-export const orderslice = createSlice({
+export const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
@@ -72,8 +72,8 @@ export const orderslice = createSlice({
   },
 });
 
-export const {resetCurrentOrder} = orderslice.actions;
+export const {resetCurrentOrder} = orderSlice.actions;
 
 export const selectCount = (state) => state.counter.value;
 
-export default orderslice.reducer;
+export default orderSlice.reducer;

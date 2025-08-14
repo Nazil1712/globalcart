@@ -87,7 +87,7 @@ export const signOutAsync = createAsyncThunk(
   }
 );
 
-export const authslice = createSlice({
+export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
@@ -148,4 +148,4 @@ export const authslice = createSlice({
   },
 });
 
-export default authslice.reducer;
+export default authSlice.reducer;

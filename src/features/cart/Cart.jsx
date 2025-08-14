@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
-import { deleteFromCartAsync, updateCartAsync } from "./cartslice";
+import { deleteFromCartAsync, updateCartAsync } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
 import PopupBox from "../common/Dialog";
 import emptyCartUpper from "../../images/empty_cart_upper.png";
