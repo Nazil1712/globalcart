@@ -132,7 +132,7 @@ export default function Userorders() {
                               </div>
                               <div className="text-right">
                                 <p className="text-lg font-black text-slate-900">
-                                  $
+                                  ₹
                                   {discountedPrice(
                                     item.product.price,
                                     item.product.discountPercentage,
@@ -179,7 +179,7 @@ export default function Userorders() {
                           Total Amount Paid
                         </p>
                         <p className="text-3xl font-black text-indigo-600">
-                          ${order.totalAmount}
+                          ₹{order.totalAmount}
                         </p>
                         <p className="text-xs font-bold text-slate-400 uppercase">
                           {order.totalItems} Items

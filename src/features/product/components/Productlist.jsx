@@ -205,15 +205,20 @@ export default function Productlist() {
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-10">
+          <section aria-labelledby="products-heading" className="pb-24 pt-6">
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
 
-            <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-4">
-              <DesktopFilter handleFilter={handleFilter} filters={filters} />
+            <div className="flex flex-col gap-10">
+              <DesktopFilter
+                handleFilter={handleFilter}
+                filters={filters}
+                activeFilters={filter}
+              />
+
               {/* Product grid */}
-              <div className="lg:col-span-3">
+              <div className="w-full">
                 <ProductGrid products={products} />
               </div>
             </div>
@@ -357,61 +362,63 @@ const MobileFilter = ({
   );
 };
 
-const DesktopFilter = ({ handleFilter, filters }) => {
+const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
   return (
-    <div>
-      {/* Filters */}
-      <form className="hidden lg:block">
-        {filters.map((section) => (
-          <Disclosure
-            as="div"
-            key={section.id}
-            className="border-b border-gray-200 py-6"
-          >
-            {({ open }) => (
-              <>
-                <h3 className="-my-3 flow-root">
-                  <Disclosure.Button className="flex w-full items-center justify-between bg-white py-3 text-sm text-gray-400 hover:text-gray-500">
-                    <span className="font-medium text-gray-900">
-                      {section.name}
-                    </span>
-                    <span className="ml-6 flex items-center">
-                      {open ? (
-                        <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                      ) : (
-                        <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                      )}
-                    </span>
-                  </Disclosure.Button>
-                </h3>
-                <Disclosure.Panel className="pt-6">
-                  <div className="space-y-4">
-                    {section.options.map((option, optionIdx) => (
-                      <div key={option.value} className="flex items-center">
-                        <input
-                          id={`filter-${section.id}-${optionIdx}`}
-                          name={`${section.id}[]`}
-                          defaultValue={option.value}
-                          type="checkbox"
-                          defaultChecked={option.checked}
-                          onChange={(e) => handleFilter(e, section, option)}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                        />
-                        <label
-                          htmlFor={`filter-${section.id}-${optionIdx}`}
-                          className="ml-3 text-sm text-gray-600 cursor-pointer"
-                        >
-                          {option.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </Disclosure.Panel>
-              </>
-            )}
-          </Disclosure>
-        ))}
-      </form>
+    <div className="hidden lg:block space-y-10">
+      {filters.map((section) => (
+        <div key={section.id} className="space-y-6">
+          <div className="flex items-center gap-3 px-2">
+            <div className="w-1.5 h-5 bg-indigo-600 rounded-full shadow-[0_0_15px_rgba(79,70,229,0.5)]" />
+            <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+              {section.name}
+            </h3>
+          </div>
+
+          <div className="relative group/scroll">
+            {/* Edge Fades for better scroll indicators */}
+            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-50/50 to-transparent z-10 pointer-events-none opacity-0 group-hover/scroll:opacity-100 transition-opacity" />
+            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-50/50 to-transparent z-10 pointer-events-none opacity-0 group-hover/scroll:opacity-100 transition-opacity" />
+
+            <div className="flex flex-nowrap overflow-x-auto gap-3 no-scrollbar pb-4 px-2 scroll-smooth">
+              {section.options.map((option, optionIdx) => {
+                const isChecked = activeFilters[section.id]?.includes(
+                  option.value,
+                );
+                return (
+                  <label
+                    key={option.value}
+                    className={classNames(
+                      "group relative flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold cursor-pointer transition-all duration-300 border-2 whitespace-nowrap min-w-max",
+                      isChecked
+                        ? "bg-indigo-600 border-indigo-600 text-white shadow-[0_10px_20px_-5px_rgba(79,70,229,0.3)]"
+                        : "bg-white border-slate-100 text-slate-500 hover:border-indigo-200 hover:text-indigo-600 hover:shadow-md",
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      className="sr-only"
+                      checked={isChecked}
+                      onChange={(e) => handleFilter(e, section, option)}
+                    />
+                    <span className="relative z-10">{option.label}</span>
+                    {isChecked && (
+                      <motion.span
+                        layoutId={`active-pill-${section.id}`}
+                        className="absolute inset-0 rounded-full bg-indigo-600 -z-10"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.2,
+                          duration: 0.6,
+                        }}
+                      />
+                    )}
+                  </label>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
@@ -437,7 +444,7 @@ const ProductGrid = ({ products }) => {
       variants={container}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
+      className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4"
     >
       {products.map((product) => {
         const pricediscounted = discountedPrice(
