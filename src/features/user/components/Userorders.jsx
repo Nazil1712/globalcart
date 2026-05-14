@@ -2,6 +2,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderByUserAsync } from "../userSlice";
 import { discountedPrice } from "../../../app/constants";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckCircleIcon,
+  TruckIcon,
+  ClockIcon,
+  XCircleIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
+import { MapPinIcon } from "@heroicons/react/24/outline";
 
 export default function Userorders() {
   const dispatch = useDispatch();
@@ -17,122 +27,193 @@ export default function Userorders() {
     }
   }, [dispatch, userInfo, Userorders]);
 
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case "pending":
+        return <ClockIcon className="w-4 h-4" />;
+      case "dispatched":
+        return <TruckIcon className="w-4 h-4" />;
+      case "delivered":
+        return <CheckCircleIcon className="w-4 h-4" />;
+      case "cancelled":
+        return <XCircleIcon className="w-4 h-4" />;
+      default:
+        return <ClockIcon className="w-4 h-4" />;
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "text-amber-600 bg-amber-50 border-amber-100";
+      case "dispatched":
+        return "text-indigo-600 bg-indigo-50 border-indigo-100";
+      case "delivered":
+        return "text-emerald-600 bg-emerald-50 border-emerald-100";
+      case "cancelled":
+        return "text-rose-600 bg-rose-50 border-rose-100";
+      default:
+        return "text-slate-600 bg-slate-50 border-slate-100";
+    }
+  };
+
   return (
-    <div>
-      {Userorders &&
-        Userorders.map((order, index) => (
-          <div key={order.id}>
-            <div
-              className={`mx-auto ${
-                index === 0 ? "" : "mt-12"
-              } bg-white max-w-7xl px-4 sm:px-6 lg:px-8`}
-            >
-              <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 mt-3">
-                  Order # {order.id}
-                </h1>
-                <h5 className="text-xl font-bold tracking-tight text-red-500 mt-3">
-                  Order Status : {order.status}
-                </h5>
-                <div className="flow-root mt-6">
-                  <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {order.items.map((item) => (
-                      <li key={item.product.id} className="flex py-6">
-                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                          <img
-                            src={item.product.thumbnail}
-                            alt={item.title}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
+    <div className="bg-slate-50/50 min-h-screen pb-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-12">
+        <header className="mb-12">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-4xl font-black tracking-tight text-slate-900 mb-2"
+          >
+            Your Orders
+          </motion.h1>
+          <p className="text-slate-500 font-medium">
+            Track your deliveries and view order history.
+          </p>
+        </header>
 
-                        <div className="ml-4 flex flex-1 flex-col">
-                          <div>
-                            <div className="flex justify-between text-base font-medium text-gray-900">
-                              <h3>
-                                <a href={item.product.href}>
+        <div className="space-y-8">
+          <AnimatePresence>
+            {Userorders && Userorders.length > 0 ? (
+              Userorders.map((order, index) => (
+                <motion.div
+                  key={order.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+                >
+                  {/* Order Header */}
+                  <div className="p-8 border-b border-slate-50 flex flex-wrap justify-between items-center gap-4">
+                    <div className="space-y-1">
+                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                        Order Reference
+                      </p>
+                      <h3 className="text-xl font-black text-slate-900">
+                        #{order.id.slice(-8).toUpperCase()}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${getStatusColor(order.status)}`}
+                      >
+                        {getStatusIcon(order.status)}
+                        {order.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Items List */}
+                  <div className="p-8">
+                    <ul className="space-y-6">
+                      {order.items.map((item) => (
+                        <li
+                          key={item.product.id}
+                          className="flex items-center gap-6 group"
+                        >
+                          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
+                            <img
+                              src={item.product.thumbnail}
+                              alt={item.product.title}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+
+                          <div className="flex-1 flex flex-col justify-center">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h4 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                                   {item.product.title}
-                                </a>
-                              </h3>
-                              <p className="ml-4">
-                                ${" "}
-                                {discountedPrice(
-                                  item.product.price,
-                                  item.product.discountPercentage
-                                )}
-                              </p>
-                            </div>
-                            <p className="mt-1 text-sm text-gray-500">
-                              {item.product.brand}
-                            </p>
-                          </div>
-                          <div className="flex flex-1 items-end justify-between text-sm">
-                            <div className="text-gray-500">
-                              Price per Item : ${" "}
-                              {discountedPrice(
-                                item.product.price,
-                                item.product.discountPercentage
-                              )}
+                                </h4>
+                                <p className="text-sm font-bold text-slate-400 mt-1">
+                                  {item.product.brand}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-lg font-black text-slate-900">
+                                  $
+                                  {discountedPrice(
+                                    item.product.price,
+                                    item.product.discountPercentage,
+                                  )}
+                                </p>
+                                <p className="text-xs font-bold text-slate-400">
+                                  Qty: {item.quantity || item.product.quantity}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                          <div className="flex flex-1 items-end justify-between text-sm">
-                            <div className="text-gray-500">
-                              Qty : {item.product.quantity}
-                            </div>
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
 
-              <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                <div className="flex justify-between text-base font-medium text-gray-900 border-b py-3">
-                  <p>Total Items in Cart</p>
-                  <p>{order.totalItems} Items</p>
-                </div>
-                <div className="flex justify-between text-base font-medium text-gray-900 mt-3">
-                  <p>Subtotal</p>
-                  <p>$ {order.totalAmount}</p>
-                </div>
-              </div>
-              <div className="border-t divide-gray-200 px-4 py-6 sm:px-6">
-                <p className="text-gray-900 text-lg font-semibold">
-                  Selected Shipping Address
-                </p>
-                <div className="ml-6">
-                  <li className="flex justify-between gap-x-6 py-5">
-                    <div className="flex min-w-0 gap-x-4">
-                      <div className="min-w-0 flex-auto">
-                        <p className="text-sm font-semibold leading-6 text-gray-900">
-                          {order.selectedAddress.name}
+                  {/* Order Footer & Shipping */}
+                  <div className="p-8 bg-slate-50/50 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
+                        Shipping Address
+                      </p>
+                      <div className="flex gap-4">
+                        <div className="p-3 rounded-2xl bg-white shadow-sm h-fit">
+                          <MapPinIcon className="w-5 h-5 text-indigo-600" />
+                        </div>
+                        <div className="text-sm">
+                          <p className="font-bold text-slate-900">
+                            {order.selectedAddress.name}
+                          </p>
+                          <p className="text-slate-500 font-medium leading-relaxed mt-1">
+                            {order.selectedAddress.street},{" "}
+                            {order.selectedAddress.city}
+                            <br />
+                            {order.selectedAddress.state} -{" "}
+                            {order.selectedAddress.pinCode}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-end items-end space-y-4">
+                      <div className="text-right space-y-1">
+                        <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
+                          Total Amount Paid
                         </p>
-                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                          {order.selectedAddress.email}
+                        <p className="text-3xl font-black text-indigo-600">
+                          ${order.totalAmount}
                         </p>
-                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                          {order.selectedAddress.phone}
+                        <p className="text-xs font-bold text-slate-400 uppercase">
+                          {order.totalItems} Items
                         </p>
                       </div>
                     </div>
-                    <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                      <p className="text-sm leading-6 text-gray-900">
-                        {order.selectedAddress.city}
-                      </p>
-                      <p className="text-sm leading-6 text-gray-900">
-                        {order.selectedAddress.street}
-                      </p>
-                      <p className="text-sm leading-6 text-gray-900">
-                        {order.selectedAddress.pinCode}
-                      </p>
-                    </div>
-                  </li>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="text-center py-20 bg-white rounded-[3rem] premium-shadow border border-slate-100">
+                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <TruckIcon className="w-10 h-10 text-slate-300" />
                 </div>
+                <h3 className="text-2xl font-black text-slate-900 mb-2">
+                  No orders yet
+                </h3>
+                <p className="text-slate-500 font-medium mb-8">
+                  Start shopping to see your orders here!
+                </p>
+                <Link to="/">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-indigo-600 text-white px-8 py-3.5 rounded-2xl text-sm font-bold shadow-xl shadow-indigo-100"
+                  >
+                    Go Shopping
+                  </motion.button>
+                </Link>
               </div>
-            </div>
-          </div>
-        ))}
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
     </div>
   );
 }

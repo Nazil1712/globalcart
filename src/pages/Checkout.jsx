@@ -1,4 +1,5 @@
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { PhotoIcon, UserCircleIcon, MapPinIcon, CreditCardIcon, BanknotesIcon } from "@heroicons/react/24/solid";
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import {
@@ -77,444 +78,328 @@ export default function Checkout() {
   };
 
   return (
-    <>
+    <div className="bg-slate-50/50 min-h-screen pb-20">
       {!items.length && <Navigate to={"/"} />}
-      {currentOrder && currentOrder.paymentMethod==='cash' && <Navigate to={`/order-success/${currentOrder.id}`} />}
-      {currentOrder && currentOrder.paymentMethod==='card' && <Navigate to={`/stripe-checkout/`} />}
+      {currentOrder && currentOrder.paymentMethod === 'cash' && <Navigate to={`/order-success/${currentOrder.id}`} />}
+      {currentOrder && currentOrder.paymentMethod === 'card' && <Navigate to={`/stripe-checkout/`} />}
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
-          {/* Form */}
-          <div className="lg:col-span-3">
-            <form
-              className="bg-white px-4 mt-12"
-              onSubmit={handleSubmit((data) => {
-                dispatch(
-                  updateUserAsync({
-                    ...userInfo,
-                    addresses: addresses? [...addresses, data] : data,
-                  })
-                );
-                reset();
-              })}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12">
+        <header className="mb-12">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl font-black tracking-tight text-slate-900 mb-2"
+          >
+            Checkout
+          </motion.h1>
+          <p className="text-slate-500 font-medium">Complete your order and start experiencing premium quality.</p>
+        </header>
+
+        <div className="grid grid-cols-1 gap-x-12 gap-y-12 lg:grid-cols-12 items-start">
+          {/* Main Content: Forms & Addresses */}
+          <div className="lg:col-span-7 space-y-10">
+            {/* Address Form Section */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
             >
-              <div className="space-y-12">
-                <div className="border-b border-gray-900/10 pb-12 pt-6">
-                  <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-                    Personal Information
-                  </h1>
-                  <p className="mt-1 text-sm leading-6 text-gray-600">
-                    Use a permanent address where you can receive mail.
-                  </p>
-
-                  <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                    <div className="sm:col-span-4">
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Full Name
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...register("name", {
-                            required: "Name is Required",
-                          })}
-                          id="name"
-                          autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-4">
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Email address
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          id="email"
-                          {...register("email", {
-                            required: "Email is required",
-                            pattern: {
-                              value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
-                              message: "Email is not valid",
-                            },
-                          })}
-                          type="email"
-                          autoComplete="email"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="phone"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Phone No.
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          id="phone"
-                          {...register("phone", {
-                            required: "Phone No. is required!",
-                          })}
-                          autoComplete="phone"
-                          type="tel"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-span-full">
-                      <label
-                        htmlFor="street-address"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Street address
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...register("street", {
-                            required: "Street-address is required",
-                          })}
-                          id="street"
-                          autoComplete="street-address"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-2 sm:col-start-1">
-                      <label
-                        htmlFor="city"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        City
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...register("city", {
-                            required: "City is required",
-                          })}
-                          id="city"
-                          autoComplete="address-level2"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label
-                        htmlFor="region"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        State / Province
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...register("state", {
-                            required: "state is required",
-                          })}
-                          id="region"
-                          autoComplete="address-level1"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label
-                        htmlFor="pincode"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        ZIP / Postal code
-                      </label>
-                      <div className="mt-2">
-                        <input
-                          type="text"
-                          {...register("pincode", {
-                            required: "pincode is required",
-                          })}
-                          id="pincode"
-                          autoComplete="postal-code"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
+              <div className="p-8 border-b border-slate-50">
+                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white text-lg font-black">1</span>
+                  Personal Details
+                </h2>
+              </div>
+              <form
+                className="p-8"
+                onSubmit={handleSubmit((data) => {
+                  dispatch(
+                    updateUserAsync({
+                      ...userInfo,
+                      addresses: addresses ? [...addresses, data] : [data],
+                    })
+                  );
+                  reset();
+                })}
+              >
+                <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                  <div className="sm:col-span-3">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Full Name</label>
+                    <input
+                      type="text"
+                      {...register("name", { required: "Name is Required" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      placeholder="John Doe"
+                    />
+                    {errors.name && <p className="mt-2 text-xs font-bold text-red-500 ml-1">{errors.name.message}</p>}
                   </div>
 
-                  <div className="mt-6 flex items-center justify-end gap-x-6">
-                    <button
-                      onClick={() => reset()}
-                      type="button"
-                      className="text-sm font-semibold leading-6 text-gray-900"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="submit"
-                      className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      Add address
-                    </button>
+                  <div className="sm:col-span-3">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Email address</label>
+                    <input
+                      type="email"
+                      {...register("email", { 
+                        required: "Email is required",
+                        pattern: { value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi, message: "Email is not valid" }
+                      })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      placeholder="john@example.com"
+                    />
+                    {errors.email && <p className="mt-2 text-xs font-bold text-red-500 ml-1">{errors.email.message}</p>}
+                  </div>
+
+                  <div className="sm:col-span-3">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Phone Number</label>
+                    <input
+                      type="tel"
+                      {...register("phone", { required: "Phone No. is required!" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      placeholder="+1 (555) 000-0000"
+                    />
+                  </div>
+
+                  <div className="col-span-full">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Street address</label>
+                    <input
+                      type="text"
+                      {...register("street", { required: "Street-address is required" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      placeholder="123 Main St"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">City</label>
+                    <input
+                      type="text"
+                      {...register("city", { required: "City is required" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">State / Province</label>
+                    <input
+                      type="text"
+                      {...register("state", { required: "state is required" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                    />
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">ZIP / Postal</label>
+                    <input
+                      type="text"
+                      {...register("pincode", { required: "pincode is required" })}
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                    />
                   </div>
                 </div>
 
-                <div className="border-b border-gray-900/10 pb-12">
-                  <h2 className="text-base font-semibold leading-7 text-gray-900">
-                    Address
-                  </h2>
-                  {addresses && addresses.length > 0 ? (
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                      Choose from existing addresses
-                    </p>
-                  ) : (
-                    <div className="text-center mt-4">
-                      <p className="text-red-500">
-                        Please Add Your shipping address to Order
-                      </p>
-                    </div>
-                  )}
-
-                  <ul className="divide-y divide-gray-200">
-                    {addresses &&
-                      addresses.map((addresses, index) => (
-                        <li
-                          key={index}
-                          className="flex justify-between gap-x-6 py-5"
-                        >
-                          <div className="flex min-w-0 gap-x-4">
-                            <input
-                              onChange={(e) => handleAddress(e, index)}
-                              value={selectedAddress}
-                              name="address"
-                              type="radio"
-                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                            />
-                            <div className="min-w-0 flex-auto">
-                              <p className="text-sm font-semibold leading-6 text-gray-900">
-                                {addresses.name}
-                              </p>
-                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                                {addresses.email}
-                              </p>
-                              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                                {addresses.phone}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-                            <p className="text-sm leading-6 text-gray-900">
-                              {addresses.city}
-                            </p>
-                            <p className="text-sm leading-6 text-gray-900">
-                              {addresses.street}
-                            </p>
-                            <p className="text-sm leading-6 text-gray-900">
-                              {addresses.pinCode}
-                            </p>
-                          </div>
-                        </li>
-                      ))}
-                  </ul>
-
-                  <div className="mt-10 space-y-10">
-                    <fieldset>
-                      <legend className="text-sm font-semibold leading-6 text-gray-900">
-                        Payment Methods
-                      </legend>
-                      <p className="mt-1 text-sm leading-6 text-gray-600">
-                        Choose One
-                      </p>
-                      <div className="mt-6 space-y-6">
-                        <div className="flex items-center gap-x-3">
-                          <input
-                            id="cash"
-                            onChange={(e) => handlePayment(e)}
-                            name="payments"
-                            type="radio"
-                            value={paymentMethod}
-                            checked={paymentMethod === "cash"}
-                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                          <label
-                            htmlFor="cash"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Cash
-                          </label>
-                        </div>
-                        <div className="flex items-center gap-x-3">
-                          <input
-                            id="card"
-                            onChange={(e) => handlePayment(e)}
-                            name="payments"
-                            type="radio"
-                            value={paymentMethod}
-                            checked={paymentMethod === "card"}
-                            className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                          />
-                          <label
-                            htmlFor="card"
-                            className="block text-sm font-medium leading-6 text-gray-900"
-                          >
-                            Card
-                          </label>
-                        </div>
-                      </div>
-                    </fieldset>
-                  </div>
+                <div className="mt-8 flex justify-end gap-4">
+                  <button
+                    onClick={() => reset()}
+                    type="button"
+                    className="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors px-4"
+                  >
+                    Reset
+                  </button>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    type="submit"
+                    className="bg-indigo-600 text-white px-8 py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                  >
+                    Add Address
+                  </motion.button>
                 </div>
-              </div>
-            </form>
-          </div>
+              </form>
+            </motion.div>
 
-          {/* Cart */}
-          <div className="lg:col-span-2">
-            <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-2 lg:px-4">
-              <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
-                  Cart
-                </h1>
-                {/* 244 */}
+            {/* Address Selection */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+            >
+              <div className="p-8 border-b border-slate-50 flex justify-between items-center">
+                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-lg font-black">2</span>
+                  Shipping Address
+                </h2>
+                {addresses?.length > 0 && <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{addresses.length} saved</span>}
               </div>
-              <div className="border-t border-gray-200 px-2 py-4 sm:px-4">
-                <div className="flow-root">
-                  <ul role="list" className="-my-6 divide-y divide-gray-200">
-                    {items.map((product) => (
-                      <li key={product.product.id} className="flex py-6">
-                        <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                          <img
-                            src={product.product.thumbnail}
-                            alt={product.product.title}
-                            className="h-full w-full object-cover object-center"
-                          />
-                        </div>
-
-                        <div className="ml-4 flex flex-1 flex-col">
-                          <div>
-                            <div className="flex justify-between text-base font-medium text-gray-900">
-                              <h3>
-                                <a href={product.product.href}>
-                                  {product.product.title}
-                                </a>
-                              </h3>
-                              <p className="ml-4">
-                                ${" "}
-                                {discountedPrice(
-                                  product.product.price,
-                                  product.product.discountPercentage
-                                )}
-                              </p>
-                            </div>
-                            <p className="mt-1 text-sm text-gray-500">
-                              {product.product.brand}
-                            </p>
+              
+              <div className="p-8">
+                {addresses && addresses.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {addresses.map((addr, index) => (
+                      <div 
+                        key={index}
+                        onClick={() => setSelectedAdddress(addr)}
+                        className={`cursor-pointer group relative p-5 rounded-3xl border-2 transition-all ${
+                          selectedAddress === addr 
+                            ? "border-indigo-600 bg-indigo-50/50 ring-4 ring-indigo-50" 
+                            : "border-slate-100 bg-slate-50/50 hover:border-slate-200"
+                        }`}
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <div className={`p-2 rounded-xl ${selectedAddress === addr ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}>
+                            <MapPinIcon className="w-5 h-5" />
                           </div>
-                          <div className="flex flex-1 items-end justify-between text-sm">
-                            <div className="text-gray-500">
-                              Qty
-                              <select
-                                className="ml-2 h-10"
-                                onChange={(e) => handleQuantity(e, product)}
-                                value={product.quantity}
-                              >
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                                <option value={4}>4</option>
-                                <option value={5}>5</option>
-                                <option value={6}>6</option>
-                                <option value={7}>7</option>
-                                <option value={8}>8</option>
-                                <option value={9}>9</option>
-                                <option value={10}>10</option>
-                              </select>
-                            </div>
-
-                            <div className="flex">
-                              <PopupBox
-                                title={`Remove ${product.product.title} ?`}
-                                message={`Do you really Want to remove this Item from Cart ? After Deleting You won't be able to see this item in cart !`}
-                                dangerOption={"Remove"}
-                                cancelOption={"Cancel"}
-                                dangerAction={() => handleDelete(product.id)}
-                                cancleAction={() => setShowPopUp(-1)}
-                                showPopUp={showPopUp === product.id}
-                              />
-
-                              <button
-                                onClick={() => setShowPopUp(product.id)}
-                                type="button"
-                                className="font-medium text-indigo-600 hover:text-indigo-500"
-                              >
-                                Remove
-                              </button>
-                            </div>
+                          <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors ${selectedAddress === addr ? "border-indigo-600" : "border-slate-200"}`}>
+                            {selectedAddress === addr && <div className="h-2.5 w-2.5 rounded-full bg-indigo-600" />}
                           </div>
                         </div>
-                      </li>
+                        <p className="font-bold text-slate-900">{addr.name}</p>
+                        <p className="text-xs font-medium text-slate-500 mt-1 leading-relaxed">
+                          {addr.street}, {addr.city}<br />
+                          {addr.state} - {addr.pincode}
+                        </p>
+                        <p className="text-xs font-bold text-slate-900 mt-4">{addr.phone}</p>
+                      </div>
                     ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="border-t border-gray-200 px-2 py-4 sm:px-4">
-                <div className="flex justify-between text-base font-medium text-gray-900 border-b py-3">
-                  <p>Total Items in Cart</p>
-                  <p>{totalItems} Items</p>
-                </div>
-                <div className="flex justify-between text-base font-medium text-gray-900 mt-3">
-                  <p>Subtotal</p>
-                  <p>$ {totalAmount}</p>
-                </div>
-                {selectedAddress === "" ? (
-                  <div className="text-center mt-4">
-                    <p className="text-red-500">
-                      Please Select Shipping address
-                    </p>
                   </div>
                 ) : (
-                  <>
-                    <div className="mt-6">
-                      <div
-                        onClick={() => handleOrder()}
-                        className="flex cursor-pointer items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                      >
-                        Order Now
-                      </div>
-                    </div>
-                    <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                      <p>
-                        or{" "}
-                        <Link to={"/"}>
-                          <button
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
-                          >
-                            Continue Shopping
-                            <span aria-hidden="true"> &rarr;</span>
-                          </button>
-                        </Link>
-                      </p>
-                    </div>
-                  </>
+                  <div className="text-center py-12 bg-slate-50 rounded-[2rem] border-2 border-dashed border-slate-200">
+                    <p className="text-slate-400 font-bold">No addresses found. Please add one above.</p>
+                  </div>
                 )}
               </div>
-            </div>
+            </motion.div>
+
+            {/* Payment Method */}
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+            >
+              <div className="p-8 border-b border-slate-50">
+                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-lg font-black">3</span>
+                  Payment Method
+                </h2>
+              </div>
+              
+              <div className="p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div 
+                    onClick={() => setPaymentMethod("cash")}
+                    className={`cursor-pointer flex items-center gap-4 p-6 rounded-3xl border-2 transition-all ${
+                      paymentMethod === "cash" 
+                        ? "border-indigo-600 bg-indigo-50/50 ring-4 ring-indigo-50" 
+                        : "border-slate-100 bg-slate-50/50 hover:border-slate-200"
+                    }`}
+                  >
+                    <div className={`p-3 rounded-2xl ${paymentMethod === "cash" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}>
+                      <BanknotesIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">Cash on Delivery</p>
+                      <p className="text-xs font-medium text-slate-500">Pay when you receive</p>
+                    </div>
+                  </div>
+
+                  <div 
+                    onClick={() => setPaymentMethod("card")}
+                    className={`cursor-pointer flex items-center gap-4 p-6 rounded-3xl border-2 transition-all ${
+                      paymentMethod === "card" 
+                        ? "border-indigo-600 bg-indigo-50/50 ring-4 ring-indigo-50" 
+                        : "border-slate-100 bg-slate-50/50 hover:border-slate-200"
+                    }`}
+                  >
+                    <div className={`p-3 rounded-2xl ${paymentMethod === "card" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}>
+                      <CreditCardIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <p className="font-bold text-slate-900">Online Payment</p>
+                      <p className="text-xs font-medium text-slate-500">Secure card checkout</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Content: Order Summary */}
+          <div className="lg:col-span-5">
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 sticky top-28 overflow-hidden"
+            >
+              <div className="p-8 border-b border-slate-50">
+                <h2 className="text-2xl font-black text-slate-900">Order Summary</h2>
+              </div>
+              
+              <div className="p-8">
+                <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+                  {items.map((product) => (
+                    <div key={product.product.id} className="flex gap-4 group">
+                      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
+                        <img src={product.product.thumbnail} alt="" className="h-full w-full object-cover" />
+                      </div>
+                      <div className="flex-1 flex flex-col justify-center">
+                        <h4 className="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">{product.product.title}</h4>
+                        <div className="flex justify-between items-center mt-1">
+                          <p className="text-xs font-bold text-slate-400">Qty {product.quantity}</p>
+                          <p className="text-sm font-black text-slate-900">${discountedPrice(product.product.price, product.product.discountPercentage)}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-8 pt-8 border-t border-slate-50 space-y-4">
+                  <div className="flex justify-between text-slate-500 font-medium">
+                    <span>Total Items</span>
+                    <span className="font-bold text-slate-900">{totalItems} items</span>
+                  </div>
+                  <div className="flex justify-between text-slate-500 font-medium">
+                    <span>Shipping</span>
+                    <span className="text-emerald-600 font-bold">Free</span>
+                  </div>
+                  <div className="pt-4 mt-4 flex justify-between items-center border-t border-slate-100">
+                    <span className="text-lg font-bold text-slate-900">Total Amount</span>
+                    <span className="text-3xl font-black text-indigo-600">${totalAmount}</span>
+                  </div>
+                </div>
+
+                <div className="mt-8 space-y-4">
+                  {selectedAddress === "" ? (
+                    <div className="p-4 rounded-2xl bg-amber-50 border border-amber-100 text-center">
+                      <p className="text-xs font-bold text-amber-600 uppercase tracking-widest">Please Select Shipping Address</p>
+                    </div>
+                  ) : (
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleOrder()}
+                      className="w-full bg-slate-900 text-white py-5 rounded-2xl text-lg font-bold shadow-2xl shadow-slate-200 hover:bg-indigo-600 transition-all flex items-center justify-center gap-3"
+                    >
+                      Complete Purchase
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </motion.button>
+                  )}
+                  
+                  <Link to="/" className="block text-center text-sm font-bold text-slate-400 hover:text-indigo-600 transition-colors py-2">
+                    Back to Shopping
+                  </Link>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 p-6 flex justify-center border-t border-slate-100">
+                <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"></path></svg>
+                  256-bit Secure Checkout
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

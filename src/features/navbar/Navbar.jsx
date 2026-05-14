@@ -1,14 +1,15 @@
-import { Fragment } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
-  Bars3Icon,
   ShoppingCartIcon,
+  Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import globalcart from "../../images/navbarlogo.png";
-import NavbarShimmer from "../shimmer/NavbarShimmer"
+import NavbarShimmer from "../shimmer/NavbarShimmer";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const user = {
   name: "Tom Cook",
@@ -34,108 +35,113 @@ function classNames(...classes) {
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
   const userInfo = useSelector((state) => state.user.userInfo);
-
   const itemStatus = useSelector((state) => state.cart.status);
-  const userStatus = useSelector((state) => state.user.status);
+  const location = useLocation();
+
+  const navItems = navigation.filter((item) => userInfo && item[userInfo.role]);
 
   return (
-    <>
-      {itemStatus == "loading" ? (
+    <div className="bg-slate-50/50">
+      {itemStatus === "loading" ? (
         <NavbarShimmer />
       ) : (
         userInfo && (
-          <div className="min-h-full">
-            <Disclosure as="nav" className="bg-gray-800">
+          <>
+            <Disclosure as="nav" className="sticky top-0 z-50 glass">
               {({ open }) => (
                 <>
                   <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between">
-                      <div className="flex items-center">
-                        <Link to="/">
-                          <div className="flex-shrink-0">
-                            <img
-                              className="h-12 w-25"
-                              src={globalcart}
-                              alt="Your Company"
-                            />
-                          </div>
+                    <div className="flex h-20 items-center justify-between">
+                      <div className="flex items-center gap-8">
+                        <Link to="/" className="flex-shrink-0 group">
+                          <motion.img
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="h-12 w-auto"
+                            src={globalcart}
+                            alt="GlobalCart"
+                          />
                         </Link>
                         <div className="hidden md:block">
-                          <div className="ml-10 flex items-baseline space-x-4">
-                            {navigation.map(
-                              (item) =>
-                                item[userInfo.role] && (
-                                  <Link
-                                    key={item.name}
-                                    to={item.href}
-                                    className={classNames(
-                                      item.current
-                                        ? "bg-gray-900 text-white"
-                                        : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                      "rounded-md px-3 py-2 text-sm font-medium"
-                                    )}
-                                    aria-current={
-                                      item.current ? "page" : undefined
-                                    }
-                                  >
-                                    {item.name}
-                                  </Link>
-                                )
-                            )}
+                          <div className="flex items-center space-x-1">
+                            {navItems.map((item) => (
+                              <Link
+                                key={item.name}
+                                to={item.href}
+                                className={classNames(
+                                  location.pathname === item.href
+                                    ? "bg-indigo-50 text-indigo-600"
+                                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+                                  "rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200",
+                                )}
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
                           </div>
                         </div>
                       </div>
                       <div className="hidden md:block">
-                        <div className="ml-4 flex items-center md:ml-6">
-                          <Link to="/cart">
-                            <button
-                              type="button"
-                              className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        <div className="ml-4 flex items-center md:ml-6 gap-4">
+                          <Link to="/cart" className="relative group p-2">
+                            <motion.div
+                              whileHover={{ scale: 1.1 }}
+                              whileTap={{ scale: 0.9 }}
+                              className="text-slate-600 group-hover:text-indigo-600 transition-colors"
                             >
-                              <span className="absolute -inset-1.5" />
-                              <ShoppingCartIcon
-                                className="h-6 w-6"
-                                aria-hidden="true"
-                              />
-                            </button>
+                              <ShoppingCartIcon className="h-7 w-7" />
+                              <AnimatePresence>
+                                {items.length > 0 && (
+                                  <motion.span
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-white"
+                                  >
+                                    {items.length}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
+                            </motion.div>
                           </Link>
-                          {items.length > 0 && (
-                            <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 mb-7 text-xs -ml-3 font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10">
-                              {items.length}
-                            </span>
-                          )}
 
                           {/* Profile dropdown */}
                           <Menu as="div" className="relative ml-3">
-                            <div>
-                              <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">Open user menu</span>
-                                <img
-                                  className="h-8 w-8 rounded-full"
-                                  src={user.imageUrl}
-                                  alt=""
-                                />
-                              </Menu.Button>
-                            </div>
+                            <Menu.Button className="flex items-center rounded-full bg-white p-0.5 ring-2 ring-slate-200 hover:ring-indigo-300 transition-all overflow-hidden">
+                              <img
+                                className="h-9 w-9 rounded-full object-cover"
+                                src={user.imageUrl}
+                                alt=""
+                              />
+                            </Menu.Button>
                             <Transition
                               as={Fragment}
-                              enter="transition ease-out duration-100"
-                              enterFrom="transform opacity-0 scale-95"
-                              enterTo="transform opacity-100 scale-100"
-                              leave="transition ease-in duration-75"
-                              leaveFrom="transform opacity-100 scale-100"
-                              leaveTo="transform opacity-0 scale-95"
+                              enter="transition ease-out duration-200"
+                              enterFrom="transform opacity-0 scale-95 translate-y-2"
+                              enterTo="transform opacity-100 scale-100 translate-y-0"
+                              leave="transition ease-in duration-150"
+                              leaveFrom="transform opacity-100 scale-100 translate-y-0"
+                              leaveTo="transform opacity-0 scale-95 translate-y-2"
                             >
-                              <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                              <Menu.Items className="absolute right-0 z-10 mt-3 w-56 origin-top-right rounded-2xl bg-white p-2 shadow-2xl ring-1 ring-slate-200 focus:outline-none">
+                                <div className="px-3 py-2 mb-2 border-b border-slate-100">
+                                  <p className="text-sm font-bold text-slate-900">
+                                    {userInfo.name || "User"}
+                                  </p>
+                                  <p className="text-xs text-slate-500 truncate">
+                                    {userInfo.email}
+                                  </p>
+                                </div>
                                 {userNavigation.map((item) => (
                                   <Menu.Item key={item.name}>
                                     {({ active }) => (
                                       <Link
                                         to={item.link}
                                         className={classNames(
-                                          active ? "bg-gray-100" : "",
-                                          "block px-4 py-2 text-sm text-gray-700"
+                                          active
+                                            ? "bg-indigo-50 text-indigo-600"
+                                            : "text-slate-700",
+                                          "flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                                         )}
                                       >
                                         {item.name}
@@ -149,107 +155,97 @@ const Navbar = ({ children }) => {
                         </div>
                       </div>
                       <div className="-mr-2 flex md:hidden">
-                        {/* Mobile menu button */}
-                        <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                          <span className="absolute -inset-0.5" />
-                          <span className="sr-only">Open main menu</span>
+                        <Disclosure.Button className="inline-flex items-center justify-center rounded-xl p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-all">
                           {open ? (
-                            <XMarkIcon
-                              className="block h-6 w-6"
-                              aria-hidden="true"
-                            />
+                            <XMarkIcon className="block h-7 w-7" />
                           ) : (
-                            <Bars3Icon
-                              className="block h-6 w-6"
-                              aria-hidden="true"
-                            />
+                            <Bars3Icon className="block h-7 w-7" />
                           )}
                         </Disclosure.Button>
                       </div>
                     </div>
                   </div>
 
-                  <Disclosure.Panel className="md:hidden">
-                    <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-                      {navigation.map((item) => (
-                        <Disclosure.Button
-                          key={item.name}
-                          as="a"
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-900 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                            "block rounded-md px-3 py-2 text-base font-medium"
-                          )}
-                          aria-current={item.current ? "page" : undefined}
-                        >
-                          {item.name}
-                        </Disclosure.Button>
-                      ))}
-                    </div>
-                    <div className="border-t border-gray-700 pb-3 pt-4">
-                      <div className="flex items-center px-5">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="h-10 w-10 rounded-full"
-                            src={user.imageUrl}
-                            alt=""
-                          />
+                  <AnimatePresence>
+                    {open && (
+                      <Disclosure.Panel
+                        static
+                        as={motion.div}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="md:hidden border-t border-slate-100 overflow-hidden bg-white/80 backdrop-blur-lg"
+                      >
+                        <div className="space-y-1 px-4 pb-6 pt-4">
+                          {navItems.map((item) => (
+                            <Disclosure.Button
+                              key={item.name}
+                              as={Link}
+                              to={item.href}
+                              className={classNames(
+                                location.pathname === item.href
+                                  ? "bg-indigo-50 text-indigo-600"
+                                  : "text-slate-600 hover:bg-slate-50",
+                                "block rounded-xl px-4 py-3 text-base font-bold transition-all",
+                              )}
+                            >
+                              {item.name}
+                            </Disclosure.Button>
+                          ))}
                         </div>
-                        <div className="ml-3">
-                          <div className="text-base font-medium leading-none text-white">
-                            {user.name}
-                          </div>
-                          <div className="text-sm font-medium leading-none text-gray-400">
-                            {user.email}
-                          </div>
-                        </div>
-                        <Link to={"/cart"}>
-                          <button
-                            type="button"
-                            className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                          >
-                            <span className="absolute -inset-1.5" />
-                            <ShoppingCartIcon
-                              className="h-6 w-6 relative"
-                              aria-hidden="true"
+                        <div className="border-t border-slate-100 pb-6 pt-4 px-4">
+                          <div className="flex items-center px-2 mb-4">
+                            <img
+                              className="h-11 w-11 rounded-full border-2 border-indigo-100"
+                              src={user.imageUrl}
+                              alt=""
                             />
-                            {items.length && (
-                              <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10 z-10 relative bottom-10 left-3">
-                                {items.length}
-                              </span>
-                            )}
-                          </button>
-                        </Link>
-                      </div>
-                      <div className="mt-3 space-y-1 px-2">
-                        {userNavigation.map((item) => (
-                          <Disclosure.Button
-                            key={item.name}
-                            as="a"
-                            href={item.href}
-                            className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
-                          >
-                            {item.name}
-                          </Disclosure.Button>
-                        ))}
-                      </div>
-                    </div>
-                  </Disclosure.Panel>
+                            <div className="ml-3">
+                              <div className="text-base font-bold text-slate-900">
+                                {userInfo.name || "User"}
+                              </div>
+                              <div className="text-sm font-medium text-slate-500">
+                                {userInfo.email}
+                              </div>
+                            </div>
+                            <Link to="/cart" className="ml-auto relative p-2">
+                              <ShoppingCartIcon className="h-7 w-7 text-slate-600" />
+                              {items.length > 0 && (
+                                <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">
+                                  {items.length}
+                                </span>
+                              )}
+                            </Link>
+                          </div>
+                          <div className="space-y-1">
+                            {userNavigation.map((item) => (
+                              <Disclosure.Button
+                                key={item.name}
+                                as={Link}
+                                to={item.link}
+                                className="block rounded-xl px-4 py-3 text-base font-medium text-slate-600 hover:bg-slate-50 hover:text-indigo-600"
+                              >
+                                {item.name}
+                              </Disclosure.Button>
+                            ))}
+                          </div>
+                        </div>
+                      </Disclosure.Panel>
+                    )}
+                  </AnimatePresence>
                 </>
               )}
             </Disclosure>
 
-            <main>
-              <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <main className="relative">
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
                 {children}
               </div>
             </main>
-          </div>
+          </>
         )
       )}
-    </>
+    </div>
   );
 };
 

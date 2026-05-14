@@ -1,5 +1,7 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
+import Pagination from "../../common/Pagination";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
@@ -9,17 +11,16 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
 import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
 } from "../productSlice";
-import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
-import Pagination from "../../common/Pagination";
+import { Link } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sortOptions = [
-  { name: "Reset", sort: "reset", order: "reset", current: false},
+  { name: "Reset", sort: "reset", order: "reset", current: false },
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
@@ -84,14 +85,14 @@ export default function Productlist() {
       }
     } else {
       const index = newFilter[section.id].findIndex(
-        (el) => el === option.value
+        (el) => el === option.value,
       );
       newFilter[section.id].splice(index, 1);
-      console.log("==>",newFilter[section.id].length)
+      console.log("==>", newFilter[section.id].length);
     }
 
     // console.log("Filter",filter)
-    console.log("New Filter",newFilter)
+    console.log("New Filter", newFilter);
 
     setFilter(newFilter);
     // dispatch(fetchProductsByFilterAsync(newFilter));
@@ -100,12 +101,14 @@ export default function Productlist() {
   const handleSort = (option) => {
     option.current = true;
     // console.log("Sort",sort)
-    if(sort._sort) {
-      console.log("I am in")
-      const prevSortOption = sortOptions.find((v,i,arr)=>v.sort==sort._sort)
-      console.log(prevSortOption)
+    if (sort._sort) {
+      console.log("I am in");
+      const prevSortOption = sortOptions.find(
+        (v, i, arr) => v.sort == sort._sort,
+      );
+      console.log(prevSortOption);
       prevSortOption.current = false;
-      console.log(prevSortOption)
+      console.log(prevSortOption);
     }
     const newSort = { ...sort, _sort: option.sort, _order: option.order };
     // console.log("New Sort",newSort)
@@ -118,7 +121,7 @@ export default function Productlist() {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-transparent">
       <div>
         {/* Mobile filter dialog */}
         <MobileFilter
@@ -129,19 +132,24 @@ export default function Productlist() {
           filters={filters}
         />
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              All products
-            </h1>
+        <main className="mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
+            <div>
+              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
+                Discover Products
+              </h1>
+              <p className="text-slate-500 text-lg">
+                Browse our curated collection of premium goods
+              </p>
+            </div>
 
-            <div className="flex items-center">
+            <div className="flex items-center gap-4">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                  <Menu.Button className="group inline-flex items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-all">
                     Sort
                     <ChevronDownIcon
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                      className="-mr-1 ml-2 h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-slate-500"
                       aria-hidden="true"
                     />
                   </Menu.Button>
@@ -156,23 +164,23 @@ export default function Productlist() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-40 origin-top-right rounded-md bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-2xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
                           {({ active }) => (
-                            <p
+                            <button
                               className={classNames(
                                 option.current
-                                  ? "font-medium text-gray-900"
-                                  : "text-gray-500",
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm"
+                                  ? "bg-indigo-50 text-indigo-600 font-bold"
+                                  : "text-slate-600",
+                                active ? "bg-slate-50" : "",
+                                "block w-full text-left px-4 py-2.5 text-sm rounded-xl transition-colors",
                               )}
                               onClick={() => handleSort(option)}
                             >
                               {option.name}
-                            </p>
+                            </button>
                           )}
                         </Menu.Item>
                       ))}
@@ -183,28 +191,26 @@ export default function Productlist() {
 
               <button
                 type="button"
-                className="-m-2 ml-5 p-2 text-gray-400 hover:text-gray-500 sm:ml-7"
+                className="hidden sm:flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
               >
-                <span className="sr-only">View grid</span>
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button>
               <button
                 type="button"
-                className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
                 onClick={() => setMobileFiltersOpen(true)}
               >
-                <span className="sr-only">Filters</span>
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
               </button>
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <section aria-labelledby="products-heading" className="pb-24 pt-10">
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
 
-            <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-x-12 gap-y-10 lg:grid-cols-4">
               <DesktopFilter handleFilter={handleFilter} filters={filters} />
               {/* Product grid */}
               <div className="lg:col-span-3">
@@ -215,13 +221,15 @@ export default function Productlist() {
         </main>
         {/* Products grid Ends */}
 
-        <Pagination
-          page={page}
-          setPage={setPage}
-          handlePage={handlePage}
-          totalItems={totalItems}
-          totalPages={totalPages}
-        />
+        <div className="pb-12">
+          <Pagination
+            page={page}
+            setPage={setPage}
+            handlePage={handlePage}
+            totalItems={totalItems}
+            totalPages={totalPages}
+          />
+        </div>
       </div>
     </div>
   );
@@ -409,70 +417,101 @@ const DesktopFilter = ({ handleFilter, filters }) => {
 };
 
 const ProductGrid = ({ products }) => {
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1 },
+  };
+
   return (
-    <div>
-      {/* // This is our product list */}
-      <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product) => {
-              // console.log(product)
-              const pricediscounted = discountedPrice(product.price  , product.discountPercentage);
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 xl:grid-cols-3"
+    >
+      {products.map((product) => {
+        const pricediscounted = discountedPrice(
+          product.price,
+          product.discountPercentage,
+        );
+        const price = Math.round(product.price);
 
-              const price = Math.round(product.price)  ;
-
-              return (
-                <Link to={`/product-detail/${product.id}`} key={product.title}>
-                  <div key={product.id} className="group relative">
-                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
-                      <img
-                        src={product.thumbnail}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-between">
-                      <div>
-                        <h3 className="text-sm text-gray-700">
-                          <div href={product.thumbnail}>
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0"
-                            />
-                            {product.title}
-                          </div>
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-500">
-                          <StarIcon className="w-6 h-6 inline-block fill-slate-400" />
-                          <span className="align-bottom">{product.rating}</span>
-                        </p>
-                      </div>
-                      <div>
-                        {pricediscounted !== price ? (
-                          <>
-                            <p className="text-sm font-medium text-gray-900">
-                              ₹{pricediscounted}
-                            </p>
-                            <p className="text-sm font-medium line-through text-gray-400">
-                              ₹{price}
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <p className="text-sm font-medium text-gray-900">
-                              ₹{price}
-                            </p>
-                          </>
-                        )}
-                      </div>
-                    </div>
+        return (
+          <motion.div key={product.id} variants={item}>
+            <Link
+              to={`/product-detail/${product.id}`}
+              className="group block relative bg-white rounded-3xl premium-shadow premium-shadow-hover overflow-hidden"
+            >
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-slate-100 lg:h-72">
+                <motion.img
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.6 }}
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="h-full w-full object-cover object-center"
+                />
+                <div className="absolute top-4 left-4">
+                  <span className="glass px-3 py-1.5 rounded-full text-[10px] font-bold text-slate-800 tracking-wider uppercase">
+                    {product.category}
+                  </span>
+                </div>
+              </div>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
+                    {product.title}
+                  </h3>
+                  <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
+                    <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                    <span className="text-xs font-bold text-amber-700">
+                      {product.rating}
+                    </span>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
+                </div>
+                <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+                  {product.description ||
+                    "Premium quality product with exceptional features."}
+                </p>
+                <div className="flex items-end justify-between">
+                  <div className="flex flex-col">
+                    {pricediscounted !== price ? (
+                      <>
+                        <span className="text-xl font-extrabold text-slate-900">
+                          ₹{pricediscounted}
+                        </span>
+                        <span className="text-xs font-medium line-through text-slate-400">
+                          ₹{price}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-xl font-extrabold text-slate-900">
+                        ₹{price}
+                      </span>
+                    )}
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-600 transition-colors"
+                  >
+                    View Details
+                  </motion.button>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        );
+      })}
+    </motion.div>
   );
 };

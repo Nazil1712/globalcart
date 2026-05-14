@@ -1,4 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
 import { StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -120,9 +121,13 @@ export default function Adminproductlist() {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              All products
-            </h1>
+            <motion.h1 
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="text-4xl font-black tracking-tight text-slate-900"
+            >
+              Inventory Management
+            </motion.h1>
 
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
@@ -509,90 +514,111 @@ const ProductGrid = ({ products }) => {
   };
 
   return (
-    <div>
-      {/* // This is our product list */}
-      <Link to={"/admin/product-form"}>
-        <button className="rounded-md bg-gradient-to-br from-cyan-500 to-blue-500 px-3 ml-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gradient-to-l focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 cursor-pointer">
-          {" "}
-          + Add New Product
-        </button>
-      </Link>
-      <div className="bg-white">
-        <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {products.map((product, i) => (
-              <div key={product.title}>
-                <Link to={`/admin/product-detail/${product.id}`}>
-                  <div key={product.id} className="group relative">
-                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:scale-95 lg:h-60">
-                      <img
-                        src={product.thumbnail}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-                      />
-                    </div>
-                    <div className="mt-4 flex justify-between">
-                      <div>
-                        <h3 className="text-sm text-gray-700">
-                          <div href={product.thumbnail}>
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0"
-                            />
-                            {product.title}
-                          </div>
-                        </h3>
-                        <p className="mt-1 text-sm text-gray-500">
-                          <StarIcon className="w-6 h-6 inline-block fill-slate-400" />
-                          <span className="align-bottom">{product.rating}</span>
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-gray-900">
-                          $
-                          {Math.round(
-                            product.price *
-                              (1 - product.discountPercentage / 100)
-                          )}
-                        </p>
-                        <p className="text-sm font-medium line-through text-gray-400">
-                          ${product.price}
-                        </p>
-                      </div>
-                    </div>
-                    {product.deleted && (
-                      <p className="text-red-400 text-center">Deleted Product</p>
-                    )}
-                    {product.stock <= 0 && (
-                      <p className="text-white bg-red-600 text-center">
-                        Out Of Stock
-                      </p>
-                    )}
-                  </div>
-                </Link>
-                <div
-                  className="sm:flex sm:items-end sm:justify-between mt-1"
-                  key={i}
-                >
-                  <Link to={`/admin/product-form/edit/${product.id}`}>
-                    <PencilSquareIcon className="cursor-pointer w-6 h-6 text-green-600 hover:text-green-500" />
-                  </Link>
-                  {product.deleted ? (
-                    <PlusIcon
-                      className="cursor-pointer w-6 h-6 text-blue-600 hover:text-cyan-500"
-                      onClick={() => handleAdd(product.id)}
-                    />
-                  ) : (
-                    <TrashIcon
-                      className="cursor-pointer w-6 h-6 text-red-600 hover:text-red-500"
-                      onClick={() => handleDelete(product.id)}
-                    />
+    <div className="space-y-8">
+      <div className="flex justify-end">
+        <Link to={"/admin/product-form"}>
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="rounded-2xl bg-slate-900 px-6 py-3.5 text-sm font-bold text-white shadow-xl hover:bg-indigo-600 transition-all flex items-center gap-2"
+          >
+            <PlusIcon className="w-5 h-5" />
+            Add New Product
+          </motion.button>
+        </Link>
+      </div>
+      
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        <AnimatePresence>
+          {products.map((product, i) => (
+            <motion.div
+              key={product.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ delay: i * 0.05 }}
+              className="group relative flex flex-col bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden hover:border-indigo-200 transition-all"
+            >
+              <Link to={`/admin/product-detail/${product.id}`} className="block relative aspect-[4/3] overflow-hidden">
+                <img
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 flex flex-col gap-2">
+                  {product.deleted && (
+                    <span className="bg-red-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                      Deleted
+                    </span>
+                  )}
+                  {product.stock <= 0 && (
+                    <span className="bg-slate-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                      Out of Stock
+                    </span>
                   )}
                 </div>
+              </Link>
+
+              <div className="p-6 flex flex-col flex-1">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                      {product.title}
+                    </h3>
+                    <div className="flex items-center gap-1 mt-1">
+                      <StarIcon className="w-4 h-4 text-amber-400 fill-amber-400" />
+                      <span className="text-sm font-bold text-slate-600">{product.rating}</span>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xl font-black text-slate-900">
+                      ${Math.round(product.price * (1 - product.discountPercentage / 100))}
+                    </p>
+                    <p className="text-xs font-bold text-slate-400 line-through">
+                      ${product.price}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
+                  <div className="flex gap-2">
+                    <Link to={`/admin/product-form/edit/${product.id}`}>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="p-3 rounded-xl bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all"
+                      >
+                        <PencilSquareIcon className="w-5 h-5" />
+                      </motion.button>
+                    </Link>
+                    {product.deleted ? (
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleAdd(product.id)}
+                        className="p-3 rounded-xl bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all"
+                      >
+                        <PlusIcon className="w-5 h-5" />
+                      </motion.button>
+                    ) : (
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => handleDelete(product.id)}
+                        className="p-3 rounded-xl bg-red-50 text-red-600 hover:bg-red-600 hover:text-white transition-all"
+                      >
+                        <TrashIcon className="w-5 h-5" />
+                      </motion.button>
+                    )}
+                  </div>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    Stock: {product.stock}
+                  </span>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );

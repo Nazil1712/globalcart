@@ -127,6 +127,7 @@ export function signOutAPI() {
         credentials:"include"
       });
       // console.log("SignOut Response",response)
+      console.log("Response from signOut")
       if (response.ok) {
         const data = await response.json();
         resolve({ data });

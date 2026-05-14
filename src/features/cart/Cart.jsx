@@ -5,26 +5,23 @@ import { deleteFromCartAsync, updateCartAsync } from "./cartSlice";
 import { discountedPrice } from "../../app/constants";
 import PopupBox from "../common/Dialog";
 import emptyCartUpper from "../../images/empty_cart_upper.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Cart() {
   const [showPopUp, setShowPopUp] = useState(null);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
 
-  // console.log(products)
   const totalAmount = products.reduce(
     (prevAmount, item) =>
       item.quantity *
-        discountedPrice(
-          item.product.price   ,
-          item.product.discountPercentage
-        ) +
+        discountedPrice(item.product.price, item.product.discountPercentage) +
       prevAmount,
-    0
+    0,
   );
   const totalItems = products.reduce(
     (prevCount, item) => item.quantity + prevCount,
-    0
+    0,
   );
 
   const handleQuantity = (e, item) => {
@@ -36,168 +33,204 @@ export default function Cart() {
   };
 
   return (
-    <>
-      {/* {!products.length && <Navigate to={"/"} />} */}
+    <div className="bg-transparent pb-20">
+      <div className="max-w-7xl mx-auto">
+        <header className="mb-12 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl font-black tracking-tight text-slate-900 mb-2"
+          >
+            Your Shopping Cart
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-slate-500 font-medium"
+          >
+            {totalItems} items ready for checkout
+          </motion.p>
+        </header>
 
-      <header className="bg-white shadow">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 text-center">
-            Cart
-          </h1>
-        </div>
-      </header>
-
-      {products.length === 0 ? (
-        <div className="mx-auto  bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flow-root">
+        {products.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-[3rem] premium-shadow p-12 text-center border border-slate-100"
+          >
+            <div className="max-w-md mx-auto">
               <img
                 src={emptyCartUpper}
                 alt="empty_cart_img"
-                className="mx-auto"
+                className="mx-auto w-64 h-auto mb-8 grayscale opacity-50"
               />
-              <p className="text-red-800 text-center text-5xl font-extrabold">
-                Oops!
+              <h2 className="text-3xl font-black text-slate-900 mb-4">
+                Your cart is empty
+              </h2>
+              <p className="text-slate-500 mb-10 font-medium">
+                Looks like you haven't added anything to your cart yet. Explore
+                our latest products and find something you love!
               </p>
-              <p className="text-yellow-600 text-center text-6xl mt-6">
-                Your Cart Is Empty
-              </p>
-              <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                <p>
-                  <Link to={"/"}>
-                    <button
-                      type="button"
-                      className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                    >
-                      Continue Shopping
-                      <span aria-hidden="true"> &rarr;</span>
-                    </button>
-                  </Link>
-                </p>
-              </div>
+              <Link to="/">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-indigo-600 text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                >
+                  Continue Shopping
+                </motion.button>
+              </Link>
             </div>
-          </div>
-        </div>
-      ) : (
-        <div className="mx-auto bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flow-root">
-              <ul role="list" className="-my-6 divide-y divide-gray-200">
-                {products.map((product) => (
-                  <li key={product.product.id} className="flex py-6">
-                    <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
+            {/* Cart Items List */}
+            <div className="lg:col-span-2 space-y-6">
+              <AnimatePresence>
+                {products.map((product, index) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white rounded-[2rem] p-6 premium-shadow border border-slate-100 flex gap-6 items-center"
+                  >
+                    <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
                       <img
                         src={product.product.thumbnail}
                         alt={product.product.title}
-                        className="h-full w-full object-cover object-center"
+                        className="h-full w-full object-cover"
                       />
                     </div>
 
-                    <div className="ml-4 flex flex-1 flex-col">
-                      <div>
-                        <div className="flex justify-between text-base font-medium text-gray-900">
-                          <h3>
-                            <a href={product.product.href}>
+                    <div className="flex-1 flex flex-col justify-between py-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
+                            <Link to={`/product-detail/${product.product.id}`}>
                               {product.product.title}
-                            </a>
+                            </Link>
                           </h3>
-                          <p className="ml-4">
-                            ₹{" "}
-                            {discountedPrice(
-                              product.product.price   ,
-                              product.product.discountPercentage
-                            )}
+                          <p className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+                            {product.product.brand}
                           </p>
                         </div>
-                        <p className="mt-1 text-sm text-gray-500">
-                          {product.product.brand}
+                        <p className="text-xl font-black text-slate-900">
+                          ₹
+                          {discountedPrice(
+                            product.product.price,
+                            product.product.discountPercentage,
+                          )}
                         </p>
                       </div>
-                      <div className="flex flex-1 items-end justify-between text-sm">
-                        <div className="text-gray-500">
-                          Qty
+
+                      <div className="flex items-center justify-between mt-6">
+                        <div className="flex items-center gap-3">
+                          <span className="text-xs font-bold text-slate-400 uppercase">
+                            Quantity
+                          </span>
                           <select
-                            className="ml-2 h-10"
+                            className="bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-indigo-600 cursor-pointer"
                             onChange={(e) => handleQuantity(e, product)}
                             value={product.quantity}
                           >
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            <option value={4}>4</option>
-                            <option value={5}>5</option>
-                            <option value={6}>6</option>
-                            <option value={7}>7</option>
-                            <option value={8}>8</option>
-                            <option value={9}>9</option>
-                            <option value={10}>10</option>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
+                              <option key={n} value={n}>
+                                {n}
+                              </option>
+                            ))}
                           </select>
                         </div>
 
-                        <div className="flex">
+                        <div className="flex items-center gap-2">
                           <PopupBox
-                            title={`Remove ${product.product.title} ?`}
-                            message={`Do you really Want to remove this Item from Cart ? After Deleting You won't be able to see this item in cart !`}
+                            title={`Remove item?`}
+                            message={`Do you want to remove ${product.product.title} from your cart?`}
                             dangerOption={"Remove"}
                             cancelOption={"Cancel"}
                             dangerAction={() => handleDelete(product.id)}
                             cancleAction={() => setShowPopUp(-1)}
                             showPopUp={showPopUp === product.id}
                           />
-
                           <button
                             onClick={() => setShowPopUp(product.id)}
-                            type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="text-slate-400 hover:text-red-500 p-2 rounded-xl hover:bg-red-50 transition-all font-bold text-sm"
                           >
                             Remove
                           </button>
                         </div>
                       </div>
                     </div>
-                  </li>
+                  </motion.div>
                 ))}
-              </ul>
+              </AnimatePresence>
             </div>
-          </div>
 
-          <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <div className="flex justify-between text-base font-medium text-gray-900 border-b py-3">
-              <p>Total Items in Cart</p>
-              <p>{totalItems} Items</p>
-            </div>
-            <div className="flex justify-between text-base font-medium text-gray-900  mt-3">
-              <p>Subtotal</p>
-              <p>₹ {totalAmount}</p>
-            </div>
-            <p className="mt-0.5 text-sm text-gray-500">
-              Shipping and taxes calculated at checkout.
-            </p>
-            <div className="mt-6">
-              <Link
-                to="/checkout"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-              >
-                Checkout
-              </Link>
-            </div>
-            <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-              <p>
-                or{" "}
-                <Link to={"/"}>
-                  <button
-                    type="button"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+            {/* Summary Sidebar */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white rounded-[2.5rem] p-8 premium-shadow border border-slate-100 sticky top-28"
+            >
+              <h2 className="text-2xl font-black text-slate-900 mb-8">
+                Order Summary
+              </h2>
+
+              <div className="space-y-4 mb-8">
+                <div className="flex justify-between text-slate-500 font-medium">
+                  <span>Total Items</span>
+                  <span>{totalItems} items</span>
+                </div>
+                <div className="flex justify-between text-slate-500 font-medium">
+                  <span>Shipping</span>
+                  <span className="text-green-600 font-bold">Free</span>
+                </div>
+                <div className="flex justify-between text-slate-500 font-medium">
+                  <span>Tax (Estimated)</span>
+                  <span>₹0.00</span>
+                </div>
+                <div className="pt-4 border-t border-slate-100 mt-4 flex justify-between">
+                  <span className="text-lg font-bold text-slate-900">
+                    Total Amount
+                  </span>
+                  <span className="text-2xl font-black text-indigo-600">
+                    ₹{totalAmount}
+                  </span>
+                </div>
+              </div>
+
+              <Link to="/checkout">
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full bg-slate-900 text-white py-5 rounded-2xl text-lg font-bold shadow-2xl shadow-slate-200 hover:bg-indigo-600 transition-all flex items-center justify-center gap-3"
+                >
+                  Proceed to Checkout
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    Continue Shopping
-                    <span aria-hidden="true"> &rarr;</span>
-                  </button>
-                </Link>
-              </p>
-            </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
+                  </svg>
+                </motion.button>
+              </Link>
+
+              <div className="mt-6 flex justify-center text-sm font-bold text-slate-400">
+                <span>Secure Payment Guaranteed</span>
+              </div>
+            </motion.div>
           </div>
-        </div>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 }

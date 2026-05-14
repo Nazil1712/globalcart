@@ -1,385 +1,260 @@
 import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
-import { RadioGroup } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductByIdAsync } from "../productSlice";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
 import { discountedPrice } from "../../../app/constants";
-import { Bounce, Flip, ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import ProductdetailShimmer from "../../shimmer/ProductdetailShimmer";
-
-const colors = [
-  { name: "White", class: "bg-white", selectedClass: "ring-gray-400" },
-  { name: "Gray", class: "bg-gray-200", selectedClass: "ring-gray-400" },
-  { name: "Black", class: "bg-gray-900", selectedClass: "ring-gray-900" },
-];
-
-const sizes = [
-  { name: "XXS", inStock: false },
-  { name: "XS", inStock: true },
-  { name: "S", inStock: true },
-  { name: "M", inStock: true },
-  { name: "L", inStock: true },
-  { name: "XL", inStock: true },
-  { name: "2XL", inStock: true },
-  { name: "3XL", inStock: true },
-];
-
-const reviews = { href: "#", average: 4, totalCount: 117 };
+import { motion, AnimatePresence } from "framer-motion";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function ProductDetails() {
-  const notify = () =>
-    toast.warn("Item Already Added!", {
-      position: "bottom-center",
-      autoClose: 1000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-      theme: "colored",
-      transition: Flip,
-    });
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedSize, setSelectedSize] = useState(sizes[2]);
+  const [selectedImage, setSelectedImage] = useState(0);
   const cartItems = useSelector((state) => state.cart.items);
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
-  const productFetched = useSelector((state) => state.product.status);
+  const status = useSelector((state) => state.product.status);
 
-  // console.log(product)
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.product.id === product.id);
 
     if (index < 0) {
-      // Means If Item Dosn't exist in Cart
-      // e.preventDefault();
       const newItem = {
         quantity: 1,
         product: product.id,
       };
-      // console.log("New item from detail",newItem);
       dispatch(addToCartAsync(newItem));
-      toast.success("Item Added In cart", {
-        position: "bottom-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-        theme: "colored",
-        transition: Flip,
-      });
+      toast.success("Item Added In cart");
     } else {
-      e.preventDefault();
-      notify();
-      // console.log("Item Already Added");
+      toast.info("Item Already Added");
     }
   };
-
-  console.log("Product status",productFetched)
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(id));
   }, [dispatch, id]);
 
   return (
-    <>
-      {productFetched === "loading" ? (
+    <div className="bg-transparent pb-16">
+      {status === "loading" ? (
         <ProductdetailShimmer />
       ) : (
-        <div className="bg-white">
-          {product && (
-            <div className="pt-6">
-              <nav aria-label="Breadcrumb">
-                <ol className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-                  {product.breadcrumbs &&
-                    product.breadcrumbs.map((breadcrumb) => (
-                      <li key={breadcrumb.id}>
-                        <div className="flex items-center">
-                          <a
-                            href={breadcrumb.href}
-                            className="mr-2 text-sm font-medium text-gray-900"
-                          >
-                            {breadcrumb.name}
-                          </a>
-                          <svg
-                            width={16}
-                            height={20}
-                            viewBox="0 0 16 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                            className="h-5 w-4 text-gray-300"
-                          >
-                            <path d="M5.697 4.34L8.98 16.532h1.327L7.025 4.341H5.697z" />
-                          </svg>
-                        </div>
-                      </li>
-                    ))}
-                  <li className="text-sm">
-                    <a
-                      href={product.href}
-                      aria-current="page"
-                      className="font-medium text-gray-500 hover:text-gray-600"
-                    >
-                      {product.title}
-                    </a>
-                  </li>
-                </ol>
-              </nav>
+        product && (
+          <div className="pt-6">
+            <nav aria-label="Breadcrumb" className="mb-8">
+              <ol className="flex items-center space-x-2 text-sm text-slate-500">
+                <li>
+                  <Link
+                    to="/"
+                    className="hover:text-indigo-600 transition-colors font-semibold"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <span className="mx-2 text-slate-300">/</span>
+                </li>
+                <li>
+                  <span className="text-slate-900 font-bold capitalize">
+                    {product.category}
+                  </span>
+                </li>
+              </ol>
+            </nav>
 
+            <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-12">
               {/* Image gallery */}
-              {product.images.length === 4 ? (
-                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                  <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[1]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[2]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                  </div>
-                  <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                    <img
-                      src={product.images[3]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex flex-col gap-6"
+              >
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-[2.5rem] bg-white premium-shadow border border-slate-100">
+                  <motion.img
+                    key={selectedImage}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
+                    src={product.images[selectedImage]}
+                    alt={product.title}
+                    className="h-full w-full object-cover object-center"
+                  />
                 </div>
-              ) : product.images.length === 3 ? (
-                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                  <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
+                <div className="grid grid-cols-4 gap-4">
+                  {product.images.map((image, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedImage(index)}
+                      className={classNames(
+                        index === selectedImage
+                          ? "ring-2 ring-indigo-600 ring-offset-2"
+                          : "ring-1 ring-slate-200",
+                        "relative h-24 overflow-hidden rounded-2xl bg-white transition-all shadow-sm",
+                      )}
+                    >
                       <img
-                        src={product.images[1]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
+                        src={image}
+                        alt=""
+                        className="h-full w-full object-cover"
                       />
-                    </div>
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[2]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                  </div>
-                  <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                    <img
-                      src={product.images[1]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
+                    </motion.button>
+                  ))}
                 </div>
-              ) : product.images.length === 2 ? (
-                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                  <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[1]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[0]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                  </div>
-                  <div className="aspect-h-5 aspect-w-5 lg:aspect-h-4 lg:aspect-w-4 sm:overflow-hidden sm:rounded-lg">
-                    <img
-                      src={product.images[1]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-                  <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8 invisible">
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[1]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                    <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                      <img
-                        src={product.images[2]}
-                        alt={product.title}
-                        className="h-full w-full object-cover object-center"
-                      />
-                    </div>
-                  </div>
-                  <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                    <img
-                      src={product.images[0]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                  <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg invisible">
-                    <img
-                      src={product.images[3]}
-                      alt={product.title}
-                      className="h-full w-full object-cover object-center"
-                    />
-                  </div>
-                </div>
-              )}
+              </motion.div>
 
               {/* Product info */}
-              <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-                <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                  <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                    {product.title}
-                  </h1>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0"
+              >
+                <div className="flex justify-between items-center mb-6">
+                  <span className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase border border-indigo-100">
+                    {product.brand}
+                  </span>
+                  <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100">
+                    <StarIcon className="w-4 h-4 text-amber-500 fill-amber-500" />
+                    <span className="text-sm font-bold text-amber-700">
+                      {product.rating} Rating
+                    </span>
+                  </div>
                 </div>
 
-                {/* Options */}
-                <div className="mt-4 lg:row-span-3 lg:mt-0">
-                  <h2 className="sr-only">Product information</h2>
-                  <p className="text-l line-through tracking-tight text-gray-500">
-                    $ {product.price}
-                  </p>
-                  <p className="text-3xl tracking-tight text-gray-900">
-                    ${" "}
+                <h1 className="text-5xl font-black tracking-tight text-slate-900 mb-6 leading-tight">
+                  {product.title}
+                </h1>
+
+                <div className="flex items-baseline gap-4 mb-10">
+                  <p className="text-5xl font-black text-slate-900">
+                    ₹
                     {discountedPrice(product.price, product.discountPercentage)}
                   </p>
-
-                  {/* Reviews */}
-                  <div className="mt-6">
-                    <h3 className="sr-only">Reviews</h3>
-                    <div className="flex items-center">
-                      <div className="flex items-center">
-                        {[0, 1, 2, 3, 4].map((rating) => (
-                          <StarIcon
-                            key={rating}
-                            className={classNames(
-                              product.rating > rating
-                                ? "text-gray-900"
-                                : "text-gray-200",
-                              "h-5 w-5 flex-shrink-0"
-                            )}
-                            aria-hidden="true"
-                          />
-                        ))}
-                      </div>
-                      <p className="sr-only">{product.rating} out of 5 stars</p>
+                  {product.discountPercentage > 0 && (
+                    <div className="flex flex-col">
+                      <p className="text-xl text-slate-400 line-through font-medium">
+                        ₹{product.price}
+                      </p>
+                      <p className="text-sm font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg border border-green-100">
+                        {product.discountPercentage}% OFF
+                      </p>
                     </div>
-                  </div>
-
-                  <form className="mt-10">
-                    <button
-                      type="submit"
-                      onClick={(e) => handleCart(e)}
-                      className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                      Add to Cart
-                    </button>
-
-                    <ToastContainer
-                      position="top-right"
-                      autoClose={1000}
-                      hideProgressBar
-                      newestOnTop={false}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss={false}
-                      draggable
-                      pauseOnHover
-                      theme="light"
-                    />
-                  </form>
+                  )}
                 </div>
 
-                <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
-                  {/* Description and details */}
+                <div className="space-y-8">
                   <div>
-                    <h3 className="sr-only">Description</h3>
+                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
+                      The Description
+                    </h3>
+                    <p className="text-lg text-slate-600 leading-relaxed font-medium">
+                      {product.description}
+                    </p>
+                  </div>
 
-                    <div className="space-y-6">
-                      <p className="text-base text-gray-900">
-                        {product.description}
-                      </p>
+                  <div className="pt-8 border-t border-slate-100">
+                    <div className="flex items-center gap-4">
+                      <motion.button
+                        whileHover={{ scale: 1.02, backgroundColor: "#4f46e5" }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={handleCart}
+                        className="flex-1 bg-indigo-600 text-white px-8 py-5 rounded-[1.5rem] text-lg font-bold shadow-2xl shadow-indigo-200 transition-all flex items-center justify-center gap-3"
+                      >
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                          ></path>
+                        </svg>
+                        Add to Cart
+                      </motion.button>
+                      <motion.button
+                        whileHover={{
+                          scale: 1.05,
+                          ringColor: "#fecaca",
+                          color: "#ef4444",
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-5 rounded-[1.5rem] bg-white ring-1 ring-slate-200 text-slate-400 transition-all shadow-sm"
+                      >
+                        <svg
+                          className="h-7 w-7"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          ></path>
+                        </svg>
+                      </motion.button>
                     </div>
                   </div>
 
-                  {/* <div className="mt-10">
-                  <h3 className="text-sm font-medium text-gray-900">
-                    Highlights
-                  </h3>
-  
-                  <div className="mt-4">
-                    <ul className="list-disc space-y-2 pl-4 text-sm">
-                      {highlights.map((highlight) => (
-                        <li key={highlight} className="text-gray-400">
-                          <span className="text-gray-600">{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div> */}
-
-                  <div className="mt-10">
-                    <h2 className="text-sm font-medium text-gray-900">
-                      Details
-                    </h2>
-
-                    <div className="mt-4 space-y-6">
-                      <p className="text-sm text-gray-600">
-                        {product.description}
-                      </p>
-                    </div>
+                  {/* Highlights/Features */}
+                  <div className="grid grid-cols-2 gap-4 pt-4">
+                    {[
+                      {
+                        label: "Stock Status",
+                        value: product.stock > 0 ? "In Stock" : "Out of Stock",
+                        color:
+                          product.stock > 0
+                            ? "text-green-600 bg-green-50"
+                            : "text-red-600 bg-red-50",
+                      },
+                      {
+                        label: "Product Category",
+                        value: product.category,
+                        color: "text-slate-700 bg-slate-50",
+                      },
+                      {
+                        label: "Free Shipping",
+                        value: "Everywhere",
+                        color: "text-slate-700 bg-slate-50",
+                      },
+                      {
+                        label: "Secure Payment",
+                        value: "100% Verified",
+                        color: "text-slate-700 bg-slate-50",
+                      },
+                    ].map((feat, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 + i * 0.1 }}
+                        className={`${feat.color} p-5 rounded-3xl border border-white/50 shadow-sm`}
+                      >
+                        <p className="text-[10px] font-black opacity-60 uppercase tracking-wider mb-1">
+                          {feat.label}
+                        </p>
+                        <p className={`text-sm font-extrabold`}>{feat.value}</p>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          )}
-        </div>
+          </div>
+        )
       )}
-    </>
+    </div>
   );
 }

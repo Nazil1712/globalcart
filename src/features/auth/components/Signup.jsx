@@ -1,10 +1,4 @@
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
-import { createUserAsync } from "../authSlice";
-import globalcart from "../../../images/logo.png";
-import { useState } from "react";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { motion } from "framer-motion";
 
 function Signup() {
   const {
@@ -14,32 +8,50 @@ function Signup() {
   } = useForm();
 
   const [passwordVisible, setPasswordVisible] = useState(false);
-
   const dispatch = useDispatch();
   const loggedInUserToken = useSelector(
-    (state) => state.auth.loggedInUserToken
+    (state) => state.auth.loggedInUserToken,
   );
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+  const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
 
   return (
-    <div>
-      {loggedInUserToken && <Navigate to={"/"} replace={true} />}
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-20 w-auto"
-            src={globalcart}
-            alt="Your Company"
-          />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-            Create a New Account
-          </h2>
-        </div>
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-50" />
+      </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      {loggedInUserToken && <Navigate to={"/"} replace={true} />}
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="sm:mx-auto sm:w-full sm:max-w-md"
+      >
+        <Link to="/">
+          <img
+            className="mx-auto h-16 w-auto mb-8"
+            src={globalcart}
+            alt="GlobalCart"
+          />
+        </Link>
+        <h2 className="text-center text-4xl font-black text-slate-900 tracking-tight">
+          Join GlobalCart
+        </h2>
+        <p className="mt-2 text-center text-slate-500 font-medium">
+          Create an account to start shopping premium products
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mt-10 sm:mx-auto sm:w-full sm:max-w-md"
+      >
+        <div className="bg-white/80 backdrop-blur-xl py-10 px-8 premium-shadow rounded-[2.5rem] border border-white">
           <form
             noValidate
             className="space-y-6"
@@ -50,138 +62,127 @@ function Signup() {
                   password: data.password,
                   addresses: [],
                   role: "user",
-                })
+                }),
               );
             })}
           >
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
+                className="block text-sm font-bold text-slate-700 ml-1 mb-2"
               >
-                Email address
+                Email Address
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
-                      message: "Email is not valid",
-                    },
-                  })}
-                  type="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-                {errors.email && (
-                  <p className="text-red-500">{errors.email.message}</p>
-                )}
-              </div>
+              <input
+                id="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                    message: "Please enter a valid email",
+                  },
+                })}
+                type="email"
+                placeholder="name@company.com"
+                className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+              />
+              {errors.email && (
+                <p className="mt-2 text-xs font-bold text-red-500 ml-1">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Password
-                </label>
-              </div>
-              <div className="mt-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-bold text-slate-700 ml-1 mb-2"
+              >
+                Password
+              </label>
+              <div className="relative">
                 <input
                   id="password"
                   {...register("password", {
-                    required: "password is required",
+                    required: "Password is required",
                     pattern: {
                       value:
                         /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm,
-                      message: `- at least 8 characters\n
-                      - must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number\n
-                      - Can contain special characters`,
+                      message:
+                        "Must be 8+ chars with uppercase, lowercase & number",
                     },
                   })}
                   type={passwordVisible ? "text" : "password"}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="••••••••"
+                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
                 />
-                 {passwordVisible ? (
-                  <EyeSlashIcon
-                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  />
-                ) : (
-                  <EyeIcon
-                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
-                {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
-                )}
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-indigo-600 transition-colors"
+                >
+                  {passwordVisible ? (
+                    <EyeSlashIcon className="h-5 w-5" />
+                  ) : (
+                    <EyeIcon className="h-5 w-5" />
+                  )}
+                </button>
               </div>
+              {errors.password && (
+                <p className="mt-2 text-xs font-bold text-red-500 ml-1 leading-relaxed">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Confirm Password
-                </label>
-              </div>
-              <div className="mt-2">
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-bold text-slate-700 ml-1 mb-2"
+              >
+                Confirm Password
+              </label>
+              <div className="relative">
                 <input
                   id="confirm-password"
                   {...register("confirmPassword", {
-                    required: "confirmPassword is required",
+                    required: "Please confirm your password",
                     validate: (value, formValues) =>
-                      value === formValues.password || "Password not matching",
+                      value === formValues.password || "Passwords do not match",
                   })}
                   type={passwordVisible ? "text" : "password"}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="••••••••"
+                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
                 />
-                {passwordVisible ? (
-                  <EyeSlashIcon
-                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  />
-                ) : (
-                  <EyeIcon
-                    className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  />
-                )}
-                {errors.confirmPassword && (
-                  <p className="text-red-500">
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
               </div>
+              {errors.confirmPassword && (
+                <p className="mt-2 text-xs font-bold text-red-500 ml-1">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign Up
-              </button>
-            </div>
+            <motion.button
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              type="submit"
+              className="flex w-full justify-center rounded-2xl bg-slate-900 px-4 py-4 text-sm font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Create Account
+            </motion.button>
           </form>
 
-          <p className="mt-10 text-center text-sm text-gray-500">
-            Already a Member?{" "}
+          <p className="mt-10 text-center text-sm font-bold text-slate-400">
+            Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+              className="text-indigo-600 hover:text-indigo-500 transition-colors"
             >
-              Log In
+              Sign In
             </Link>
           </p>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
