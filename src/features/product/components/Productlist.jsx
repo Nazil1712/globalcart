@@ -460,12 +460,10 @@ const ProductGrid = ({ products }) => {
               className="group block relative bg-white rounded-3xl premium-shadow premium-shadow-hover overflow-hidden"
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-slate-100 lg:h-72">
-                <motion.img
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                <img
                   src={product.thumbnail}
                   alt={product.title}
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="glass px-3 py-1.5 rounded-full text-[10px] font-bold text-slate-800 tracking-wider uppercase">

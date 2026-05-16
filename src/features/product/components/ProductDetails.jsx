@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductByIdAsync } from "../productSlice";
+import {
+  fetchProductByIdAsync,
+  fetchProductsByFilterAsync,
+} from "../productSlice";
 import { useParams, Link } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
 import { discountedPrice } from "../../../app/constants";
 import { toast } from "react-toastify";
 import ProductdetailShimmer from "../../shimmer/ProductdetailShimmer";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  CheckBadgeIcon,
+  TruckIcon,
+  ShieldCheckIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -20,6 +29,7 @@ export default function ProductDetails() {
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product.selectedProduct);
   const status = useSelector((state) => state.product.status);
+  const relatedProducts = useSelector((state) => state.product.products);
 
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.product.id === product.id);
@@ -38,11 +48,24 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(fetchProductByIdAsync(id));
+    window.scrollTo(0, 0);
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (product && product.category && product.id === id) {
+      dispatch(
+        fetchProductsByFilterAsync({
+          filter: { category: [product.category] },
+          sort: { _sort: "rating", _order: "desc" },
+          pagination: { _page: 1, _limit: 4 },
+        }),
+      );
+    }
+  }, [dispatch, product?.id, product?.category, id]);
 
   return (
     <div className="bg-transparent pb-16">
-      {status === "loading" ? (
+      {!product && status === "loading" ? (
         <ProductdetailShimmer />
       ) : (
         product && (
@@ -117,9 +140,15 @@ export default function ProductDetails() {
                 className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0"
               >
                 <div className="flex justify-between items-center mb-6">
-                  <span className="bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase border border-indigo-100">
-                    {product.brand}
-                  </span>
+                  {product.brand ? (
+                    <span
+                      className={`bg-indigo-50 text-indigo-600 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase border border-indigo-100`}
+                    >
+                      {product.brand}
+                    </span>
+                  ) : (
+                    <span></span>
+                  )}
                   <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-100">
                     <StarIcon className="w-4 h-4 text-amber-500 fill-amber-500" />
                     <span className="text-sm font-bold text-amber-700">
@@ -251,6 +280,196 @@ export default function ProductDetails() {
                   </div>
                 </div>
               </motion.div>
+            </div>
+
+            {/* New Sections: Specifications, Reviews, Related Products */}
+            <div className="mt-32 space-y-24">
+              {/* Trust Badges */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6">
+                {[
+                  {
+                    icon: TruckIcon,
+                    title: "Free Shipping",
+                    desc: "On all orders over ₹999",
+                  },
+                  {
+                    icon: ShieldCheckIcon,
+                    title: "Secure Payment",
+                    desc: "100% protected payments",
+                  },
+                  {
+                    icon: ArrowPathIcon,
+                    title: "Easy Returns",
+                    desc: "30-day money back guarantee",
+                  },
+                  {
+                    icon: CheckBadgeIcon,
+                    title: "Genuine Products",
+                    desc: "100% authentic guaranteed",
+                  },
+                ].map((badge, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                    className="flex flex-col items-center text-center cursor-pointer p-6 bg-white rounded-[2rem] premium-shadow border border-slate-100/50 hover:border-indigo-100 hover:shadow-indigo-100/50 transition-all group"
+                  >
+                    <div className="w-14 h-14 bg-slate-50 group-hover:bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 transition-colors duration-300">
+                      <badge.icon className="w-7 h-7 text-slate-400 group-hover:text-indigo-600 transition-colors duration-300" />
+                    </div>
+                    <h4 className="text-sm font-black text-slate-900 mb-1">
+                      {badge.title}
+                    </h4>
+                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">
+                      {badge.desc}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Specifications & Description Tabs */}
+              {/* <div className="grid lg:grid-cols-3 gap-16">
+                <div className="lg:col-span-2">
+                  <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <span className="w-2 h-8 bg-indigo-600 rounded-full" />
+                    Product Specifications
+                  </h3>
+                  <div className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden">
+                    <table className="w-full text-left">
+                      <tbody>
+                        {[
+                          { label: "Brand", value: product.brand },
+                          { label: "Category", value: product.category },
+                          { label: "SKU", value: product.sku },
+                          { label: "Weight", value: product.weight ? `${product.weight} kg` : null },
+                          {
+                            label: "Dimensions",
+                            value: product.dimensions
+                              ? `${product.dimensions.width} x ${product.dimensions.height} x ${product.dimensions.depth} cm`
+                              : null,
+                          },
+                          { label: "Warranty", value: product.warrantyInformation },
+                          { label: "Shipping", value: product.shippingInformation },
+                          { label: "Return Policy", value: product.returnPolicy },
+                        ]
+                          .filter((spec) => spec.value && spec.value !== "N/A")
+                          .map((spec, i) => (
+                            <tr
+                              key={i}
+                              className={i % 2 === 0 ? "bg-slate-50/50" : "bg-white"}
+                            >
+                              <td className="py-5 px-8 text-sm font-bold text-slate-400 uppercase tracking-wider w-1/3">
+                                {spec.label}
+                              </td>
+                              <td className="py-5 px-8 text-sm font-black text-slate-900 capitalize">
+                                {spec.value}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                    <span className="w-2 h-8 bg-indigo-600 rounded-full" />
+                    Reviews
+                  </h3>
+                  <div className="space-y-6">
+                    {product.reviews && product.reviews.length > 0 ? (
+                      product.reviews.map((review, i) => (
+                        <div key={i} className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                          <div className="flex items-center justify-between mb-3">
+                            <span className="font-bold text-slate-900 truncate max-w-[150px]">
+                              {review.reviewerName}
+                            </span>
+                            <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg text-[10px] font-bold text-amber-700">
+                              <StarIcon className="w-3 h-3 text-amber-500 fill-amber-500" />
+                              {review.rating}.0
+                            </div>
+                          </div>
+                          <p className="text-sm text-slate-500 font-medium leading-relaxed italic">
+                            "{review.comment}"
+                          </p>
+                          <p className="text-[10px] text-slate-300 mt-3 font-bold uppercase tracking-widest">
+                            {new Date(review.date).toLocaleDateString()}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-slate-400 text-sm font-bold italic text-center py-8">
+                        No reviews yet for this product.
+                      </p>
+                    )}
+                    <button className="w-full py-4 rounded-2xl border-2 border-dashed border-slate-200 text-slate-400 text-sm font-bold hover:border-indigo-300 hover:text-indigo-600 transition-all">
+                      Write a Review
+                    </button>
+                  </div>
+                </div>
+              </div> */}
+
+              {/* Related Products */}
+              <div>
+                <div className="flex items-end justify-between mb-10">
+                  <div>
+                    <h3 className="text-3xl font-black text-slate-900 mb-2 flex items-center gap-3">
+                      <span className="w-2 h-10 bg-indigo-600 rounded-full" />
+                      Related Products
+                    </h3>
+                    <p className="text-slate-500 font-medium">
+                      You might also like these items from {product.category}
+                    </p>
+                  </div>
+                  <Link
+                    to="/"
+                    className="text-indigo-600 font-bold hover:text-indigo-500 transition-colors flex items-center gap-2"
+                  >
+                    See All <span className="text-xl">→</span>
+                  </Link>
+                </div>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                  {relatedProducts
+                    .filter((p) => p.id !== product.id)
+                    .slice(0, 4)
+                    .map((item) => (
+                      <Link
+                        key={item.id}
+                        to={`/product-detail/${item.id}`}
+                        className="group bg-white rounded-[2rem] premium-shadow premium-shadow-hover overflow-hidden transition-all"
+                      >
+                        <div className="aspect-h-1 aspect-w-1 overflow-hidden bg-slate-100">
+                          <img
+                            src={item.thumbnail}
+                            alt={item.title}
+                            className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <h4 className="text-sm font-bold text-slate-900 mb-1 truncate group-hover:text-indigo-600">
+                            {item.title}
+                          </h4>
+                          <div className="flex items-center justify-between">
+                            <span className="text-lg font-black text-slate-900">
+                              ₹
+                              {Math.round(
+                                discountedPrice(
+                                  item.price,
+                                  item.discountPercentage,
+                                ),
+                              )}
+                            </span>
+                            <div className="flex items-center gap-1 bg-amber-50 px-2 py-0.5 rounded-lg text-[10px] font-bold text-amber-700">
+                              <StarIcon className="w-3 h-3 text-amber-500 fill-amber-500" />
+                              {item.rating}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                </div>
+              </div>
             </div>
           </div>
         )

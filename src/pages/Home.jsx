@@ -39,10 +39,15 @@ function Home() {
                       New Season Arrivals
                     </span>
                     <h1 className="text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-8 tracking-tighter">
-                      Elevate Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Lifestyle</span> Standard.
+                      Elevate Your{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                        Lifestyle
+                      </span>{" "}
+                      Standard.
                     </h1>
                     <p className="text-slate-400 text-lg lg:text-xl font-medium leading-relaxed mb-10 max-w-lg mx-auto lg:mx-0">
-                      Experience the next generation of curated premium goods. Sophisticated design meets exceptional quality.
+                      Experience the next generation of curated premium goods.
+                      Sophisticated design meets exceptional quality.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
                       <motion.button
@@ -64,7 +69,7 @@ function Home() {
                 </div>
 
                 {/* Right Image/Graphic */}
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
@@ -75,21 +80,32 @@ function Home() {
                     <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
                     <motion.div
                       animate={{ y: [0, -15, 0] }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
                       className="relative z-10"
                     >
-                      <img 
-                        src="/ecommerce_hero.png" 
-                        alt="Premium Products" 
-                        className="w-full max-w-[500px] rounded-[3rem] shadow-2xl transform transition-transform group-hover:scale-105"
+                      <img
+                        src="/ecommerce_hero.png"
+                        alt="Premium Products"
+                        className="w-full max-w-[500px] rounded-[3rem] shadow-2xl transform transition-transform group-hover:scale-105 cursor-pointer"
                       />
                       {/* Floating Badges */}
-                      <motion.div 
+                      <motion.div
                         animate={{ y: [0, 10, 0] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 1,
+                        }}
                         className="absolute -top-6 -right-6 glass bg-white/10 p-4 rounded-3xl border border-white/20 premium-shadow hidden sm:block"
                       >
-                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">Premium Quality</p>
+                        <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest">
+                          Premium Quality
+                        </p>
                         <p className="text-white font-bold">Guaranteed</p>
                       </motion.div>
                     </motion.div>
