@@ -15,14 +15,16 @@ const initialState = {
   userChecked: false,
   mailSent: false,
   passwordReset: false,
+  signUpSuccess: false,
 };
 
 export const createUserAsync = createAsyncThunk(
   "auth/createUserAsync",
   async (userData) => {
     const response = await createUserAPI(userData);
+    // console.log("User Created Thunk -->", response);
     return response.data;
-  }
+  },
 );
 
 export const loginUserAsync = createAsyncThunk(
@@ -30,14 +32,14 @@ export const loginUserAsync = createAsyncThunk(
   async (loginInfo, { rejectWithValue }) => {
     try {
       const response = await loginUserAPI(loginInfo);
-        console.log("Data (from Thunk)==> Response : ",response)
-        console.log("Data (from Thunk)==> Data : ",response.data)
+      // console.log("Data (from Thunk)==> Response : ", response);
+      // console.log("Data (from Thunk)==> Data : ", response.data);
       return response.data;
     } catch (error) {
       // console.log(error);
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const checkAuthAsync = createAsyncThunk(
@@ -50,7 +52,7 @@ export const checkAuthAsync = createAsyncThunk(
       return;
       // return rejectWithValue(error)
     }
-  }
+  },
 );
 
 export const resetPasswordRequestAsync = createAsyncThunk(
@@ -63,7 +65,7 @@ export const resetPasswordRequestAsync = createAsyncThunk(
       // console.log(error);
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
 export const resetPasswordAsync = createAsyncThunk(
@@ -76,16 +78,13 @@ export const resetPasswordAsync = createAsyncThunk(
       // console.log(error);
       return rejectWithValue(error);
     }
-  }
+  },
 );
 
-export const signOutAsync = createAsyncThunk(
-  "auth/signOutAsync", 
-  async () => {
-    const response = await signOutAPI();
-    return response.data;
-  }
-);
+export const signOutAsync = createAsyncThunk("auth/signOutAsync", async () => {
+  const response = await signOutAPI();
+  return response.data;
+});
 
 export const authSlice = createSlice({
   name: "auth",
@@ -98,15 +97,18 @@ export const authSlice = createSlice({
       })
       .addCase(createUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        state.loggedInUserToken = action.payload;
+        // console.log("Sign Up Success Payload: ", action.payload);
+        // state.loggedInUserToken = action.payload;
+        state.signUpSuccess = true;
       })
       .addCase(loginUserAsync.pending, (state) => {
         state.status = "loading";
       })
       .addCase(loginUserAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        console.log("LoggedInUserToken: ",action.payload)
+        // console.log("LoggedInUserToken: ", action.payload);
         state.loggedInUserToken = action.payload;
+        // state.signUpSuccess = true;
       })
       .addCase(loginUserAsync.rejected, (state, action) => {
         state.status = "idle";

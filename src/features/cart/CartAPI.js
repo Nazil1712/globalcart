@@ -1,12 +1,11 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 export function addToCartAPI(item) {
   // console.log("Item from ADD to cart",item)
   return new Promise(async (resolve) => {
     const response = await fetch(`${API_URL}/cart`, {
       method: "POST",
-      credentials:"include",
+      credentials: "include",
       body: JSON.stringify(item),
       headers: { "content-type": "application/json" },
     });
@@ -17,30 +16,29 @@ export function addToCartAPI(item) {
 
 export function fetchCartByUserAPI() {
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API_URL}/cart/own`,{
-      method:"GET",
-      credentials:"include"
+    const response = await fetch(`${API_URL}/cart/own`, {
+      method: "GET",
+      credentials: "include",
     });
     const data = await response.json();
-    // console.log("Cart Data from frontend",data)
+    console.log("Cart Data from frontend", data);
     resolve({ data });
   });
 }
 
 export function updateCartAPI(update) {
-  return new Promise(async (resolve,reject) => {
-    try{
-
+  return new Promise(async (resolve, reject) => {
+    try {
       const response = await fetch(`${API_URL}/cart/${update.id}`, {
         method: "PATCH",
-        credentials:"include",
+        credentials: "include",
         body: JSON.stringify(update),
         headers: { "content-type": "application/json" },
       });
       const data = await response.json();
       resolve({ data });
-    }catch (error) {
-      reject(error);  
+    } catch (error) {
+      reject(error);
     }
   });
 }
@@ -49,7 +47,7 @@ export function deleteFromCartAPI(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API_URL}/cart/${id}`, {
       method: "DELETE",
-      credentials:"include",
+      credentials: "include",
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();

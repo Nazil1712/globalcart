@@ -1,22 +1,22 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 export function createUserAPI(userData) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API_URL}/auth/signup`, {
       method: "POST",
-      credentials:"include",
+      credentials: "include",
       body: JSON.stringify(userData),
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
+    console.log("User created --> ", data);
     resolve({ data });
   });
 }
 
 export function loginUserAPI(loginInfo) {
   // console.log("Login Info",loginInfo)
-  console.log("Calling : ", `${API_URL}/auth/login`)
+  console.log("Calling : ", `${API_URL}/auth/login`);
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -30,9 +30,9 @@ export function loginUserAPI(loginInfo) {
       if (response.ok) {
         const data = await response.json();
         // console.log("data from frontend AUTH",data)
-        const {token, user} = data;
-        localStorage.setItem("token",token)
-        console.log("Data (from API)==>",data)
+        const { token, user } = data;
+        localStorage.setItem("token", token);
+        console.log("Data (from API)==>", data);
         resolve({ data });
       } else {
         const error = await response.text();
@@ -45,14 +45,14 @@ export function loginUserAPI(loginInfo) {
   });
 }
 
-const token = localStorage.getItem("token")
+const token = localStorage.getItem("token");
 
 export function checkAuthAPI() {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${API_URL}/auth/check`,{
+      const response = await fetch(`${API_URL}/auth/check`, {
         method: "GET",
-        credentials: "include"
+        credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();
@@ -74,8 +74,8 @@ export function resetPasswordRequestAPI(email) {
     try {
       const response = await fetch(`${API_URL}/auth/reset-password-request`, {
         method: "POST",
-        credentials:"include",
-        body: JSON.stringify({email}),
+        credentials: "include",
+        body: JSON.stringify({ email }),
         headers: { "content-type": "application/json" },
       });
       if (response.ok) {
@@ -92,7 +92,6 @@ export function resetPasswordRequestAPI(email) {
     }
   });
 }
-
 
 export function resetPasswordAPI(data) {
   return new Promise(async (resolve, reject) => {
@@ -122,12 +121,12 @@ export function signOutAPI() {
   // console.log("SignOut API called")
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`${API_URL}/auth/logout`,{
-        method:"GET",
-        credentials:"include"
+      const response = await fetch(`${API_URL}/auth/logout`, {
+        method: "GET",
+        credentials: "include",
       });
       // console.log("SignOut Response",response)
-      console.log("Response from signOut")
+      console.log("Response from signOut");
       if (response.ok) {
         const data = await response.json();
         resolve({ data });

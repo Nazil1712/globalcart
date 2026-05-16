@@ -1,6 +1,14 @@
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { createUserAsync } from "../authSlice";
+import globalcart from "../../../images/logo.png";
+import { useState } from "react";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 
 function Signup() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -9,9 +17,7 @@ function Signup() {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
   const dispatch = useDispatch();
-  const loggedInUserToken = useSelector(
-    (state) => state.auth.loggedInUserToken,
-  );
+  const signUpSuccess = useSelector((state) => state.auth.signUpSuccess);
 
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
 
@@ -23,7 +29,7 @@ function Signup() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-50" />
       </div>
 
-      {loggedInUserToken && <Navigate to={"/"} replace={true} />}
+      {/* {signUpSuccess && <Navigate to={"/login"} replace={true} />} */}
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -55,8 +61,8 @@ function Signup() {
           <form
             noValidate
             className="space-y-6"
-            onSubmit={handleSubmit((data) => {
-              dispatch(
+            onSubmit={handleSubmit(async (data) => {
+              const result = await dispatch(
                 createUserAsync({
                   email: data.email,
                   password: data.password,
@@ -64,6 +70,11 @@ function Signup() {
                   role: "user",
                 }),
               );
+
+              // console.log("Result", result);
+              if (result.meta.requestStatus === "fulfilled") {
+                navigate("/login");
+              }
             })}
           >
             <div>

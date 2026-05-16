@@ -172,7 +172,7 @@ const appRouter = createBrowserRouter([
   },
   {
     path: "/email-sent",
-    element: <EmailSent/>
+    element: <EmailSent />,
   },
   {
     path: "/product-list-shimmer",
@@ -195,7 +195,7 @@ const appRouter = createBrowserRouter([
 function App() {
   const dispatch = useDispatch();
   const loggedInUserToken = useSelector(
-    (state) => state.auth.loggedInUserToken
+    (state) => state.auth.loggedInUserToken,
   );
   const items = useSelector((state) => state.cart.items);
   const orders = useSelector((state) => state.order.orders);
@@ -205,7 +205,7 @@ function App() {
     dispatch(checkAuthAsync());
   }, [dispatch]);
 
-  // console.log("loggedInUserToken",loggedInUserToken)
+  console.log("loggedInUserToken", loggedInUserToken);
 
   useEffect(() => {
     if (loggedInUserToken) {
