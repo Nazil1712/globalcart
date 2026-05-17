@@ -9,7 +9,6 @@ import {
 import globalcart from "../../../images/gc.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
-import { motion } from "framer-motion";
 
 const ResetPassword = () => {
   const {
@@ -40,38 +39,25 @@ const ResetPassword = () => {
         <Navigate to={"/reset-password-success"} replace={true} />
       )}
       {token && email ? (
-        <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-          {/* Decorative background elements */}
-          <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-            <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600 rounded-full blur-[100px] opacity-30 animate-pulse" />
-            <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600 rounded-full blur-[100px] opacity-30" />
-          </div>
+        <div>
+          <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+              <img
+                className="mx-auto h-20 w-auto"
+                src={globalcart}
+                alt="Your Company"
+              />
+              {/* <img
+                className="mx-auto h-10 w-auto"
+                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                alt="Your Company"
+              /> */}
+              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                Enter New Password
+              </h2>
+            </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="sm:mx-auto sm:w-full sm:max-w-md"
-          >
-            <img
-              className="mx-auto h-20 w-auto"
-              src={globalcart}
-              alt="Your Company"
-            />
-            <h2 className="mt-8 text-center text-3xl font-black text-white tracking-tight">
-              Enter New Password
-            </h2>
-            <p className="mt-2 text-center text-slate-400 font-medium">
-              Create a strong password for your account
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mt-10 sm:mx-auto sm:w-full sm:max-w-md"
-          >
-            <div className="bg-slate-900/50 backdrop-blur-xl py-10 px-8 premium-shadow rounded-[2.5rem] border border-white/10">
+            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
               <form
                 noValidate
                 className="space-y-6"
@@ -87,15 +73,15 @@ const ResetPassword = () => {
                 })}
               >
                 <div>
-                  <div className="flex items-center justify-between ml-1 mb-2">
+                  <div className="flex items-center justify-between">
                     <label
                       htmlFor="password"
-                      className="block text-sm font-bold text-slate-300"
+                      className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Password
                     </label>
                   </div>
-                  <div className="relative">
+                  <div className="mt-2">
                     <input
                       id="password"
                       {...register("password", {
@@ -109,39 +95,36 @@ const ResetPassword = () => {
                         },
                       })}
                       type={passwordVisible ? "text" : "password"}
-                      placeholder="••••••••"
-                      className="block w-full rounded-2xl border-white/10 bg-slate-950/50 py-3.5 px-4 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm transition-all"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
 
-                    <button
-                      type="button"
-                      onClick={togglePasswordVisibility}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-indigo-600 transition-colors"
-                    >
-                      {passwordVisible ? (
-                        <EyeSlashIcon className="h-5 w-5" />
-                      ) : (
-                        <EyeIcon className="h-5 w-5" />
-                      )}
-                    </button>
+                    {passwordVisible ? (
+                      <EyeSlashIcon
+                        className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    ) : (
+                      <EyeIcon
+                        className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    )}
+                    {errors.password && (
+                      <p className="text-red-500">{errors.password.message}</p>
+                    )}
                   </div>
-                  {errors.password && (
-                    <p className="mt-2 text-xs font-bold text-red-500 ml-1 leading-relaxed">
-                      {errors.password.message}
-                    </p>
-                  )}
                 </div>
 
                 <div>
-                  <div className="flex items-center justify-between ml-1 mb-2">
+                  <div className="flex items-center justify-between">
                     <label
-                      htmlFor="confirm-password"
-                      className="block text-sm font-bold text-slate-300"
+                      htmlFor="password"
+                      className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Confirm Password
                     </label>
                   </div>
-                  <div className="relative">
+                  <div className="mt-2">
                     <input
                       id="confirm-password"
                       {...register("confirmPassword", {
@@ -151,29 +134,44 @@ const ResetPassword = () => {
                           "Password not matching",
                       })}
                       type={passwordVisible ? "text" : "password"}
-                      placeholder="••••••••"
-                      className="block w-full rounded-2xl border-white/10 bg-slate-950/50 py-3.5 px-4 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm transition-all"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
+                    {passwordVisible ? (
+                      <EyeSlashIcon
+                        className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    ) : (
+                      <EyeIcon
+                        className="text-gray-600 w-6 h-6 relative bottom-8 left-[350px] cursor-pointer"
+                        onClick={togglePasswordVisibility}
+                      />
+                    )}
+                    {errors.confirmPassword && (
+                      <p className="text-red-500">
+                        {errors.confirmPassword.message}
+                      </p>
+                    )}
+                    {/* {passwordReset === true && (
+                      <p className="text-green-500">
+                        Password reset Succcessfully
+                      </p>
+                    )} */}
+                    {error && <p className="text-red-500">{error}</p>}
                   </div>
-                  {errors.confirmPassword && (
-                    <p className="mt-2 text-xs font-bold text-red-500 ml-1">
-                      {errors.confirmPassword.message}
-                    </p>
-                  )}
-                  {error && <p className="mt-2 text-xs font-bold text-red-500 ml-1">{error}</p>}
                 </div>
 
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-4 text-sm font-bold leading-6 text-white shadow-xl shadow-indigo-500/20 hover:bg-indigo-500 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Reset Password
                   </button>
                 </div>
               </form>
             </div>
-          </motion.div>
+          </div>
         </div>
       ) : (
         <p>Incorrect Link</p>
