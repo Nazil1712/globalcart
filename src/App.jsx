@@ -38,6 +38,7 @@ import NavbarShimmer from "./features/shimmer/NavbarShimmer";
 import ProductDetailsShimmerPage from "./pages/shimmer/ProductDetailsShimmerPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import ContactUsPage from "./pages/ContactUsPage";
+import ProductListShimmer from "./features/shimmer/ProductListShimmer";
 
 const appRouter = createBrowserRouter([
   {
@@ -178,11 +179,19 @@ const appRouter = createBrowserRouter([
   },
   {
     path: "/product-list-shimmer",
-    element: <ProductListShimmerPage />,
+    element: <ProductListShimmer />,
   },
   {
     path: "/shimmer",
     element: <ProductdetailShimmer />,
+  },
+  {
+    path: "/product-list-shimmer-page",
+    element: <ProductListShimmerPage />,
+  },
+  {
+    path: "/shimmer-page",
+    element: <ProductDetailsShimmerPage />,
   },
   {
     path: "/navbar-shimmer",
