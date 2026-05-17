@@ -6,6 +6,7 @@ import { createUserAsync } from "../authSlice";
 import globalcart from "../../../images/gc.png";
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
+import { toast } from "react-toastify";
 
 function Signup() {
   const navigate = useNavigate();
@@ -71,8 +72,20 @@ function Signup() {
                 }),
               );
 
-              // console.log("Result", result);
               if (result.meta.requestStatus === "fulfilled") {
+                toast.success(
+                  "Account created successfully! Please log in with your new credentials.",
+                  {
+                    position: "bottom-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  },
+                );
                 navigate("/login");
               }
             })}
