@@ -7,7 +7,7 @@ import {
 } from "../productSlice";
 import { useParams, Link } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
-import { discountedPrice } from "../../../app/constants";
+import { discountedPrice, formatPrice } from "../../../app/constants";
 import { toast } from "react-toastify";
 import ProductdetailShimmer from "../../shimmer/ProductdetailShimmer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,6 +30,7 @@ export default function ProductDetails() {
   const product = useSelector((state) => state.product.selectedProduct);
   const status = useSelector((state) => state.product.status);
   const relatedProducts = useSelector((state) => state.product.products);
+  const exchangeRate = useSelector((state) => state.product.exchangeRate);
 
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.product.id === product.id);
@@ -164,12 +165,12 @@ export default function ProductDetails() {
                 <div className="flex items-baseline gap-4 mb-10">
                   <p className="text-5xl font-black text-slate-900">
                     ₹
-                    {discountedPrice(product.price, product.discountPercentage)}
+                    {formatPrice(Math.round(discountedPrice(product.price, product.discountPercentage) * exchangeRate))}
                   </p>
                   {product.discountPercentage > 0 && (
                     <div className="flex flex-col">
                       <p className="text-xl text-slate-400 line-through font-medium">
-                        ₹{product.price}
+                        ₹{formatPrice(Math.round(product.price * exchangeRate))}
                       </p>
                       <p className="text-sm font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg border border-green-100">
                         {product.discountPercentage}% OFF

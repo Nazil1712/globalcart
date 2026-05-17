@@ -101,19 +101,19 @@ const Navbar = ({ children }) => {
                                 className="text-slate-600 group-hover:text-indigo-600 transition-colors"
                               >
                                 <ShoppingCartIcon className="h-7 w-7" />
-                                <AnimatePresence>
-                                  {items.length > 0 && (
-                                    <motion.span
-                                      initial={{ scale: 0, opacity: 0 }}
-                                      animate={{ scale: 1, opacity: 1 }}
-                                      exit={{ scale: 0, opacity: 0 }}
-                                      className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-white"
-                                    >
-                                      {items.length}
-                                    </motion.span>
-                                  )}
-                                </AnimatePresence>
                               </motion.div>
+                              <AnimatePresence>
+                                {items.length > 0 && (
+                                  <motion.span
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-white"
+                                  >
+                                    {items.length}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
                             </Link>
 
                             {/* Profile dropdown */}

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { createProductAPI, fetchAllBrandsAPI, fetchAllCategoriesAPI, fetchAllProductsAPI, fetchProductByIdAPI, fetchProductsByFilterAPI, updateProductAPI } from './productAPI';
+import { createProductAPI, fetchAllBrandsAPI, fetchAllCategoriesAPI, fetchAllProductsAPI, fetchExchangeRateAPI, fetchProductByIdAPI, fetchProductsByFilterAPI, updateProductAPI } from './productAPI';
 
 const initialState = {
   products: [],
@@ -8,6 +8,7 @@ const initialState = {
   selectedProduct : null,
   status: 'idle',
   totalItems : 0,
+  exchangeRate: 83.0,
 };
 
 
@@ -36,6 +37,14 @@ export const fetchProductByIdAsync = createAsyncThunk(
   'product/fetchProductByIdAsync',
   async (id) => {
     const response = await fetchProductByIdAPI(id);
+    return response.data;
+  }
+);
+
+export const fetchExchangeRateAsync = createAsyncThunk(
+  'product/fetchExchangeRateAsync',
+  async () => {
+    const response = await fetchExchangeRateAPI();
     return response.data;
   }
 );
@@ -114,7 +123,10 @@ export const productSlice = createSlice({
       .addCase(updateProductAsync.fulfilled, (state, action) => {
         const index = state.products.findIndex((v,i,arr)=>v.id===action.payload.id)
         state.products[index] = action.payload;
-        state.selectedProduct = action.payload
+        state.selectedProduct = action.payload;
+      })
+      .addCase(fetchExchangeRateAsync.fulfilled, (state, action) => {
+        state.exchangeRate = action.payload;
       });
       ;
   },

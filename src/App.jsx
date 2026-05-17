@@ -29,6 +29,7 @@ import ProductListShimmerPage from "./pages/shimmer/ProductListShimmerPage";
 import ProductdetailShimmer from "./features/shimmer/ProductdetailShimmer";
 import { fetchloggedInUserAsync } from "./features/user/userSlice";
 import { checkAuthAsync } from "../src/features/auth/authSlice";
+import { fetchExchangeRateAsync } from "./features/product/productSlice";
 import StripeCheckout from "./pages/StripeCheckout";
 import ResetPassword from "./features/auth/components/ResetPassword";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
@@ -222,6 +223,7 @@ function App() {
 
   useEffect(() => {
     dispatch(checkAuthAsync());
+    dispatch(fetchExchangeRateAsync());
   }, [dispatch]);
 
   // console.log("loggedInUserToken", loggedInUserToken);

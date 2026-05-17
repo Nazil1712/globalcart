@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteFromCartAsync, updateCartAsync } from "./cartSlice";
-import { discountedPrice } from "../../app/constants";
+import { discountedPrice, formatPrice } from "../../app/constants";
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import PopupBox from "../common/Dialog";
 import emptyCartUpper from "../../images/empty_cart_upper.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,21 +12,24 @@ export default function Cart() {
   const [showPopUp, setShowPopUp] = useState(null);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart.items);
+  const exchangeRate = useSelector((state) => state.product.exchangeRate);
 
-  const totalAmount = products.reduce(
+  const totalAmount = Math.round(products.reduce(
     (prevAmount, item) =>
       item.quantity *
         discountedPrice(item.product.price, item.product.discountPercentage) +
       prevAmount,
     0,
-  );
+  ) * exchangeRate);
   const totalItems = products.reduce(
     (prevCount, item) => item.quantity + prevCount,
     0,
   );
 
-  const handleQuantity = (e, item) => {
-    dispatch(updateCartAsync({ id: item.id, quantity: +e.target.value }));
+  const handleQuantity = (newQty, item) => {
+    if (newQty > 0 && newQty <= 10) {
+      dispatch(updateCartAsync({ id: item.id, quantity: newQty }));
+    }
   };
 
   const handleDelete = (id) => {
@@ -119,10 +123,10 @@ export default function Cart() {
                         </div>
                         <p className="text-xl font-black text-slate-900">
                           ₹
-                          {discountedPrice(
+                          {formatPrice(Math.round(discountedPrice(
                             product.product.price,
                             product.product.discountPercentage,
-                          )}
+                          ) * exchangeRate))}
                         </p>
                       </div>
 
@@ -131,17 +135,23 @@ export default function Cart() {
                           <span className="text-xs font-bold text-slate-400 uppercase">
                             Quantity
                           </span>
-                          <select
-                            className="bg-slate-50 border-none rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-indigo-600 cursor-pointer"
-                            onChange={(e) => handleQuantity(e, product)}
-                            value={product.quantity}
-                          >
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                              <option key={n} value={n}>
-                                {n}
-                              </option>
-                            ))}
-                          </select>
+                          <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                            <button
+                              onClick={() => handleQuantity(product.quantity - 1, product)}
+                              className="p-2 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                              disabled={product.quantity <= 1}
+                            >
+                              <MinusIcon className="w-4 h-4 text-slate-600" />
+                            </button>
+                            <span className="px-3 font-bold text-slate-900 text-sm">{product.quantity}</span>
+                            <button
+                              onClick={() => handleQuantity(product.quantity + 1, product)}
+                              className="p-2 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                              disabled={product.quantity >= 10}
+                            >
+                              <PlusIcon className="w-4 h-4 text-slate-600" />
+                            </button>
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -196,7 +206,7 @@ export default function Cart() {
                     Total Amount
                   </span>
                   <span className="text-2xl font-black text-indigo-600">
-                    ₹{totalAmount}
+                    ₹{formatPrice(totalAmount)}
                   </span>
                 </div>
               </div>

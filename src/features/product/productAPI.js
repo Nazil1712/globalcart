@@ -11,6 +11,18 @@ export function fetchAllProductsAPI() {
   });
 }
 
+export function fetchExchangeRateAPI() {
+  return new Promise(async (resolve) => {
+    try {
+      const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+      const data = await response.json();
+      resolve({ data: data.rates.INR });
+    } catch (error) {
+      resolve({ data: 83.0 }); // Fallback
+    }
+  });
+}
+
 export function fetchProductsByFilterAPI(
   filter,
   sort,

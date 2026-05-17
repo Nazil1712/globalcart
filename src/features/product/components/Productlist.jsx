@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
+import { discountedPrice, ITEMS_PER_PAGE, formatPrice } from "../../../app/constants";
 import Pagination from "../../common/Pagination";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
@@ -614,6 +614,7 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
 };
 
 const ProductGrid = ({ products }) => {
+  const exchangeRate = useSelector((state) => state.product.exchangeRate);
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -637,11 +638,11 @@ const ProductGrid = ({ products }) => {
       className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4"
     >
       {products.map((product) => {
-        const pricediscounted = discountedPrice(
+        const pricediscounted = Math.round(discountedPrice(
           product.price,
           product.discountPercentage,
-        );
-        const price = Math.round(product.price);
+        ) * exchangeRate);
+        const price = Math.round(product.price * exchangeRate);
 
         return (
           <motion.div key={product.id} variants={item}>
@@ -682,15 +683,15 @@ const ProductGrid = ({ products }) => {
                     {pricediscounted !== price ? (
                       <>
                         <span className="text-xl font-extrabold text-slate-900">
-                          ₹{pricediscounted}
+                          ₹{formatPrice(pricediscounted)}
                         </span>
                         <span className="text-xs font-medium line-through text-slate-400">
-                          ₹{price}
+                          ₹{formatPrice(price)}
                         </span>
                       </>
                     ) : (
                       <span className="text-xl font-extrabold text-slate-900">
-                        ₹{price}
+                        ₹{formatPrice(price)}
                       </span>
                     )}
                   </div>

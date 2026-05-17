@@ -15,7 +15,7 @@ import {
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { createOrderAsync } from "../features/order/orderSlice";
-import { discountedPrice } from "../app/constants";
+import { discountedPrice, formatPrice } from "../app/constants";
 import PopupBox from "../features/common/Dialog";
 import { updateUserAsync } from "../features/user/userSlice";
 
@@ -35,18 +35,19 @@ export default function Checkout() {
   const userInfo = useSelector((state) => state.user.userInfo);
   // console.log("===>UserInfo",userInfo)
   const currentOrder = useSelector((state) => state.order.currentOrder);
+  const exchangeRate = useSelector((state) => state.product.exchangeRate);
   const addresses = userInfo?.addresses;
   // console.log("addresses",addresses);
   const [selectedAddress, setSelectedAdddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("cash");
 
-  const totalAmount = items.reduce(
+  const totalAmount = Math.round(items.reduce(
     (prevAmount, item) =>
       item.quantity *
         discountedPrice(item.product.price, item.product.discountPercentage) +
       prevAmount,
     0,
-  );
+  ) * exchangeRate);
 
   const totalItems = items.reduce(
     (prevCount, item) => item.quantity + prevCount,
@@ -431,10 +432,10 @@ export default function Checkout() {
                           </p>
                           <p className="text-sm font-black text-slate-900">
                             ₹
-                            {discountedPrice(
+                            {formatPrice(Math.round(discountedPrice(
                               product.product.price,
                               product.product.discountPercentage,
-                            )}
+                            ) * exchangeRate))}
                           </p>
                         </div>
                       </div>
@@ -458,7 +459,7 @@ export default function Checkout() {
                       Total Amount
                     </span>
                     <span className="text-3xl font-black text-indigo-600">
-                      ₹{totalAmount}
+                      ₹{formatPrice(totalAmount)}
                     </span>
                   </div>
                 </div>
