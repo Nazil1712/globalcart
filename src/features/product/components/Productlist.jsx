@@ -18,6 +18,7 @@ import {
 } from "../productSlice";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import ProductListShimmer from "../../shimmer/ProductListShimmer";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -40,6 +41,7 @@ export default function Productlist() {
   const [sort, setSort] = useState({});
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+  const productStatus = useSelector((state) => state.product.status);
 
   const filters = [
     {
@@ -125,136 +127,140 @@ export default function Productlist() {
 
   return (
     <div className="bg-transparent">
-      <div>
-        {/* Mobile filter dialog */}
-        <MobileFilter
-          mobileFiltersOpen={mobileFiltersOpen}
-          setMobileFiltersOpen={setMobileFiltersOpen}
-          handleFilter={handleFilter}
-          handleSort={handleSort}
-          filters={filters}
-        />
+      {productStatus == "loading" ? (
+        <ProductListShimmer />
+      ) : (
+        <div>
+          {/* Mobile filter dialog */}
+          <MobileFilter
+            mobileFiltersOpen={mobileFiltersOpen}
+            setMobileFiltersOpen={setMobileFiltersOpen}
+            handleFilter={handleFilter}
+            handleSort={handleSort}
+            filters={filters}
+          />
 
-        <main className="mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
-            <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
-                Discover Products
-              </h1>
-              <p className="text-slate-500 text-lg">
-                Browse our curated collection of premium goods
-              </p>
-            </div>
+          <main className="mx-auto max-w-7xl">
+            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
+              <div>
+                <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
+                  Discover Products
+                </h1>
+                <p className="text-slate-500 text-lg">
+                  Browse our curated collection of premium goods
+                </p>
+              </div>
 
-            <div className="flex items-center gap-4">
-              <Menu as="div" className="relative inline-block text-left z-30">
-                <div>
-                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
-                    Sort By
-                    <ChevronDownIcon
-                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
-                      aria-hidden="true"
-                    />
-                  </Menu.Button>
-                </div>
+              <div className="flex items-center gap-4">
+                <Menu as="div" className="relative inline-block text-left z-30">
+                  <div>
+                    <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
+                      Sort By
+                      <ChevronDownIcon
+                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
+                        aria-hidden="true"
+                      />
+                    </Menu.Button>
+                  </div>
 
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="transform opacity-0 scale-95 translate-y-2"
-                  enterTo="transform opacity-100 scale-100 translate-y-0"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="transform opacity-100 scale-100 translate-y-0"
-                  leaveTo="transform opacity-0 scale-95 translate-y-2"
-                >
-                  <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
-                    <div className="py-1">
-                      {sortOptions.map((option) => (
-                        <Menu.Item key={option.name}>
-                          {({ active }) => (
-                            <button
-                              className={classNames(
-                                option.current
-                                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
-                                  : "text-slate-600 hover:bg-white hover:shadow-sm",
-                                "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
-                              )}
-                              onClick={() => handleSort(option)}
-                            >
-                              {option.name}
-                              {option.current && (
-                                <motion.svg
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  className="ml-auto w-4 h-4 text-white"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                  strokeWidth={3}
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </motion.svg>
-                              )}
-                            </button>
-                          )}
-                        </Menu.Item>
-                      ))}
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-200"
+                    enterFrom="transform opacity-0 scale-95 translate-y-2"
+                    enterTo="transform opacity-100 scale-100 translate-y-0"
+                    leave="transition ease-in duration-150"
+                    leaveFrom="transform opacity-100 scale-100 translate-y-0"
+                    leaveTo="transform opacity-0 scale-95 translate-y-2"
+                  >
+                    <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
+                      <div className="py-1">
+                        {sortOptions.map((option) => (
+                          <Menu.Item key={option.name}>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  option.current
+                                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+                                    : "text-slate-600 hover:bg-white hover:shadow-sm",
+                                  "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
+                                )}
+                                onClick={() => handleSort(option)}
+                              >
+                                {option.name}
+                                {option.current && (
+                                  <motion.svg
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    className="ml-auto w-4 h-4 text-white"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={3}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </motion.svg>
+                                )}
+                              </button>
+                            )}
+                          </Menu.Item>
+                        ))}
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
 
-              {/* <button
+                {/* <button
                 type="button"
                 className="hidden sm:flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
               >
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button> */}
-              <button
-                type="button"
-                className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
-                onClick={() => setMobileFiltersOpen(true)}
-              >
-                <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
-            </div>
-          </div>
-
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
-            <h2 id="products-heading" className="sr-only">
-              Products
-            </h2>
-
-            <div className="flex flex-col gap-10">
-              <DesktopFilter
-                handleFilter={handleFilter}
-                filters={filters}
-                activeFilters={filter}
-              />
-
-              {/* Product grid */}
-              <div className="w-full">
-                <ProductGrid products={products} />
+                <button
+                  type="button"
+                  className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
+                  onClick={() => setMobileFiltersOpen(true)}
+                >
+                  <FunnelIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
               </div>
             </div>
-          </section>
-        </main>
-        {/* Products grid Ends */}
 
-        <div className="pb-12">
-          <Pagination
-            page={page}
-            setPage={setPage}
-            handlePage={handlePage}
-            totalItems={totalItems}
-            totalPages={totalPages}
-          />
+            <section aria-labelledby="products-heading" className="pb-24 pt-6">
+              <h2 id="products-heading" className="sr-only">
+                Products
+              </h2>
+
+              <div className="flex flex-col gap-10">
+                <DesktopFilter
+                  handleFilter={handleFilter}
+                  filters={filters}
+                  activeFilters={filter}
+                />
+
+                {/* Product grid */}
+                <div className="w-full">
+                  <ProductGrid products={products} />
+                </div>
+              </div>
+            </section>
+          </main>
+          {/* Products grid Ends */}
+
+          <div className="pb-12">
+            <Pagination
+              page={page}
+              setPage={setPage}
+              handlePage={handlePage}
+              totalItems={totalItems}
+              totalPages={totalPages}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -25,31 +25,6 @@ const NavbarShimmer = () => {
           </div>
         </div>
       </div>
-
-      {/* Content Shimmer (Generic) */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="space-y-6">
-          {/* Page Title */}
-          <div className="bg-slate-200 animate-pulse w-64 h-10 rounded-2xl"></div>
-          
-          {/* Generic Grid */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4 pt-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="bg-white rounded-3xl premium-shadow overflow-hidden flex flex-col h-full">
-                <div className="bg-slate-200 animate-pulse aspect-h-1 aspect-w-1 w-full h-48"></div>
-                <div className="p-6 space-y-4 flex-1 flex flex-col">
-                  <div className="bg-slate-200 animate-pulse w-3/4 h-5 rounded-lg"></div>
-                  <div className="bg-slate-200 animate-pulse w-full h-3 rounded-lg flex-1"></div>
-                  <div className="flex justify-between items-center pt-2">
-                    <div className="bg-slate-200 animate-pulse w-16 h-6 rounded-lg"></div>
-                    <div className="bg-slate-200 animate-pulse w-20 h-8 rounded-xl"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
