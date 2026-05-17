@@ -363,62 +363,151 @@ const MobileFilter = ({
 };
 
 const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
+  // Count total active filters
+  const totalActive = Object.values(activeFilters).reduce((acc, curr) => acc + (curr ? curr.length : 0), 0);
+
   return (
-    <div className="hidden lg:block space-y-10">
-      {filters.map((section) => (
-        <div key={section.id} className="space-y-6">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-1.5 h-5 bg-indigo-600 rounded-full shadow-[0_0_15px_rgba(79,70,229,0.5)]" />
-            <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
-              {section.name}
-            </h3>
+    <div className="hidden lg:block relative z-20">
+      <div className="flex flex-wrap items-center gap-4 bg-white/40 backdrop-blur-2xl border border-white/60 p-3 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+        <div className="flex items-center gap-3 px-4 py-2 bg-white/50 rounded-2xl shadow-sm border border-white/50">
+          <div className="relative">
+            <FunnelIcon className="w-5 h-5 text-indigo-600" />
+            {totalActive > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
+              </span>
+            )}
           </div>
+          <span className="font-black text-slate-800 tracking-wide text-sm uppercase">Filter By</span>
+        </div>
 
-          <div className="relative group/scroll">
-            {/* Edge Fades for better scroll indicators */}
-            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-slate-50/50 to-transparent z-10 pointer-events-none opacity-0 group-hover/scroll:opacity-100 transition-opacity" />
-            <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-slate-50/50 to-transparent z-10 pointer-events-none opacity-0 group-hover/scroll:opacity-100 transition-opacity" />
-
-            <div className="flex flex-nowrap overflow-x-auto gap-3 no-scrollbar pb-4 px-2 scroll-smooth">
-              {section.options.map((option, optionIdx) => {
-                const isChecked = activeFilters[section.id]?.includes(
-                  option.value,
-                );
-                return (
-                  <label
-                    key={option.value}
+        {filters.map((section) => (
+          <Menu as="div" key={section.id} className="relative">
+            {({ open }) => (
+              <>
+                <Menu.Button className={classNames(
+                  "flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 border-2",
+                  activeFilters[section.id]?.length > 0 || open 
+                    ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200" 
+                    : "bg-white/60 border-transparent text-slate-600 hover:bg-white hover:shadow-md"
+                )}>
+                  <span>{section.name}</span>
+                  {activeFilters[section.id]?.length > 0 && (
+                    <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-xs">
+                      {activeFilters[section.id].length}
+                    </span>
+                  )}
+                  <ChevronDownIcon
                     className={classNames(
-                      "group relative flex items-center justify-center rounded-full px-6 py-3 text-sm font-bold cursor-pointer transition-all duration-300 border-2 whitespace-nowrap min-w-max",
-                      isChecked
-                        ? "bg-indigo-600 border-indigo-600 text-white shadow-[0_10px_20px_-5px_rgba(79,70,229,0.3)]"
-                        : "bg-white border-slate-100 text-slate-500 hover:border-indigo-200 hover:text-indigo-600 hover:shadow-md",
+                      "h-4 w-4 transition-transform duration-300",
+                      open ? "rotate-180" : ""
                     )}
-                  >
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={isChecked}
-                      onChange={(e) => handleFilter(e, section, option)}
-                    />
-                    <span className="relative z-10">{option.label}</span>
-                    {isChecked && (
+                  />
+                </Menu.Button>
+                
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="opacity-0 translate-y-2"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-2"
+                >
+                  <Menu.Items className="absolute left-0 mt-3 w-72 origin-top-left bg-white/80 backdrop-blur-3xl border border-white/60 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-3 focus:outline-none overflow-hidden z-[100]">
+                    <div className="max-h-80 overflow-y-auto no-scrollbar space-y-1 p-1">
+                      {section.options.map((option) => {
+                        const isChecked = activeFilters[section.id]?.includes(option.value);
+                        return (
+                          <Menu.Item key={option.value}>
+                            {({ active }) => (
+                              <label
+                                className={classNames(
+                                  "flex items-center gap-3 w-full cursor-pointer px-4 py-3 rounded-2xl transition-all duration-200 group",
+                                  active || isChecked ? "bg-white shadow-sm" : "hover:bg-white/50"
+                                )}
+                              >
+                                <div className={classNames(
+                                  "w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-300",
+                                  isChecked 
+                                    ? "bg-indigo-600 border-indigo-600 shadow-inner" 
+                                    : "border-slate-300 bg-slate-50 group-hover:border-indigo-300"
+                                )}>
+                                  {isChecked && (
+                                    <motion.svg
+                                      initial={{ scale: 0 }}
+                                      animate={{ scale: 1 }}
+                                      className="w-3.5 h-3.5 text-white"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      stroke="currentColor"
+                                      strokeWidth={3}
+                                    >
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                    </motion.svg>
+                                  )}
+                                </div>
+                                <input
+                                  type="checkbox"
+                                  className="sr-only"
+                                  checked={isChecked}
+                                  onChange={(e) => handleFilter(e, section, option)}
+                                />
+                                <span className={classNames(
+                                  "text-sm font-semibold transition-colors duration-200",
+                                  isChecked ? "text-indigo-900" : "text-slate-600 group-hover:text-slate-900"
+                                )}>
+                                  {option.label}
+                                </span>
+                              </label>
+                            )}
+                          </Menu.Item>
+                        );
+                      })}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </>
+            )}
+          </Menu>
+        ))}
+
+        {/* Active Filters Display */}
+        {totalActive > 0 && (
+          <div className="flex-1 flex justify-end">
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Active:</span>
+              <AnimatePresence>
+                {filters.map(section => 
+                  activeFilters[section.id]?.map(val => {
+                    const label = section.options.find(o => o.value === val)?.label;
+                    return (
                       <motion.span
-                        layoutId={`active-pill-${section.id}`}
-                        className="absolute inset-0 rounded-full bg-indigo-600 -z-10"
-                        transition={{
-                          type: "spring",
-                          bounce: 0.2,
-                          duration: 0.6,
-                        }}
-                      />
-                    )}
-                  </label>
-                );
-              })}
+                        key={`${section.id}-${val}`}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 text-white text-xs font-semibold shadow-sm"
+                      >
+                        {label}
+                        <button
+                          type="button"
+                          onClick={(e) => handleFilter({ target: { checked: false } }, section, { value: val })}
+                          className="hover:text-red-400 transition-colors"
+                        >
+                          <XMarkIcon className="w-3.5 h-3.5" />
+                        </button>
+                      </motion.span>
+                    );
+                  })
+                )}
+              </AnimatePresence>
             </div>
           </div>
-        </div>
-      ))}
+        )}
+
+      </div>
     </div>
   );
 };
