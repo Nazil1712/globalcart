@@ -109,7 +109,7 @@ export default function Productlist() {
       // Set new sort option
       if (sort._sort) {
         const prevSortOption = sortOptions.find(
-          (v) => v.sort === sort._sort && v.order === sort._order
+          (v) => v.sort === sort._sort && v.order === sort._order,
         );
         if (prevSortOption) prevSortOption.current = false;
       }
@@ -192,7 +192,11 @@ export default function Productlist() {
                                   stroke="currentColor"
                                   strokeWidth={3}
                                 >
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 13l4 4L19 7"
+                                  />
                                 </motion.svg>
                               )}
                             </button>
@@ -204,12 +208,12 @@ export default function Productlist() {
                 </Transition>
               </Menu>
 
-              <button
+              {/* <button
                 type="button"
                 className="hidden sm:flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
               >
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-              </button>
+              </button> */}
               <button
                 type="button"
                 className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"

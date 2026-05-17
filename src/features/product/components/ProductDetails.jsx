@@ -64,7 +64,7 @@ export default function ProductDetails() {
   }, [dispatch, product?.id, product?.category, id]);
 
   return (
-    <div className="bg-transparent pb-16">
+    <div className="bg-transparent pb-20">
       {!product && status === "loading" ? (
         <ProductdetailShimmer />
       ) : (

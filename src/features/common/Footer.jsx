@@ -21,14 +21,14 @@ const Footer = () => {
         { name: "Order Status", href: "/orders" },
         { name: "Shipping & Delivery", href: "/" },
         { name: "Returns", href: "/" },
-        { name: "Contact Us", href: "/" },
+        { name: "Contact Us", href: "/contact-us" },
       ],
     },
     {
       title: "Company",
       links: [
-        { name: "About Us", href: "/" },
-        { name: "Careers", href: "/" },
+        { name: "About Us", href: "/about-us" },
+        // { name: "Careers", href: "/" },
         { name: "Sustainability", href: "/" },
         { name: "Terms of Service", href: "/" },
       ],
@@ -126,9 +126,8 @@ const Footer = () => {
                   <li key={link.name}>
                     <Link
                       to={link.href}
-                      className="text-slate-400 hover:text-indigo-400 transition-colors font-medium flex items-center group"
+                      className="text-slate-400 hover:text-indigo-400 transition-colors font-medium relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-indigo-500 after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left after:transition-transform after:duration-300"
                     >
-                      <span className="w-0 group-hover:w-2 h-0.5 bg-indigo-500 mr-0 group-hover:mr-2 transition-all duration-300" />
                       {link.name}
                     </Link>
                   </li>
@@ -146,7 +145,7 @@ const Footer = () => {
             © {currentYear} GlobalCart. Developer with ❤️ by{" "}
             <Link
               to={"https://www.linkedin.com/in/nazil-dhalwala-267586223/"}
-              className="text-white font-bold"
+              className="text-white font-bold relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-indigo-500 after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left after:transition-transform after:duration-300"
             >
               {" "}
               Nazil 1712{" "}
@@ -168,10 +167,10 @@ const Footer = () => {
             </div>
             <div className="h-4 w-px bg-slate-800 hidden md:block" />
             <div className="flex gap-6 text-xs font-bold text-slate-500 uppercase tracking-widest">
-              <span className="hover:text-white cursor-pointer transition-colors">
+              <span className="hover:text-white cursor-pointer transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-indigo-500 after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left after:transition-transform after:duration-300">
                 Privacy
               </span>
-              <span className="hover:text-white cursor-pointer transition-colors">
+              <span className="hover:text-white cursor-pointer transition-colors relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-indigo-500 after:scale-x-0 after:origin-right hover:after:scale-x-100 hover:after:origin-left after:transition-transform after:duration-300">
                 Terms
               </span>
             </div>

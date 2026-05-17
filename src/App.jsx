@@ -36,6 +36,8 @@ import EmailSent from "./pages/EmailSent";
 import ResetPasswordSuccess from "./pages/ResetPasswordSuccess";
 import NavbarShimmer from "./features/shimmer/NavbarShimmer";
 import ProductDetailsShimmerPage from "./pages/shimmer/ProductDetailsShimmerPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import ContactUsPage from "./pages/ContactUsPage";
 
 const appRouter = createBrowserRouter([
   {
@@ -185,6 +187,14 @@ const appRouter = createBrowserRouter([
   {
     path: "/navbar-shimmer",
     element: <NavbarShimmer />,
+  },
+  {
+    path: "/about-us",
+    element: <AboutUsPage />,
+  },
+  {
+    path: "/contact-us",
+    element: <ContactUsPage />,
   },
   {
     path: "*",
