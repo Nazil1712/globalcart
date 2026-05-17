@@ -26,11 +26,11 @@ function Login() {
   // console.log("On login page");
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Decorative background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-50" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-50" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600 rounded-full blur-[100px] opacity-30 animate-pulse" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600 rounded-full blur-[100px] opacity-30" />
       </div>
 
       {loggedInUserToken && <Navigate to={"/"} replace={true} />}
@@ -47,10 +47,10 @@ function Login() {
             alt="GlobalCart"
           />
         </Link>
-        <h2 className="text-center text-4xl font-black text-slate-900 tracking-tight">
+        <h2 className="text-center text-4xl font-black text-white tracking-tight">
           Welcome Back
         </h2>
-        <p className="mt-2 text-center text-slate-500 font-medium">
+        <p className="mt-2 text-center text-slate-400 font-medium">
           Enter your details to access your account
         </p>
       </motion.div>
@@ -61,7 +61,7 @@ function Login() {
         transition={{ delay: 0.1 }}
         className="mt-10 sm:mx-auto sm:w-full sm:max-w-md"
       >
-        <div className="bg-white/80 backdrop-blur-xl py-10 px-8 premium-shadow rounded-[2.5rem] border border-white">
+        <div className="bg-slate-900/50 backdrop-blur-xl py-10 px-8 premium-shadow rounded-[2.5rem] border border-white/10">
           <form
             noValidate
             className="space-y-6"
@@ -74,7 +74,7 @@ function Login() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-bold text-slate-700 ml-1 mb-2"
+                className="block text-sm font-bold text-slate-300 ml-1 mb-2"
               >
                 Email Address
               </label>
@@ -89,7 +89,7 @@ function Login() {
                 })}
                 type="email"
                 placeholder="name@company.com"
-                className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                className="block w-full rounded-2xl border-white/10 bg-slate-950/50 py-3.5 px-4 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm transition-all"
               />
               {errors.email && (
                 <p className="mt-2 text-xs font-bold text-red-500 ml-1">
@@ -102,14 +102,14 @@ function Login() {
               <div className="flex items-center justify-between ml-1 mb-2">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-bold text-slate-700"
+                  className="block text-sm font-bold text-slate-300"
                 >
                   Password
                 </label>
                 <Link
                   to="/forgot-password"
                   size="sm"
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
+                  className="text-xs font-bold text-indigo-400 hover:text-indigo-300 transition-colors"
                 >
                   Forgot?
                 </Link>
@@ -122,7 +122,7 @@ function Login() {
                   })}
                   type={passwordVisible ? "text" : "password"}
                   placeholder="••••••••"
-                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                  className="block w-full rounded-2xl border-white/10 bg-slate-950/50 py-3.5 px-4 text-white shadow-sm ring-1 ring-inset ring-white/10 placeholder:text-slate-600 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm transition-all"
                 />
                 <button
                   type="button"
@@ -152,7 +152,7 @@ function Login() {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
               type="submit"
-              className="flex w-full justify-center rounded-2xl bg-slate-900 px-4 py-4 text-sm font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-4 text-sm font-bold leading-6 text-white shadow-xl shadow-indigo-500/20 hover:bg-indigo-500 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
             >
               Sign In
             </motion.button>
@@ -161,10 +161,10 @@ function Login() {
           <div className="mt-10">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-100" />
+                <div className="w-full border-t border-white/10" />
               </div>
               <div className="relative flex justify-center text-xs font-bold uppercase tracking-widest">
-                <span className="bg-white/0 px-4 text-slate-400">
+                <span className="bg-slate-900 px-4 text-slate-500">
                   New here?
                 </span>
               </div>
@@ -173,7 +173,7 @@ function Login() {
             <div className="mt-6">
               <Link
                 to="/signup"
-                className="flex w-full justify-center rounded-2xl bg-white px-4 py-4 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 transition-all"
+                className="flex w-full justify-center rounded-2xl bg-white/5 px-4 py-4 text-sm font-bold text-white shadow-sm ring-1 ring-inset ring-white/10 hover:bg-white/10 transition-all"
               >
                 Create Account
               </Link>

@@ -94,7 +94,7 @@ const Footer = () => {
                 />
               </div>
               <span className="text-2xl font-black text-white tracking-tighter">
-                Global<span className="text-indigo-500">Cart</span>
+                Global <span className="text-indigo-500">Cart</span>
               </span>
             </Link>
             <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-sm">
@@ -143,8 +143,15 @@ const Footer = () => {
       <div className="border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm font-medium">
-            © {currentYear} GlobalCart. Designed with Passion by{" "}
-            <span className="text-white font-bold">Nazil 1712</span>.
+            © {currentYear} GlobalCart. Developer with ❤️ by{" "}
+            <Link
+              to={"https://www.linkedin.com/in/nazil-dhalwala-267586223/"}
+              className="text-white font-bold"
+            >
+              {" "}
+              Nazil 1712{" "}
+            </Link>
+            .
           </p>
           <div className="flex items-center gap-8">
             <div className="flex gap-4">
