@@ -20,7 +20,6 @@ import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const sortOptions = [
-  { name: "Reset", sort: "reset", order: "reset", current: false },
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
   { name: "Price: Low to High", sort: "price", order: "asc", current: false },
   { name: "Price: High to Low", sort: "price", order: "desc", current: false },
@@ -99,21 +98,25 @@ export default function Productlist() {
   };
 
   const handleSort = (option) => {
-    option.current = true;
-    // console.log("Sort",sort)
-    if (sort._sort) {
-      console.log("I am in");
-      const prevSortOption = sortOptions.find(
-        (v, i, arr) => v.sort == sort._sort,
-      );
-      console.log(prevSortOption);
-      prevSortOption.current = false;
-      console.log(prevSortOption);
+    if (sort._sort === option.sort && sort._order === option.order) {
+      // Toggle off if clicking the already active option
+      option.current = false;
+      const newSort = { ...sort };
+      delete newSort._sort;
+      delete newSort._order;
+      setSort(newSort);
+    } else {
+      // Set new sort option
+      if (sort._sort) {
+        const prevSortOption = sortOptions.find(
+          (v) => v.sort === sort._sort && v.order === sort._order
+        );
+        if (prevSortOption) prevSortOption.current = false;
+      }
+      option.current = true;
+      const newSort = { ...sort, _sort: option.sort, _order: option.order };
+      setSort(newSort);
     }
-    const newSort = { ...sort, _sort: option.sort, _order: option.order };
-    // console.log("New Sort",newSort)
-    setSort(newSort);
-    // console.log(option.sort, option.order);
   };
 
   const handlePage = (page) => {
@@ -144,12 +147,12 @@ export default function Productlist() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Menu as="div" className="relative inline-block text-left">
+              <Menu as="div" className="relative inline-block text-left z-30">
                 <div>
-                  <Menu.Button className="group inline-flex items-center justify-center rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-all">
-                    Sort
+                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
+                    Sort By
                     <ChevronDownIcon
-                      className="-mr-1 ml-2 h-5 w-5 flex-shrink-0 text-slate-400 group-hover:text-slate-500"
+                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
                       aria-hidden="true"
                     />
                   </Menu.Button>
@@ -157,14 +160,14 @@ export default function Productlist() {
 
                 <Transition
                   as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
+                  enter="transition ease-out duration-200"
+                  enterFrom="transform opacity-0 scale-95 translate-y-2"
+                  enterTo="transform opacity-100 scale-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="transform opacity-100 scale-100 translate-y-0"
+                  leaveTo="transform opacity-0 scale-95 translate-y-2"
                 >
-                  <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-2xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 focus:outline-none p-1">
+                  <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
@@ -172,14 +175,26 @@ export default function Productlist() {
                             <button
                               className={classNames(
                                 option.current
-                                  ? "bg-indigo-50 text-indigo-600 font-bold"
-                                  : "text-slate-600",
-                                active ? "bg-slate-50" : "",
-                                "block w-full text-left px-4 py-2.5 text-sm rounded-xl transition-colors",
+                                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+                                  : "text-slate-600 hover:bg-white hover:shadow-sm",
+                                "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
                               )}
                               onClick={() => handleSort(option)}
                             >
                               {option.name}
+                              {option.current && (
+                                <motion.svg
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="ml-auto w-4 h-4 text-white"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={3}
+                                >
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                </motion.svg>
+                              )}
                             </button>
                           )}
                         </Menu.Item>
@@ -364,7 +379,10 @@ const MobileFilter = ({
 
 const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
   // Count total active filters
-  const totalActive = Object.values(activeFilters).reduce((acc, curr) => acc + (curr ? curr.length : 0), 0);
+  const totalActive = Object.values(activeFilters).reduce(
+    (acc, curr) => acc + (curr ? curr.length : 0),
+    0,
+  );
 
   return (
     <div className="hidden lg:block relative z-20">
@@ -379,19 +397,23 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
               </span>
             )}
           </div>
-          <span className="font-black text-slate-800 tracking-wide text-sm uppercase">Filter By</span>
+          <span className="font-black text-slate-800 tracking-wide text-sm uppercase">
+            Filter By
+          </span>
         </div>
 
         {filters.map((section) => (
           <Menu as="div" key={section.id} className="relative">
             {({ open }) => (
               <>
-                <Menu.Button className={classNames(
-                  "flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 border-2",
-                  activeFilters[section.id]?.length > 0 || open 
-                    ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200" 
-                    : "bg-white/60 border-transparent text-slate-600 hover:bg-white hover:shadow-md"
-                )}>
+                <Menu.Button
+                  className={classNames(
+                    "flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 border-2",
+                    activeFilters[section.id]?.length > 0 || open
+                      ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200"
+                      : "bg-white/60 border-transparent text-slate-600 hover:bg-white hover:shadow-md",
+                  )}
+                >
                   <span>{section.name}</span>
                   {activeFilters[section.id]?.length > 0 && (
                     <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-xs">
@@ -401,11 +423,11 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                   <ChevronDownIcon
                     className={classNames(
                       "h-4 w-4 transition-transform duration-300",
-                      open ? "rotate-180" : ""
+                      open ? "rotate-180" : "",
                     )}
                   />
                 </Menu.Button>
-                
+
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-200"
@@ -418,22 +440,28 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                   <Menu.Items className="absolute left-0 mt-3 w-72 origin-top-left bg-white/80 backdrop-blur-3xl border border-white/60 rounded-[2rem] shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] p-3 focus:outline-none overflow-hidden z-[100]">
                     <div className="max-h-80 overflow-y-auto no-scrollbar space-y-1 p-1">
                       {section.options.map((option) => {
-                        const isChecked = activeFilters[section.id]?.includes(option.value);
+                        const isChecked = activeFilters[section.id]?.includes(
+                          option.value,
+                        );
                         return (
                           <Menu.Item key={option.value}>
                             {({ active }) => (
                               <label
                                 className={classNames(
                                   "flex items-center gap-3 w-full cursor-pointer px-4 py-3 rounded-2xl transition-all duration-200 group",
-                                  active || isChecked ? "bg-white shadow-sm" : "hover:bg-white/50"
+                                  active || isChecked
+                                    ? "bg-white shadow-sm"
+                                    : "hover:bg-white/50",
                                 )}
                               >
-                                <div className={classNames(
-                                  "w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-300",
-                                  isChecked 
-                                    ? "bg-indigo-600 border-indigo-600 shadow-inner" 
-                                    : "border-slate-300 bg-slate-50 group-hover:border-indigo-300"
-                                )}>
+                                <div
+                                  className={classNames(
+                                    "w-5 h-5 rounded-lg border-2 flex items-center justify-center transition-all duration-300",
+                                    isChecked
+                                      ? "bg-indigo-600 border-indigo-600 shadow-inner"
+                                      : "border-slate-300 bg-slate-50 group-hover:border-indigo-300",
+                                  )}
+                                >
                                   {isChecked && (
                                     <motion.svg
                                       initial={{ scale: 0 }}
@@ -444,7 +472,11 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                                       stroke="currentColor"
                                       strokeWidth={3}
                                     >
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M5 13l4 4L19 7"
+                                      />
                                     </motion.svg>
                                   )}
                                 </div>
@@ -452,12 +484,18 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                                   type="checkbox"
                                   className="sr-only"
                                   checked={isChecked}
-                                  onChange={(e) => handleFilter(e, section, option)}
+                                  onChange={(e) =>
+                                    handleFilter(e, section, option)
+                                  }
                                 />
-                                <span className={classNames(
-                                  "text-sm font-semibold transition-colors duration-200",
-                                  isChecked ? "text-indigo-900" : "text-slate-600 group-hover:text-slate-900"
-                                )}>
+                                <span
+                                  className={classNames(
+                                    "text-sm font-semibold transition-colors duration-200",
+                                    isChecked
+                                      ? "text-indigo-900"
+                                      : "text-slate-600 group-hover:text-slate-900",
+                                  )}
+                                >
                                   {option.label}
                                 </span>
                               </label>
@@ -477,11 +515,15 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
         {totalActive > 0 && (
           <div className="flex-1 flex justify-end">
             <div className="flex flex-wrap gap-2 items-center">
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Active:</span>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">
+                Active:
+              </span>
               <AnimatePresence>
-                {filters.map(section => 
-                  activeFilters[section.id]?.map(val => {
-                    const label = section.options.find(o => o.value === val)?.label;
+                {filters.map((section) =>
+                  activeFilters[section.id]?.map((val) => {
+                    const label = section.options.find(
+                      (o) => o.value === val,
+                    )?.label;
                     return (
                       <motion.span
                         key={`${section.id}-${val}`}
@@ -493,20 +535,25 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                         {label}
                         <button
                           type="button"
-                          onClick={(e) => handleFilter({ target: { checked: false } }, section, { value: val })}
+                          onClick={(e) =>
+                            handleFilter(
+                              { target: { checked: false } },
+                              section,
+                              { value: val },
+                            )
+                          }
                           className="hover:text-red-400 transition-colors"
                         >
                           <XMarkIcon className="w-3.5 h-3.5" />
                         </button>
                       </motion.span>
                     );
-                  })
+                  }),
                 )}
               </AnimatePresence>
             </div>
           </div>
         )}
-
       </div>
     </div>
   );

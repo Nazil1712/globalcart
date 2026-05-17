@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import globalcart from "../../images/gc.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -85,8 +86,12 @@ const Footer = () => {
           {/* Brand Info */}
           <div className="col-span-2 lg:col-span-2">
             <Link to="/" className="flex items-center gap-2 mb-8">
-              <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                <span className="text-white font-black text-xl italic">G</span>
+              <div>
+                <img
+                  src={globalcart}
+                  className="h-10 w-auto"
+                  alt="GlobalCart Logo"
+                />
               </div>
               <span className="text-2xl font-black text-white tracking-tighter">
                 Global<span className="text-indigo-500">Cart</span>
@@ -171,4 +176,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

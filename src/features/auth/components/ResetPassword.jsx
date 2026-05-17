@@ -6,7 +6,7 @@ import {
   resetPasswordAsync,
   resetPasswordRequestAsync,
 } from "../authSlice";
-import globalcart from "../../../images/logo.png";
+import globalcart from "../../../images/gc.png";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
@@ -35,7 +35,9 @@ const ResetPassword = () => {
 
   return (
     <>
-      {passwordReset && <Navigate to={"/reset-password-success"} replace={true} />}
+      {passwordReset && (
+        <Navigate to={"/reset-password-success"} replace={true} />
+      )}
       {token && email ? (
         <div>
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -66,7 +68,7 @@ const ResetPassword = () => {
                       email,
                       token,
                       password: data.password,
-                    })
+                    }),
                   );
                 })}
               >
