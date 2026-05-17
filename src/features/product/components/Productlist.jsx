@@ -3,7 +3,7 @@ import { discountedPrice, ITEMS_PER_PAGE } from "../../../app/constants";
 import Pagination from "../../common/Pagination";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { StarIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { StarIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -39,9 +39,18 @@ export default function Productlist() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
   const [sort, setSort] = useState({});
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const productStatus = useSelector((state) => state.product.status);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSearch(searchInput);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
   const filters = [
     {
@@ -58,8 +67,8 @@ export default function Productlist() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination }));
-  }, [dispatch, filter, sort, page]);
+    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination, search }));
+  }, [dispatch, filter, sort, page, search]);
 
   useEffect(() => {
     setPage(1);
@@ -74,7 +83,7 @@ export default function Productlist() {
     const newFilter = { ...filter };
     const checked = e.target.checked;
 
-    // console.log(section);
+    console.log("Section", section);
 
     // section.id = category
     // opton.id = smartphone
@@ -127,9 +136,6 @@ export default function Productlist() {
 
   return (
     <div className="bg-transparent">
-      {productStatus == "loading" ? (
-        <ProductListShimmer />
-      ) : (
         <div>
           {/* Mobile filter dialog */}
           <MobileFilter
@@ -152,6 +158,18 @@ export default function Productlist() {
               </div>
 
               <div className="flex items-center gap-4">
+                {/* Modern Search Bar */}
+                <div className="relative group">
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                    placeholder="Search products..."
+                    className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-sm font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
+                  />
+                  <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
+                </div>
+
                 <Menu as="div" className="relative inline-block text-left z-30">
                   <div>
                     <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
@@ -243,7 +261,34 @@ export default function Productlist() {
 
                 {/* Product grid */}
                 <div className="w-full">
-                  <ProductGrid products={products} />
+                  {productStatus === "loading" ? (
+                    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4">
+                      {Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="bg-white rounded-3xl premium-shadow overflow-hidden flex flex-col h-full">
+                          <div className="bg-slate-200 animate-pulse aspect-h-1 aspect-w-1 w-full lg:h-72"></div>
+                          <div className="p-6 flex-1 flex flex-col space-y-4">
+                            <div className="flex justify-between items-start gap-2">
+                              <div className="bg-slate-200 animate-pulse w-3/4 h-5 rounded-lg"></div>
+                              <div className="bg-slate-200 animate-pulse w-10 h-5 rounded-lg"></div>
+                            </div>
+                            <div className="space-y-2 flex-1">
+                              <div className="bg-slate-200 animate-pulse w-full h-3 rounded-lg"></div>
+                              <div className="bg-slate-200 animate-pulse w-5/6 h-3 rounded-lg"></div>
+                            </div>
+                            <div className="flex items-end justify-between pt-2">
+                              <div className="space-y-1">
+                                <div className="bg-slate-200 animate-pulse w-16 h-6 rounded-lg"></div>
+                                <div className="bg-slate-200 animate-pulse w-10 h-3 rounded-lg"></div>
+                              </div>
+                              <div className="bg-slate-200 animate-pulse w-24 h-9 rounded-xl"></div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ProductGrid products={products} />
+                  )}
                 </div>
               </div>
             </section>
@@ -260,7 +305,6 @@ export default function Productlist() {
             />
           </div>
         </div>
-      )}
     </div>
   );
 }

@@ -21,7 +21,7 @@ export function fetchCartByUserAPI() {
       credentials: "include",
     });
     const data = await response.json();
-    console.log("Cart Data from frontend", data);
+    // console.log("Cart Data from frontend", data);
     resolve({ data });
   });
 }

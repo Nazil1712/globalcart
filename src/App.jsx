@@ -224,7 +224,7 @@ function App() {
     dispatch(checkAuthAsync());
   }, [dispatch]);
 
-  console.log("loggedInUserToken", loggedInUserToken);
+  // console.log("loggedInUserToken", loggedInUserToken);
 
   useEffect(() => {
     if (loggedInUserToken) {
