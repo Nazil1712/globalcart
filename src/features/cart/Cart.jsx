@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, Navigate } from "react-router-dom";
 import { deleteFromCartAsync, updateCartAsync } from "./cartSlice";
 import { discountedPrice, formatPrice } from "../../app/constants";
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import PopupBox from "../common/Dialog";
 import emptyCartUpper from "../../images/empty_cart_upper.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -166,9 +166,10 @@ export default function Cart() {
                           />
                           <button
                             onClick={() => setShowPopUp(product.id)}
-                            className="text-slate-400 hover:text-red-500 p-2 rounded-xl hover:bg-red-50 transition-all font-bold text-sm"
+                            className="text-slate-400 hover:text-red-500 p-2 rounded-xl hover:bg-red-50 transition-all"
+                            title="Remove from cart"
                           >
-                            Remove
+                            <TrashIcon className="w-5 h-5" />
                           </button>
                         </div>
                       </div>

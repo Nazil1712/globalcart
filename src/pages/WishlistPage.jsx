@@ -51,9 +51,14 @@ function WishlistPage() {
                 <span className="w-2 h-10 bg-indigo-600 rounded-full" />
                 My Wishlist
               </h1>
-              <p className="text-slate-500 font-medium">
-                You have saved {wishlistItems?.length || 0} premium items.
-              </p>
+              {wishlistItems?.length > 0 ? (
+                <p className="text-slate-500 font-medium">
+                  You have saved {wishlistItems?.length || 0} premium item
+                  {wishlistItems.length > 1 ? "s" : " "}
+                </p>
+              ) : (
+                " "
+              )}
             </div>
             <Link
               to="/"

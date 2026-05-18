@@ -6,12 +6,20 @@ import {
   fetchProductsByFilterAsync,
 } from "../productSlice";
 import { useParams, Link } from "react-router-dom";
-import { addToCartAsync } from "../../cart/cartSlice";
+import {
+  addToCartAsync,
+  updateCartAsync,
+  deleteFromCartAsync,
+} from "../../cart/cartSlice";
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import { discountedPrice, formatPrice } from "../../../app/constants";
-import { addToWishlistAsync, deleteFromWishlistAsync } from "../../wishlist/wishlistSlice";
+import {
+  addToWishlistAsync,
+  deleteFromWishlistAsync,
+} from "../../wishlist/wishlistSlice";
 import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import ProductdetailShimmer from "../../shimmer/ProductdetailShimmer";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -41,7 +49,23 @@ export default function ProductDetails() {
     return prodId === product?.id;
   });
 
+  const cartItem = cartItems?.find((item) => item.product.id === product?.id);
+
+  const handleQuantity = (newQty, item, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (newQty > 0 && newQty <= 10) {
+      dispatch(updateCartAsync({ id: item.id, quantity: newQty }));
+    } else if (newQty === 0) {
+      dispatch(deleteFromCartAsync(item.id));
+    }
+  };
+
   const handleCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     const index = cartItems.findIndex((item) => item.product.id === product.id);
 
     if (index < 0) {
@@ -50,19 +74,49 @@ export default function ProductDetails() {
         product: product.id,
       };
       dispatch(addToCartAsync(newItem));
-      toast.success("Item Added In cart");
+      toast.success("Item Added In cart", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     } else {
-      toast.info("Item Already Added");
+      toast.info("Item Already Added", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
   const handleWishlist = () => {
     if (isInWishlist) {
       dispatch(deleteFromWishlistAsync(product.id));
-      toast.success("Removed from Wishlist");
+      // toast.success("Removed from Wishlist");
     } else {
       dispatch(addToWishlistAsync(product));
-      toast.success("Added to Wishlist");
+      toast.success("Added to Wishlist", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     }
   };
 
@@ -184,7 +238,14 @@ export default function ProductDetails() {
                 <div className="flex items-baseline gap-4 mb-10">
                   <p className="text-5xl font-black text-slate-900">
                     ₹
-                    {formatPrice(Math.round(discountedPrice(product.price, product.discountPercentage) * exchangeRate))}
+                    {formatPrice(
+                      Math.round(
+                        discountedPrice(
+                          product.price,
+                          product.discountPercentage,
+                        ) * exchangeRate,
+                      ),
+                    )}
                   </p>
                   {product.discountPercentage > 0 && (
                     <div className="flex flex-col">
@@ -210,27 +271,74 @@ export default function ProductDetails() {
 
                   <div className="pt-8 border-t border-slate-100">
                     <div className="flex items-center gap-4">
-                      <motion.button
-                        whileHover={{ scale: 1.02, backgroundColor: "#4f46e5" }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleCart}
-                        className="flex-1 bg-indigo-600 text-white px-8 py-5 rounded-[1.5rem] text-lg font-bold shadow-2xl shadow-indigo-200 transition-all flex items-center justify-center gap-3"
-                      >
-                        <svg
-                          className="w-6 h-6"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                      {cartItem ? (
+                        <div className="flex-1 flex items-center justify-between bg-white/40 backdrop-blur-md border border-white/60 rounded-[1.5rem] shadow-sm p-1.5 h-[64px]">
+                          <motion.div
+                            role="button"
+                            whileHover={{
+                              scale: 1.1,
+                              backgroundColor: "rgba(255,255,255,0.8)",
+                            }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) =>
+                              handleQuantity(cartItem.quantity - 1, cartItem, e)
+                            }
+                            className="p-3 rounded-xl transition-colors cursor-pointer"
+                          >
+                            <MinusIcon className="w-5 h-5 text-slate-600" />
+                          </motion.div>
+
+                          <div className="flex flex-col items-center">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                              In Cart
+                            </span>
+                            <span className="font-black text-slate-900 text-xl">
+                              {cartItem.quantity}
+                            </span>
+                          </div>
+
+                          <motion.div
+                            role="button"
+                            whileHover={{
+                              scale: 1.1,
+                              backgroundColor: "rgba(255,255,255,0.8)",
+                            }}
+                            whileTap={{ scale: 0.9 }}
+                            onClick={(e) =>
+                              handleQuantity(cartItem.quantity + 1, cartItem, e)
+                            }
+                            className="p-3 rounded-xl transition-colors cursor-pointer"
+                          >
+                            <PlusIcon className="w-5 h-5 text-slate-600" />
+                          </motion.div>
+                        </div>
+                      ) : (
+                        <motion.div
+                          role="button"
+                          whileHover={{
+                            scale: 1.02,
+                            backgroundColor: "#4f46e5",
+                          }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={handleCart}
+                          className="flex-1 bg-indigo-600 text-white px-8 py-5 rounded-[1.5rem] text-lg font-bold shadow-2xl shadow-indigo-200 transition-all flex items-center justify-center gap-3 cursor-pointer"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                          ></path>
-                        </svg>
-                        Add to Cart
-                      </motion.button>
+                          <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                            ></path>
+                          </svg>
+                          Add to Cart
+                        </motion.div>
+                      )}
                       <motion.button
                         whileHover={{
                           scale: 1.05,
@@ -242,7 +350,7 @@ export default function ProductDetails() {
                           isInWishlist
                             ? "text-red-500 bg-red-50 ring-red-200"
                             : "text-slate-400 bg-white ring-slate-200",
-                          "p-5 rounded-[1.5rem] ring-1 transition-all shadow-sm"
+                          "p-5 rounded-[1.5rem] ring-1 transition-all shadow-sm",
                         )}
                       >
                         {isInWishlist ? (

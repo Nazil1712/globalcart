@@ -32,12 +32,16 @@ import {
   ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
-import { addToCartAsync } from "../../cart/cartSlice";
+import {
+  addToCartAsync,
+  updateCartAsync,
+  deleteFromCartAsync,
+} from "../../cart/cartSlice";
 import {
   addToWishlistAsync,
   deleteFromWishlistAsync,
 } from "../../wishlist/wishlistSlice";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -639,6 +643,7 @@ const ProductGrid = ({ products }) => {
   const exchangeRate = useSelector((state) => state.product.exchangeRate);
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const cartItems = useSelector((state) => state.cart.items);
 
   const handleAddToCart = (product) => {
     const newItem = {
@@ -653,11 +658,38 @@ const ProductGrid = ({ products }) => {
     const isInWishlist = wishlistItems?.some(
       (item) => item.product.id === product.id,
     );
+    const isItemInCart = cartItems?.some(
+      (item) => item.product.id === product.id,
+    );
+
+    if (isItemInCart) {
+      toast.info("Item is already in cart");
+      return;
+    }
+
     if (isInWishlist) {
       dispatch(deleteFromWishlistAsync(product.id));
     } else {
       dispatch(addToWishlistAsync(product));
-      toast.success("Added to Wishlist");
+      toast.success("Added to Wishlist", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+  };
+
+  const handleQuantity = (newQty, item) => {
+    if (newQty > 0 && newQty <= 10) {
+      dispatch(updateCartAsync({ id: item.id, quantity: newQty }));
+    } else if (newQty === 0) {
+      dispatch(deleteFromCartAsync(item.id));
     }
   };
 
@@ -690,6 +722,9 @@ const ProductGrid = ({ products }) => {
         );
         const price = Math.round(product.price * exchangeRate);
         const isInWishlist = wishlistItems?.some(
+          (item) => item.product.id === product.id,
+        );
+        const cartItem = cartItems?.find(
           (item) => item.product.id === product.id,
         );
 
@@ -766,20 +801,49 @@ const ProductGrid = ({ products }) => {
                   </div>
 
                   <div className="flex items-center gap-2">
-                    {/* Add to Cart Button */}
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleAddToCart(product);
-                      }}
-                      className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    >
-                      <ShoppingBagIcon className="w-3.5 h-3.5" />
-                      Add
-                    </motion.button>
+                    {/* Add to Cart or Quantity Selector */}
+                    {cartItem ? (
+                      <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleQuantity(cartItem.quantity - 1, cartItem);
+                          }}
+                          className="p-1.5 hover:bg-slate-100 transition-colors"
+                        >
+                          <MinusIcon className="w-3.5 h-3.5 text-slate-600" />
+                        </button>
+                        <span className="px-2 font-bold text-slate-900 text-xs">
+                          {cartItem.quantity}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleQuantity(cartItem.quantity + 1, cartItem);
+                          }}
+                          className="p-1.5 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                          disabled={cartItem.quantity >= 10}
+                        >
+                          <PlusIcon className="w-3.5 h-3.5 text-slate-600" />
+                        </button>
+                      </div>
+                    ) : (
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
+                        className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      >
+                        <ShoppingBagIcon className="w-3.5 h-3.5" />
+                        Add
+                      </motion.button>
+                    )}
                   </div>
                 </div>
               </div>

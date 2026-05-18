@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import globalcart from "../../images/gc.png";
 import NavbarShimmer from "../shimmer/NavbarShimmer";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const user = {
@@ -40,7 +40,16 @@ const Navbar = ({ children }) => {
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const userInfo = useSelector((state) => state.user.userInfo);
   const itemStatus = useSelector((state) => state.cart.status);
+  const userChecked = useSelector((state) => state.auth.userChecked);
   const location = useLocation();
+
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    if (itemStatus !== "loading") {
+      setIsInitialLoad(false);
+    }
+  }, [itemStatus]);
 
   const publicNavigation = [
     { name: "Home", href: "/" },
@@ -48,13 +57,13 @@ const Navbar = ({ children }) => {
     { name: "Contact Us", href: "/contact-us" },
   ];
 
-  const navItems = userInfo 
-    ? navigation.filter((item) => item[userInfo.role]) 
+  const navItems = userInfo
+    ? navigation.filter((item) => item[userInfo.role])
     : publicNavigation;
 
   return (
     <div className="bg-slate-50/50">
-      {itemStatus === "loading" ? (
+      {isInitialLoad && itemStatus === "loading" ? (
         <NavbarShimmer />
       ) : (
         <>
@@ -188,13 +197,10 @@ const Navbar = ({ children }) => {
                               </Transition>
                             </Menu>
                           </>
+                        ) : !userChecked ? (
+                          <div className="w-20 h-9 bg-slate-200 animate-pulse rounded-xl" />
                         ) : (
-                          <Link
-                            to="/login"
-                            className="bg-indigo-600 text-white px-6 py-2 rounded-xl text-sm font-bold hover:bg-indigo-500 transition-all"
-                          >
-                            Login
-                          </Link>
+                          " "
                         )}
                       </div>
                     </div>
@@ -254,7 +260,10 @@ const Navbar = ({ children }) => {
                                   {userInfo.email}
                                 </div>
                               </div>
-                              <Link to="/wishlist" className="ml-auto relative p-2">
+                              <Link
+                                to="/wishlist"
+                                className="ml-auto relative p-2"
+                              >
                                 <HeartIcon className="h-7 w-7 text-slate-600" />
                                 {wishlistItems?.length > 0 && (
                                   <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">
@@ -284,6 +293,8 @@ const Navbar = ({ children }) => {
                               ))}
                             </div>
                           </>
+                        ) : !userChecked ? (
+                          <div className="w-full h-12 bg-slate-200 animate-pulse rounded-xl" />
                         ) : (
                           <Link
                             to="/login"
