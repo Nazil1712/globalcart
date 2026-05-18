@@ -1,9 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { discountedPrice, ITEMS_PER_PAGE, formatPrice } from "../../../app/constants";
+import {
+  discountedPrice,
+  ITEMS_PER_PAGE,
+  formatPrice,
+} from "../../../app/constants";
 import Pagination from "../../common/Pagination";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { StarIcon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  StarIcon,
+  XMarkIcon,
+  MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   FunnelIcon,
@@ -19,6 +27,17 @@ import {
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductListShimmer from "../../shimmer/ProductListShimmer";
+import {
+  HeartIcon as HeartIconOutline,
+  ShoppingBagIcon,
+} from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
+import { addToCartAsync } from "../../cart/cartSlice";
+import {
+  addToWishlistAsync,
+  deleteFromWishlistAsync,
+} from "../../wishlist/wishlistSlice";
+import { toast } from "react-toastify";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -136,175 +155,178 @@ export default function Productlist() {
 
   return (
     <div className="bg-transparent">
-        <div>
-          {/* Mobile filter dialog */}
-          <MobileFilter
-            mobileFiltersOpen={mobileFiltersOpen}
-            setMobileFiltersOpen={setMobileFiltersOpen}
-            handleFilter={handleFilter}
-            handleSort={handleSort}
-            filters={filters}
-          />
+      <div>
+        {/* Mobile filter dialog */}
+        <MobileFilter
+          mobileFiltersOpen={mobileFiltersOpen}
+          setMobileFiltersOpen={setMobileFiltersOpen}
+          handleFilter={handleFilter}
+          handleSort={handleSort}
+          filters={filters}
+        />
 
-          <main className="mx-auto max-w-7xl">
-            <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
-              <div>
-                <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
-                  Discover Products
-                </h1>
-                <p className="text-slate-500 text-lg">
-                  Browse our curated collection of premium goods
-                </p>
+        <main className="mx-auto max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
+            <div>
+              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
+                Discover Products
+              </h1>
+              <p className="text-slate-500 text-lg">
+                Browse our curated collection of premium goods
+              </p>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {/* Modern Search Bar */}
+              <div className="relative group">
+                <input
+                  type="text"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  placeholder="Search products..."
+                  className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-sm font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
+                />
+                <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
               </div>
 
-              <div className="flex items-center gap-4">
-                {/* Modern Search Bar */}
-                <div className="relative group">
-                  <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder="Search products..."
-                    className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-sm font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
-                  />
-                  <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
+              <Menu as="div" className="relative inline-block text-left z-30">
+                <div>
+                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
+                    Sort By
+                    <ChevronDownIcon
+                      className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
+                      aria-hidden="true"
+                    />
+                  </Menu.Button>
                 </div>
 
-                <Menu as="div" className="relative inline-block text-left z-30">
-                  <div>
-                    <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
-                      Sort By
-                      <ChevronDownIcon
-                        className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
-                        aria-hidden="true"
-                      />
-                    </Menu.Button>
-                  </div>
+                <Transition
+                  as={Fragment}
+                  enter="transition ease-out duration-200"
+                  enterFrom="transform opacity-0 scale-95 translate-y-2"
+                  enterTo="transform opacity-100 scale-100 translate-y-0"
+                  leave="transition ease-in duration-150"
+                  leaveFrom="transform opacity-100 scale-100 translate-y-0"
+                  leaveTo="transform opacity-0 scale-95 translate-y-2"
+                >
+                  <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
+                    <div className="py-1">
+                      {sortOptions.map((option) => (
+                        <Menu.Item key={option.name}>
+                          {({ active }) => (
+                            <button
+                              className={classNames(
+                                option.current
+                                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
+                                  : "text-slate-600 hover:bg-white hover:shadow-sm",
+                                "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
+                              )}
+                              onClick={() => handleSort(option)}
+                            >
+                              {option.name}
+                              {option.current && (
+                                <motion.svg
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className="ml-auto w-4 h-4 text-white"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={3}
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </motion.svg>
+                              )}
+                            </button>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
 
-                  <Transition
-                    as={Fragment}
-                    enter="transition ease-out duration-200"
-                    enterFrom="transform opacity-0 scale-95 translate-y-2"
-                    enterTo="transform opacity-100 scale-100 translate-y-0"
-                    leave="transition ease-in duration-150"
-                    leaveFrom="transform opacity-100 scale-100 translate-y-0"
-                    leaveTo="transform opacity-0 scale-95 translate-y-2"
-                  >
-                    <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
-                      <div className="py-1">
-                        {sortOptions.map((option) => (
-                          <Menu.Item key={option.name}>
-                            {({ active }) => (
-                              <button
-                                className={classNames(
-                                  option.current
-                                    ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
-                                    : "text-slate-600 hover:bg-white hover:shadow-sm",
-                                  "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
-                                )}
-                                onClick={() => handleSort(option)}
-                              >
-                                {option.name}
-                                {option.current && (
-                                  <motion.svg
-                                    initial={{ scale: 0 }}
-                                    animate={{ scale: 1 }}
-                                    className="ml-auto w-4 h-4 text-white"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={3}
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </motion.svg>
-                                )}
-                              </button>
-                            )}
-                          </Menu.Item>
-                        ))}
-                      </div>
-                    </Menu.Items>
-                  </Transition>
-                </Menu>
-
-                {/* <button
+              {/* <button
                 type="button"
                 className="hidden sm:flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
               >
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button> */}
-                <button
-                  type="button"
-                  className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
-                  onClick={() => setMobileFiltersOpen(true)}
-                >
-                  <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-                </button>
-              </div>
+              <button
+                type="button"
+                className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
+                onClick={() => setMobileFiltersOpen(true)}
+              >
+                <FunnelIcon className="h-5 w-5" aria-hidden="true" />
+              </button>
             </div>
+          </div>
 
-            <section aria-labelledby="products-heading" className="pb-24 pt-6">
-              <h2 id="products-heading" className="sr-only">
-                Products
-              </h2>
+          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+            <h2 id="products-heading" className="sr-only">
+              Products
+            </h2>
 
-              <div className="flex flex-col gap-10">
-                <DesktopFilter
-                  handleFilter={handleFilter}
-                  filters={filters}
-                  activeFilters={filter}
-                />
+            <div className="flex flex-col gap-10">
+              <DesktopFilter
+                handleFilter={handleFilter}
+                filters={filters}
+                activeFilters={filter}
+              />
 
-                {/* Product grid */}
-                <div className="w-full">
-                  {productStatus === "loading" ? (
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4">
-                      {Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className="bg-white rounded-3xl premium-shadow overflow-hidden flex flex-col h-full">
-                          <div className="bg-slate-200 animate-pulse aspect-h-1 aspect-w-1 w-full lg:h-72"></div>
-                          <div className="p-6 flex-1 flex flex-col space-y-4">
-                            <div className="flex justify-between items-start gap-2">
-                              <div className="bg-slate-200 animate-pulse w-3/4 h-5 rounded-lg"></div>
-                              <div className="bg-slate-200 animate-pulse w-10 h-5 rounded-lg"></div>
+              {/* Product grid */}
+              <div className="w-full">
+                {productStatus === "loading" ? (
+                  <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4">
+                    {Array.from({ length: 8 }).map((_, i) => (
+                      <div
+                        key={i}
+                        className="bg-white rounded-3xl premium-shadow overflow-hidden flex flex-col h-full"
+                      >
+                        <div className="bg-slate-200 animate-pulse aspect-h-1 aspect-w-1 w-full lg:h-72"></div>
+                        <div className="p-6 flex-1 flex flex-col space-y-4">
+                          <div className="flex justify-between items-start gap-2">
+                            <div className="bg-slate-200 animate-pulse w-3/4 h-5 rounded-lg"></div>
+                            <div className="bg-slate-200 animate-pulse w-10 h-5 rounded-lg"></div>
+                          </div>
+                          <div className="space-y-2 flex-1">
+                            <div className="bg-slate-200 animate-pulse w-full h-3 rounded-lg"></div>
+                            <div className="bg-slate-200 animate-pulse w-5/6 h-3 rounded-lg"></div>
+                          </div>
+                          <div className="flex items-end justify-between pt-2">
+                            <div className="space-y-1">
+                              <div className="bg-slate-200 animate-pulse w-16 h-6 rounded-lg"></div>
+                              <div className="bg-slate-200 animate-pulse w-10 h-3 rounded-lg"></div>
                             </div>
-                            <div className="space-y-2 flex-1">
-                              <div className="bg-slate-200 animate-pulse w-full h-3 rounded-lg"></div>
-                              <div className="bg-slate-200 animate-pulse w-5/6 h-3 rounded-lg"></div>
-                            </div>
-                            <div className="flex items-end justify-between pt-2">
-                              <div className="space-y-1">
-                                <div className="bg-slate-200 animate-pulse w-16 h-6 rounded-lg"></div>
-                                <div className="bg-slate-200 animate-pulse w-10 h-3 rounded-lg"></div>
-                              </div>
-                              <div className="bg-slate-200 animate-pulse w-24 h-9 rounded-xl"></div>
-                            </div>
+                            <div className="bg-slate-200 animate-pulse w-24 h-9 rounded-xl"></div>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <ProductGrid products={products} />
-                  )}
-                </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <ProductGrid products={products} />
+                )}
               </div>
-            </section>
-          </main>
-          {/* Products grid Ends */}
+            </div>
+          </section>
+        </main>
+        {/* Products grid Ends */}
 
-          <div className="pb-12">
-            <Pagination
-              page={page}
-              setPage={setPage}
-              handlePage={handlePage}
-              totalItems={totalItems}
-              totalPages={totalPages}
-            />
-          </div>
+        <div className="pb-12">
+          <Pagination
+            page={page}
+            setPage={setPage}
+            handlePage={handlePage}
+            totalItems={totalItems}
+            totalPages={totalPages}
+          />
         </div>
+      </div>
     </div>
   );
 }
@@ -615,6 +637,30 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
 
 const ProductGrid = ({ products }) => {
   const exchangeRate = useSelector((state) => state.product.exchangeRate);
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const handleAddToCart = (product) => {
+    const newItem = {
+      quantity: 1,
+      product: product.id,
+    };
+    dispatch(addToCartAsync(newItem));
+    toast.success("Item Added In cart");
+  };
+
+  const handleWishlist = (product) => {
+    const isInWishlist = wishlistItems?.some(
+      (item) => item.product.id === product.id,
+    );
+    if (isInWishlist) {
+      dispatch(deleteFromWishlistAsync(product.id));
+    } else {
+      dispatch(addToWishlistAsync(product));
+      toast.success("Added to Wishlist");
+    }
+  };
+
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -638,11 +684,14 @@ const ProductGrid = ({ products }) => {
       className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4"
     >
       {products.map((product) => {
-        const pricediscounted = Math.round(discountedPrice(
-          product.price,
-          product.discountPercentage,
-        ) * exchangeRate);
+        const pricediscounted = Math.round(
+          discountedPrice(product.price, product.discountPercentage) *
+            exchangeRate,
+        );
         const price = Math.round(product.price * exchangeRate);
+        const isInWishlist = wishlistItems?.some(
+          (item) => item.product.id === product.id,
+        );
 
         return (
           <motion.div key={product.id} variants={item}>
@@ -650,7 +699,7 @@ const ProductGrid = ({ products }) => {
               to={`/product-detail/${product.id}`}
               className="group block relative bg-white rounded-3xl premium-shadow premium-shadow-hover overflow-hidden"
             >
-              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-slate-100 lg:h-72">
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-slate-100 lg:h-72 relative">
                 <img
                   src={product.thumbnail}
                   alt={product.title}
@@ -661,17 +710,37 @@ const ProductGrid = ({ products }) => {
                     {product.category}
                   </span>
                 </div>
+                {
+                  <div className="absolute top-4 left-60">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleWishlist(product);
+                      }}
+                      className="p-1.5 bg-slate-50 text-slate-400 hover:text-red-500 transition-all border border-slate-100 rounded-lg"
+                    >
+                      {isInWishlist ? (
+                        <HeartIconSolid className="w-4 h-4 text-red-500" />
+                      ) : (
+                        <HeartIconOutline className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                }
               </div>
               <div className="p-6">
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
                     {product.title}
                   </h3>
-                  <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
-                    <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                    <span className="text-xs font-bold text-amber-700">
-                      {product.rating}
-                    </span>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
+                      <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                      <span className="text-xs font-bold text-amber-700">
+                        {product.rating}
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
@@ -695,13 +764,23 @@ const ProductGrid = ({ products }) => {
                       </span>
                     )}
                   </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-indigo-600 transition-colors"
-                  >
-                    View Details
-                  </motion.button>
+
+                  <div className="flex items-center gap-2">
+                    {/* Add to Cart Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleAddToCart(product);
+                      }}
+                      className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    >
+                      <ShoppingBagIcon className="w-3.5 h-3.5" />
+                      Add
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </Link>
