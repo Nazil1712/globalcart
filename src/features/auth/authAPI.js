@@ -15,7 +15,7 @@ export function createUserAPI(userData) {
 }
 
 export function loginUserAPI(loginInfo) {
-  // console.log("Login Info",loginInfo)
+  console.log("Login Info", loginInfo);
   console.log("Calling : ", `${API_URL}/auth/login`);
   return new Promise(async (resolve, reject) => {
     try {

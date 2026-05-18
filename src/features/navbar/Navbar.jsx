@@ -2,6 +2,7 @@ import {
   ShoppingCartIcon,
   Bars3Icon,
   XMarkIcon,
+  HeartIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -36,6 +37,7 @@ function classNames(...classes) {
 
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
   const userInfo = useSelector((state) => state.user.userInfo);
   const itemStatus = useSelector((state) => state.cart.status);
   const location = useLocation();
@@ -94,6 +96,28 @@ const Navbar = ({ children }) => {
                       <div className="ml-4 flex items-center md:ml-6 gap-4">
                         {userInfo ? (
                           <>
+                            <Link to="/wishlist" className="relative group p-2">
+                              <motion.div
+                                whileHover={{ scale: 1.1 }}
+                                whileTap={{ scale: 0.9 }}
+                                className="text-slate-600 group-hover:text-indigo-600 transition-colors"
+                              >
+                                <HeartIcon className="h-7 w-7" />
+                              </motion.div>
+                              <AnimatePresence>
+                                {wishlistItems?.length > 0 && (
+                                  <motion.span
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-white"
+                                  >
+                                    {wishlistItems.length}
+                                  </motion.span>
+                                )}
+                              </AnimatePresence>
+                            </Link>
+
                             <Link to="/cart" className="relative group p-2">
                               <motion.div
                                 whileHover={{ scale: 1.1 }}
@@ -230,7 +254,15 @@ const Navbar = ({ children }) => {
                                   {userInfo.email}
                                 </div>
                               </div>
-                              <Link to="/cart" className="ml-auto relative p-2">
+                              <Link to="/wishlist" className="ml-auto relative p-2">
+                                <HeartIcon className="h-7 w-7 text-slate-600" />
+                                {wishlistItems?.length > 0 && (
+                                  <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">
+                                    {wishlistItems.length}
+                                  </span>
+                                )}
+                              </Link>
+                              <Link to="/cart" className="relative p-2">
                                 <ShoppingCartIcon className="h-7 w-7 text-slate-600" />
                                 {items.length > 0 && (
                                   <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">

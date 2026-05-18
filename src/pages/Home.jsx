@@ -6,6 +6,7 @@ import ProductListShimmerPage from "./shimmer/ProductListShimmerPage";
 import { useEffect } from "react";
 import { fetchCartByUserAsync } from "../features/cart/cartSlice";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function Home() {
   const listStatus = useSelector((state) => state.product.status);
@@ -57,13 +58,15 @@ function Home() {
                       >
                         Explore Collection
                       </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="w-full sm:w-auto glass-dark text-white px-10 py-5 rounded-2xl text-sm font-black border border-white/10 hover:bg-white/10 transition-all uppercase tracking-widest"
-                      >
-                        Our Story
-                      </motion.button>
+                      <Link to={"/about-us"}>
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="w-full sm:w-auto glass-dark text-white px-10 py-5 rounded-2xl text-sm font-black border border-white/10 hover:bg-white/10 transition-all uppercase tracking-widest"
+                        >
+                          Our Story
+                        </motion.button>
+                      </Link>
                     </div>
                   </motion.div>
                 </div>

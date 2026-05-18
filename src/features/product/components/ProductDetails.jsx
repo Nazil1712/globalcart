@@ -8,6 +8,9 @@ import {
 import { useParams, Link } from "react-router-dom";
 import { addToCartAsync } from "../../cart/cartSlice";
 import { discountedPrice, formatPrice } from "../../../app/constants";
+import { addToWishlistAsync, deleteFromWishlistAsync } from "../../wishlist/wishlistSlice";
+import { HeartIcon as HeartIconOutline } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import ProductdetailShimmer from "../../shimmer/ProductdetailShimmer";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +34,12 @@ export default function ProductDetails() {
   const status = useSelector((state) => state.product.status);
   const relatedProducts = useSelector((state) => state.product.products);
   const exchangeRate = useSelector((state) => state.product.exchangeRate);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const isInWishlist = wishlistItems?.some((item) => {
+    const prodId = item.product?.id || item.product;
+    return prodId === product?.id;
+  });
 
   const handleCart = (e) => {
     const index = cartItems.findIndex((item) => item.product.id === product.id);
@@ -44,6 +53,16 @@ export default function ProductDetails() {
       toast.success("Item Added In cart");
     } else {
       toast.info("Item Already Added");
+    }
+  };
+
+  const handleWishlist = () => {
+    if (isInWishlist) {
+      dispatch(deleteFromWishlistAsync(product.id));
+      toast.success("Removed from Wishlist");
+    } else {
+      dispatch(addToWishlistAsync(product));
+      toast.success("Added to Wishlist");
     }
   };
 
@@ -215,25 +234,22 @@ export default function ProductDetails() {
                       <motion.button
                         whileHover={{
                           scale: 1.05,
-                          ringColor: "#fecaca",
-                          color: "#ef4444",
+                          ringColor: isInWishlist ? "#fecaca" : "#e2e8f0",
                         }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-5 rounded-[1.5rem] bg-white ring-1 ring-slate-200 text-slate-400 transition-all shadow-sm"
+                        onClick={handleWishlist}
+                        className={classNames(
+                          isInWishlist
+                            ? "text-red-500 bg-red-50 ring-red-200"
+                            : "text-slate-400 bg-white ring-slate-200",
+                          "p-5 rounded-[1.5rem] ring-1 transition-all shadow-sm"
+                        )}
                       >
-                        <svg
-                          className="h-7 w-7"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                          ></path>
-                        </svg>
+                        {isInWishlist ? (
+                          <HeartIconSolid className="h-7 w-7" />
+                        ) : (
+                          <HeartIconOutline className="h-7 w-7" />
+                        )}
                       </motion.button>
                     </div>
                   </div>

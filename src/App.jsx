@@ -6,11 +6,13 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Cart from "./features/cart/Cart";
 import CartPage from "./pages/CartPage";
+import WishlistPage from "./pages/WishlistPage";
 import Checkout from "./pages/Checkout";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import Protected from "./features/auth/components/Protected";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCartByUserAsync } from "./features/cart/cartSlice";
+import { fetchWishlistByUserAsync } from "./features/wishlist/wishlistSlice";
 import { useEffect } from "react";
 import PageNotFound from "./pages/PageNotFound";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -79,6 +81,14 @@ const appRouter = createBrowserRouter([
     element: (
       <Protected>
         <CartPage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/wishlist",
+    element: (
+      <Protected>
+        <WishlistPage />
       </Protected>
     ),
   },
@@ -232,6 +242,7 @@ function App() {
     if (loggedInUserToken) {
       dispatch(fetchCartByUserAsync());
       dispatch(fetchloggedInUserAsync());
+      dispatch(fetchWishlistByUserAsync());
     }
   }, [dispatch, loggedInUserToken, items.length, orders.length]);
 
