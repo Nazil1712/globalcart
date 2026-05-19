@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderByUserAsync } from "../userSlice";
+import { updateOrderAsync } from "../../order/orderSlice";
 import { discountedPrice } from "../../../app/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -12,11 +13,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router-dom";
 import { MapPinIcon } from "@heroicons/react/24/outline";
+import PopupBox from "../../common/Dialog";
 
 export default function Userorders() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
   const Userorders = useSelector((state) => state.user.userInfo?.orders);
+  const [showCancelPopUp, setShowCancelPopUp] = useState(null);
   // console.log("UserInfo from userOrder", userInfo);
   // console.log("USer,", loggedInUserToken);
   // console.log("User Orders", Userorders);
@@ -26,6 +29,11 @@ export default function Userorders() {
       dispatch(fetchOrderByUserAsync());
     }
   }, [dispatch, userInfo, Userorders]);
+
+  const handleCancelOrder = async (order) => {
+    await dispatch(updateOrderAsync({ ...order, status: "cancelled" }));
+    dispatch(fetchOrderByUserAsync());
+  };
 
   const getStatusIcon = (status) => {
     switch (status) {
@@ -99,8 +107,35 @@ export default function Userorders() {
                         className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${getStatusColor(order.status)}`}
                       >
                         {getStatusIcon(order.status)}
-                        {order.status}
+                        {order.status == "cancelled"
+                          ? "Order Cancelled"
+                          : order.status}
                       </span>
+                      {order.status === "pending" && (
+                        <div className="flex items-center gap-2">
+                          <PopupBox
+                            title="Cancel Order"
+                            message={`Are you sure you want to cancel order #${order.id.slice(-8).toUpperCase()}?`}
+                            dangerOption="Cancel Order"
+                            cancelOption="Keep Order"
+                            dangerAction={() => {
+                              handleCancelOrder(order);
+                              setShowCancelPopUp(null);
+                            }}
+                            cancleAction={() => setShowCancelPopUp(null)}
+                            showPopUp={showCancelPopUp === order.id}
+                          />
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setShowCancelPopUp(order.id)}
+                            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border border-rose-200 text-rose-600 bg-white hover:bg-rose-50 transition-colors"
+                          >
+                            <XCircleIcon className="w-4 h-4" />
+                            Cancel Order
+                          </motion.button>
+                        </div>
+                      )}
                     </div>
                   </div>
 

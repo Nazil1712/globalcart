@@ -29,6 +29,9 @@ export default function Userprofile() {
   const addresses = userInfo?.addresses;
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1);
   const [showAddAddressForm, setShowAddAddressForm] = useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
 
   const handleEditForm = (e, index) => {
     setShowAddAddressForm(false);
@@ -80,31 +83,74 @@ export default function Userprofile() {
               {userInfo.name ? userInfo.name[0].toUpperCase() : "G"}
             </div>
             <div className="flex-1 text-center md:text-left space-y-4">
-              <div>
-                <h1 className="text-4xl font-black text-slate-900 tracking-tight">
-                  {userInfo.name ? userInfo.name : "Guest User"}
-                </h1>
-                <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-2">
-                  <div className="flex items-center gap-1.5 text-slate-500 font-medium bg-white/50 px-3 py-1 rounded-full text-sm">
-                    <EnvelopeIcon className="w-4 h-4" />
-                    {userInfo.email}
+              {isEditingProfile ? (
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    value={profileName}
+                    onChange={(e) => setProfileName(e.target.value)}
+                    className="block w-full max-w-md mx-auto md:mx-0 rounded-2xl border-slate-200 bg-white py-3 px-4 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-indigo-600 transition-all sm:text-sm"
+                    placeholder="Full Name"
+                  />
+                  <input
+                    type="email"
+                    value={profileEmail}
+                    onChange={(e) => setProfileEmail(e.target.value)}
+                    className="block w-full max-w-md mx-auto md:mx-0 rounded-2xl border-slate-200 bg-white py-3 px-4 text-slate-900 ring-1 ring-inset ring-slate-200 focus:ring-2 focus:ring-indigo-600 transition-all sm:text-sm"
+                    placeholder="Email"
+                  />
+                  <div className="flex justify-center md:justify-start gap-2">
+                    <button
+                      onClick={() => {
+                        dispatch(updateUserAsync({ ...userInfo, name: profileName, email: profileEmail }));
+                        setIsEditingProfile(false);
+                      }}
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setIsEditingProfile(false)}
+                      className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold"
+                    >
+                      Cancel
+                    </button>
                   </div>
-                  {userInfo.role === "admin" && (
-                    <div className="flex items-center gap-1.5 text-indigo-600 font-black bg-indigo-50 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest border border-indigo-100">
-                      <IdentificationIcon className="w-4 h-4" />
-                      {userInfo.role}
-                    </div>
-                  )}
                 </div>
-              </div>
+              ) : (
+                <div>
+                  <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+                    {userInfo.name ? userInfo.name : "Guest User"}
+                  </h1>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-2">
+                    <div className="flex items-center gap-1.5 text-slate-500 font-medium bg-white/50 px-3 py-1 rounded-full text-sm">
+                      <EnvelopeIcon className="w-4 h-4" />
+                      {userInfo.email}
+                    </div>
+                    {userInfo.role === "admin" && (
+                      <div className="flex items-center gap-1.5 text-indigo-600 font-black bg-indigo-50 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest border border-indigo-100">
+                        <IdentificationIcon className="w-4 h-4" />
+                        {userInfo.role}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 rounded-2xl bg-slate-900 text-white text-sm font-bold shadow-xl hover:bg-indigo-600 transition-all"
-            >
-              Edit Profile
-            </motion.button>
+            {!isEditingProfile && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setIsEditingProfile(true);
+                  setProfileName(userInfo.name || "");
+                  setProfileEmail(userInfo.email || "");
+                }}
+                className="px-6 py-3 rounded-2xl bg-slate-900 text-white text-sm font-bold shadow-xl hover:bg-indigo-600 transition-all"
+              >
+                Edit Profile
+              </motion.button>
+            )}
           </motion.div>
 
           {/* Address Management Section */}

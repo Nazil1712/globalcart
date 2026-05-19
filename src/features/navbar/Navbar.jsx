@@ -3,6 +3,7 @@ import {
   Bars3Icon,
   XMarkIcon,
   HeartIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -64,6 +65,8 @@ const Navbar = ({ children }) => {
   const navItems = userInfo
     ? navigation.filter((item) => item[userInfo.role])
     : publicNavigation;
+
+  console.log("User Info", userInfo);
 
   return (
     <div className="bg-slate-50/50">
@@ -156,11 +159,15 @@ const Navbar = ({ children }) => {
                             {/* Profile dropdown */}
                             <Menu as="div" className="relative ml-3">
                               <Menu.Button className="flex items-center rounded-full bg-white p-0.5 ring-2 ring-slate-200 hover:ring-indigo-300 transition-all overflow-hidden">
-                                <img
-                                  className="h-9 w-9 rounded-full object-cover"
-                                  src={user.imageUrl}
-                                  alt=""
-                                />
+                                {userInfo?.name ? (
+                                  <div className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                                    {userInfo.name[0].toUpperCase()}
+                                  </div>
+                                ) : (
+                                  <div className="h-9 w-9 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                    <UserCircleIcon className="w-6 h-6" />
+                                  </div>
+                                )}
                               </Menu.Button>
                               <Transition
                                 as={Fragment}
@@ -251,11 +258,15 @@ const Navbar = ({ children }) => {
                         {userInfo ? (
                           <>
                             <div className="flex items-center px-2 mb-4">
-                              <img
-                                className="h-11 w-11 rounded-full border-2 border-indigo-100"
-                                src={user.imageUrl}
-                                alt=""
-                              />
+                              {userInfo?.name ? (
+                                <div className="h-11 w-11 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-base font-bold border-2 border-white shadow-sm">
+                                  {userInfo.name[0].toUpperCase()}
+                                </div>
+                              ) : (
+                                <div className="h-11 w-11 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 border-2 border-white">
+                                  <UserCircleIcon className="w-7 h-7" />
+                                </div>
+                              )}
                               <div className="ml-3">
                                 <div className="text-base font-bold text-slate-900">
                                   {userInfo.name || "User"}

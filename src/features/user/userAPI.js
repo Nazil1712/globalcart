@@ -1,11 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 export function fetchOrderByUserAPI(userId) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`${API_URL}/order/users/own`,{
-      method:"GET",
-      credentials:"include"
+    const response = await fetch(`${API_URL}/order/users/own`, {
+      method: "GET",
+      credentials: "include",
     });
     const data = await response.json();
     // console.warn("Response from backend",data)
@@ -13,25 +12,23 @@ export function fetchOrderByUserAPI(userId) {
   });
 }
 
-
 export function fetchloggedInUserAPI() {
-  return new Promise(async (resolve) =>{
-    const response = await fetch(`${API_URL}/users/own`,{
-      method:"GET",
-      credentials:"include"
-    }) 
-    const data = await response.json()
-    // console.log("UserInfo",data)
-    resolve({data})
-  }
-  );
+  return new Promise(async (resolve) => {
+    const response = await fetch(`${API_URL}/users/own`, {
+      method: "GET",
+      credentials: "include",
+    });
+    const data = await response.json();
+    console.log("UserInfo in API", data);
+    resolve({ data });
+  });
 }
 
 export function updateUserAPI(update) {
   return new Promise(async (resolve) => {
     const response = await fetch(`${API_URL}/users/${update.id}`, {
       method: "PUT",
-      credentials:"include",
+      credentials: "include",
       body: JSON.stringify(update),
       headers: { "content-type": "application/json" },
     });
