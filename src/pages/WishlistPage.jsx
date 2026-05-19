@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import { deleteFromWishlistAsync } from "../features/wishlist/wishlistSlice";
-import { addToCartAsync } from "../features/cart/cartSlice";
+import { addToCartAsync, updateCartAsync, deleteFromCartAsync } from "../features/cart/cartSlice";
 import { discountedPrice, formatPrice } from "../app/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -10,6 +10,8 @@ import {
   TrashIcon,
   ShoppingBagIcon,
   HeartIcon,
+  MinusIcon,
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import { useState } from "react";
@@ -18,6 +20,7 @@ import PopupBox from "../features/common/Dialog";
 function WishlistPage() {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
+  const cartItems = useSelector((state) => state.cart.items);
   const exchangeRate = useSelector((state) => state.product.exchangeRate) || 1;
   const [itemToRemove, setItemToRemove] = useState(null);
 
@@ -32,8 +35,15 @@ function WishlistPage() {
       product: product.id,
     };
     dispatch(addToCartAsync(newItem));
-    dispatch(deleteFromWishlistAsync(product.id));
     toast.success("Item Added In cart");
+  };
+
+  const handleQuantity = (newQty, item) => {
+    if (newQty > 0 && newQty <= 10) {
+      dispatch(updateCartAsync({ id: item.id, quantity: newQty }));
+    } else if (newQty === 0) {
+      dispatch(deleteFromCartAsync(item.id));
+    }
   };
 
   console.log("WIshLIst Items", wishlistItems);
@@ -93,6 +103,9 @@ function WishlistPage() {
                 {wishlistItems?.map((item) => {
                   const product = item.product;
                   if (!product) return null;
+                  const cartItem = cartItems?.find(
+                    (cItem) => cItem.product.id === product.id,
+                  );
 
                   return (
                     <motion.div
@@ -152,18 +165,43 @@ function WishlistPage() {
                         </Link>
 
                         <div className="flex gap-3 mt-auto">
-                          <motion.button
-                            whileHover={{
-                              scale: 1.02,
-                              backgroundColor: "#4f46e5",
-                            }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => handleAddToCart(product)}
-                            className="flex-1 bg-indigo-600 text-white px-4 py-3.5 rounded-xl text-xs font-bold shadow-lg shadow-indigo-100 hover:shadow-indigo-200 transition-all flex items-center justify-center gap-2"
-                          >
-                            <ShoppingBagIcon className="w-4 h-4" />
-                            Add to Cart
-                          </motion.button>
+                          {cartItem ? (
+                            <div className="flex-1 flex items-center justify-between border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                              <button
+                                onClick={() =>
+                                  handleQuantity(cartItem.quantity - 1, cartItem)
+                                }
+                                className="p-3 hover:bg-slate-100 transition-colors"
+                              >
+                                <MinusIcon className="w-4 h-4 text-slate-600" />
+                              </button>
+                              <span className="px-3 font-bold text-slate-900 text-sm">
+                                {cartItem.quantity}
+                              </span>
+                              <button
+                                onClick={() =>
+                                  handleQuantity(cartItem.quantity + 1, cartItem)
+                                }
+                                className="p-3 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                                disabled={cartItem.quantity >= 10}
+                              >
+                                <PlusIcon className="w-4 h-4 text-slate-600" />
+                              </button>
+                            </div>
+                          ) : (
+                            <motion.button
+                              whileHover={{
+                                scale: 1.02,
+                                backgroundColor: "#4f46e5",
+                              }}
+                              whileTap={{ scale: 0.98 }}
+                              onClick={() => handleAddToCart(product)}
+                              className="flex-1 bg-indigo-600 text-white px-4 py-3.5 rounded-xl text-xs font-bold shadow-lg shadow-indigo-100 hover:shadow-indigo-200 transition-all flex items-center justify-center gap-2"
+                            >
+                              <ShoppingBagIcon className="w-4 h-4" />
+                              Add to Cart
+                            </motion.button>
+                          )}
                           <button
                             onClick={() => setItemToRemove(product.id)}
                             className="p-3.5 bg-white text-slate-400 hover:text-red-500 hover:border-red-200 transition-all border border-slate-200 rounded-xl shadow-sm"

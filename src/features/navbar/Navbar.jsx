@@ -37,6 +37,10 @@ function classNames(...classes) {
 
 const Navbar = ({ children }) => {
   const items = useSelector((state) => state.cart.items);
+  const totalItems = items.reduce(
+    (prevCount, item) => item.quantity + prevCount,
+    0,
+  );
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const userInfo = useSelector((state) => state.user.userInfo);
   const itemStatus = useSelector((state) => state.cart.status);
@@ -136,14 +140,14 @@ const Navbar = ({ children }) => {
                                 <ShoppingCartIcon className="h-7 w-7" />
                               </motion.div>
                               <AnimatePresence>
-                                {items.length > 0 && (
+                                {totalItems > 0 && (
                                   <motion.span
                                     initial={{ scale: 0, opacity: 0 }}
                                     animate={{ scale: 1, opacity: 1 }}
                                     exit={{ scale: 0, opacity: 0 }}
                                     className="absolute top-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white ring-2 ring-white"
                                   >
-                                    {items.length}
+                                    {totalItems}
                                   </motion.span>
                                 )}
                               </AnimatePresence>
@@ -273,9 +277,9 @@ const Navbar = ({ children }) => {
                               </Link>
                               <Link to="/cart" className="relative p-2">
                                 <ShoppingCartIcon className="h-7 w-7 text-slate-600" />
-                                {items.length > 0 && (
+                                {totalItems > 0 && (
                                   <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-indigo-600 text-[10px] font-bold text-white">
-                                    {items.length}
+                                    {totalItems}
                                   </span>
                                 )}
                               </Link>

@@ -658,14 +658,6 @@ const ProductGrid = ({ products }) => {
     const isInWishlist = wishlistItems?.some(
       (item) => item.product.id === product.id,
     );
-    const isItemInCart = cartItems?.some(
-      (item) => item.product.id === product.id,
-    );
-
-    if (isItemInCart) {
-      toast.info("Item is already in cart");
-      return;
-    }
 
     if (isInWishlist) {
       dispatch(deleteFromWishlistAsync(product.id));

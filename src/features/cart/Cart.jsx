@@ -29,6 +29,8 @@ export default function Cart() {
   const handleQuantity = (newQty, item) => {
     if (newQty > 0 && newQty <= 10) {
       dispatch(updateCartAsync({ id: item.id, quantity: newQty }));
+    } else if (newQty === 0) {
+      dispatch(deleteFromCartAsync(item.id));
     }
   };
 
@@ -138,8 +140,7 @@ export default function Cart() {
                           <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
                             <button
                               onClick={() => handleQuantity(product.quantity - 1, product)}
-                              className="p-2 hover:bg-slate-100 transition-colors disabled:opacity-50"
-                              disabled={product.quantity <= 1}
+                              className="p-2 hover:bg-slate-100 transition-colors"
                             >
                               <MinusIcon className="w-4 h-4 text-slate-600" />
                             </button>

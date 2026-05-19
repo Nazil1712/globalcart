@@ -3,13 +3,14 @@ import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import Productlist from "../features/product/components/Productlist";
 import ProductListShimmerPage from "./shimmer/ProductListShimmerPage";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { fetchCartByUserAsync } from "../features/cart/cartSlice";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
 function Home() {
   const listStatus = useSelector((state) => state.product.status);
+  const productsRef = useRef(null);
 
   return (
     <div className="bg-slate-50/50 min-h-screen">
@@ -54,6 +55,11 @@ function Home() {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        onClick={() =>
+                          productsRef.current?.scrollIntoView({
+                            behavior: "smooth",
+                          })
+                        }
                         className="w-full sm:w-auto bg-indigo-600 text-white px-10 py-5 rounded-2xl text-sm font-black shadow-2xl shadow-indigo-500/20 hover:bg-indigo-500 transition-all uppercase tracking-widest"
                       >
                         Explore Collection
@@ -118,7 +124,9 @@ function Home() {
             </div>
           </div>
 
-          <Productlist />
+          <div ref={productsRef}>
+            <Productlist />
+          </div>
         </motion.div>
       </Navbar>
       <Footer />
