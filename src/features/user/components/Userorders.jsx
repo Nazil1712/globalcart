@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrderByUserAsync } from "../userSlice";
 import { updateOrderAsync } from "../../order/orderSlice";
-import { discountedPrice } from "../../../app/constants";
+import { discountedPrice, formatPrice } from "../../../app/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CheckCircleIcon,
@@ -19,6 +19,7 @@ export default function Userorders() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.user.userInfo);
   const Userorders = useSelector((state) => state.user.userInfo?.orders);
+  const exchangeRate = useSelector((state) => state.product.exchangeRate) || 1;
   const [showCancelPopUp, setShowCancelPopUp] = useState(null);
   // console.log("UserInfo from userOrder", userInfo);
   // console.log("USer,", loggedInUserToken);
@@ -168,10 +169,10 @@ export default function Userorders() {
                               <div className="text-right">
                                 <p className="text-lg font-black text-slate-900">
                                   ₹
-                                  {discountedPrice(
+                                  {formatPrice(Math.round(discountedPrice(
                                     item.product.price,
                                     item.product.discountPercentage,
-                                  )}
+                                  ) * exchangeRate))}
                                 </p>
                                 <p className="text-xs font-bold text-slate-400">
                                   Qty: {item.quantity || item.product.quantity}
@@ -214,7 +215,7 @@ export default function Userorders() {
                           Total Amount Paid
                         </p>
                         <p className="text-3xl font-black text-indigo-600">
-                          ₹{order.totalAmount}
+                          ₹{formatPrice(order.totalAmount)}
                         </p>
                         <p className="text-xs font-bold text-slate-400 uppercase">
                           {order.totalItems} Items

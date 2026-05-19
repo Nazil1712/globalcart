@@ -21,6 +21,7 @@ const NavbarShimmer = () => {
             <div className="flex items-center gap-4">
               <div className="bg-slate-200 animate-pulse h-10 w-10 rounded-full"></div>
               <div className="bg-slate-200 animate-pulse h-10 w-10 rounded-full"></div>
+              <div className="bg-slate-200 animate-pulse h-10 w-10 rounded-full"></div>
             </div>
           </div>
         </div>
