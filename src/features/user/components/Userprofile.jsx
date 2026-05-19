@@ -73,7 +73,6 @@ export default function Userprofile() {
     <div className="bg-slate-50/50 min-h-screen pb-20">
       {userInfo && (
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pt-12">
-          {/* User Info Header */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,7 +83,14 @@ export default function Userprofile() {
             </div>
             <div className="flex-1 text-center md:text-left space-y-4">
               {isEditingProfile ? (
-                <div className="space-y-4">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    dispatch(updateUserAsync({ ...userInfo, name: profileName, email: profileEmail }));
+                    setIsEditingProfile(false);
+                  }}
+                  className="space-y-4"
+                >
                   <input
                     type="text"
                     value={profileName}
@@ -101,22 +107,20 @@ export default function Userprofile() {
                   />
                   <div className="flex justify-center md:justify-start gap-2">
                     <button
-                      onClick={() => {
-                        dispatch(updateUserAsync({ ...userInfo, name: profileName, email: profileEmail }));
-                        setIsEditingProfile(false);
-                      }}
+                      type="submit"
                       className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold"
                     >
                       Save
                     </button>
                     <button
+                      type="button"
                       onClick={() => setIsEditingProfile(false)}
                       className="px-4 py-2 bg-slate-200 text-slate-700 rounded-xl text-xs font-bold"
                     >
                       Cancel
                     </button>
                   </div>
-                </div>
+                </form>
               ) : (
                 <div>
                   <h1 className="text-4xl font-black text-slate-900 tracking-tight">

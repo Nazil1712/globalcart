@@ -188,14 +188,14 @@ export default function Productlist() {
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
                   placeholder="Search products..."
-                  className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-sm font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
+                  className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-base font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
                 />
                 <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
               </div>
 
               <Menu as="div" className="relative inline-block text-left z-30">
                 <div>
-                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
+                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-base font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
                     Sort By
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
@@ -223,7 +223,7 @@ export default function Productlist() {
                                 option.current
                                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
                                   : "text-slate-600 hover:bg-white hover:shadow-sm",
-                                "group flex w-full items-center px-4 py-3 text-sm rounded-xl font-semibold transition-all duration-200",
+                                "group flex w-full items-center px-4 py-3 text-base rounded-xl font-semibold transition-all duration-200",
                               )}
                               onClick={() => handleSort(option)}
                             >
@@ -477,7 +477,7 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
               </span>
             )}
           </div>
-          <span className="font-black text-slate-800 tracking-wide text-sm uppercase">
+          <span className="font-black text-slate-800 tracking-wide text-base uppercase">
             Filter By
           </span>
         </div>
@@ -488,7 +488,7 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
               <>
                 <Menu.Button
                   className={classNames(
-                    "flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-300 border-2",
+                    "flex items-center gap-2 px-5 py-2.5 rounded-2xl text-base font-bold transition-all duration-300 border-2",
                     activeFilters[section.id]?.length > 0 || open
                       ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200"
                       : "bg-white/60 border-transparent text-slate-600 hover:bg-white hover:shadow-md",
@@ -570,7 +570,7 @@ const DesktopFilter = ({ handleFilter, filters, activeFilters }) => {
                                 />
                                 <span
                                   className={classNames(
-                                    "text-sm font-semibold transition-colors duration-200",
+                                    "text-base font-semibold transition-colors duration-200",
                                     isChecked
                                       ? "text-indigo-900"
                                       : "text-slate-600 group-hover:text-slate-900",

@@ -46,7 +46,7 @@ const Forgotpassword = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-700"
+                  className="block text-base font-bold leading-6 text-gray-700"
                 >
                   Email address
                 </label>
@@ -61,11 +61,11 @@ const Forgotpassword = () => {
                       },
                     })}
                     type="email"
-                    className="block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base sm:leading-6"
                     placeholder="you@example.com"
                   />
                   {errors.email && (
-                    <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+                    <p className="text-red-500 text-sm font-bold mt-1">{errors.email.message}</p>
                   )}
                 </div>
               </div>
@@ -73,18 +73,18 @@ const Forgotpassword = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-bold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300 uppercase tracking-wider"
+                  className="flex w-full justify-center rounded-2xl bg-indigo-600 px-4 py-3 text-base font-bold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all duration-300 uppercase tracking-wider"
                 >
                   Send email
                 </button>
               </div>
             </form>
 
-            <p className="mt-6 text-center text-sm text-gray-500">
+            <p className="mt-6 text-center text-base text-gray-500">
               Take me back to{" "}
               <Link
                 to="/login"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                className="font-bold leading-6 text-indigo-600 hover:text-indigo-500"
               >
                 Login
               </Link>

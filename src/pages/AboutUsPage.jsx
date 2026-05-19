@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import { SparklesIcon, GlobeAltIcon, HeartIcon } from "@heroicons/react/24/outline";
+import globalCartShop from "../images/global_cart_shop.png";
 
 const AboutUsPage = () => {
   return (
@@ -36,42 +37,77 @@ const AboutUsPage = () => {
             </div>
           </div>
 
-          {/* Mission Section */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <span className="text-xs font-black text-indigo-600 uppercase tracking-widest mb-4 block">
-                  Our Mission
-                </span>
-                <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight">
-                  To bring the world's finest products to your doorstep.
-                </h2>
-                <p className="text-slate-600 text-lg leading-relaxed mb-6">
-                  Founded in 2026, GlobalCart started with a simple idea: to make premium, high-quality goods accessible to everyone who appreciates exceptional design and craftsmanship.
-                </p>
-                <p className="text-slate-600 text-lg leading-relaxed">
-                  We scour the globe to find brands and artisans that share our passion for quality and sustainability. Every item in our collection is handpicked and verified to meet our rigorous standards.
-                </p>
+          {/* Main Story Section */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+            <div className="max-w-3xl space-y-6">
+              <span className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-3 py-1 text-xs rounded-full font-bold text-indigo-600 uppercase tracking-widest">
+                Our Mission
+              </span>
+              <h2 className="text-4xl lg:text-5xl font-black text-slate-900 leading-tight tracking-tight">
+                To bring the world's finest products to your doorstep.
+              </h2>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Founded in 2026, GlobalCart started with a simple idea: to make premium, high-quality goods accessible to everyone who appreciates exceptional design and craftsmanship. We curate every item with strict quality standards, ensuring you receive only the absolute best.
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
+              <div className="bg-white/60 backdrop-blur-md p-8 rounded-3xl border border-white premium-shadow hover:scale-105 transition-transform duration-300">
+                <h3 className="text-4xl font-black text-indigo-600 mb-1">10K+</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">Curated Products</p>
               </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-500 blur-2xl opacity-10" />
-                <div className="relative bg-white p-8 rounded-3xl shadow-xl border border-slate-100">
-                  <div className="grid grid-cols-2 gap-8">
-                    <div>
-                      <h3 className="text-3xl font-black text-indigo-600 mb-2">10K+</h3>
-                      <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Curated Products</p>
+              <div className="bg-white/60 backdrop-blur-md p-8 rounded-3xl border border-white premium-shadow hover:scale-105 transition-transform duration-300">
+                <h3 className="text-4xl font-black text-indigo-600 mb-1">50K+</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">Happy Customers</p>
+              </div>
+              <div className="bg-white/60 backdrop-blur-md p-8 rounded-3xl border border-white premium-shadow hover:scale-105 transition-transform duration-300">
+                <h3 className="text-4xl font-black text-indigo-600 mb-1">100+</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">Global Brands</p>
+              </div>
+              <div className="bg-white/60 backdrop-blur-md p-8 rounded-3xl border border-white premium-shadow hover:scale-105 transition-transform duration-300">
+                <h3 className="text-4xl font-black text-indigo-600 mb-1">24/7</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-wide">Premium Support</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Full Shop Image Showcase */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-28">
+            <div className="relative">
+              {/* Neon Glow Effects */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 to-purple-600 blur-3xl opacity-10 -z-10 rounded-[3rem]" />
+              
+              {/* Styled Image Frame */}
+              <div className="relative p-3 bg-white/70 backdrop-blur-xl border border-white/80 rounded-[3rem] premium-shadow overflow-hidden group">
+                <div className="overflow-hidden rounded-[2.2rem] aspect-[16/10] md:aspect-[16/9] relative">
+                  <img
+                    src={globalCartShop}
+                    alt="GlobalCart Flagship Store"
+                    className="w-full h-full object-cover transform group-hover:scale-[1.02] transition-transform duration-1000 ease-out"
+                  />
+                  {/* Subtle glass overlay on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                  
+                  {/* Glass Card Details */}
+                  <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10 flex flex-col md:flex-row md:items-end justify-between gap-6 z-10">
+                    <div className="space-y-2 text-left">
+                      <span className="inline-flex items-center gap-1.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-lg shadow-indigo-600/30">
+                        Our Flagship Boutique
+                      </span>
+                      <h3 className="text-2xl md:text-3xl font-black text-white drop-shadow-sm">
+                        Discover the Future of Shopping
+                      </h3>
+                      <p className="text-slate-200 text-sm max-w-xl font-medium drop-shadow-sm">
+                        Experience our physical showroom where technology meets premium lifestyle. Explore verified collections in person.
+                      </p>
                     </div>
-                    <div>
-                      <h3 className="text-3xl font-black text-indigo-600 mb-2">50K+</h3>
-                      <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Happy Customers</p>
-                    </div>
-                    <div>
-                      <h3 className="text-3xl font-black text-indigo-600 mb-2">100+</h3>
-                      <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Global Brands</p>
-                    </div>
-                    <div>
-                      <h3 className="text-3xl font-black text-indigo-600 mb-2">24/7</h3>
-                      <p className="text-sm font-bold text-slate-500 uppercase tracking-wide">Support</p>
+                    <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/15 px-5 py-3 rounded-2xl w-fit">
+                      <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <div className="text-left">
+                        <p className="text-[10px] font-black text-white uppercase tracking-wider">Status</p>
+                        <p className="text-xs font-bold text-slate-200">Open Daily: 9 AM - 9 PM</p>
+                      </div>
                     </div>
                   </div>
                 </div>

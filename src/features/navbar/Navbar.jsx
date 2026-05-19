@@ -66,7 +66,7 @@ const Navbar = ({ children }) => {
     ? navigation.filter((item) => item[userInfo.role])
     : publicNavigation;
 
-  console.log("User Info", userInfo);
+  // console.log("User Info", userInfo);
 
   return (
     <div className="bg-slate-50/50">
@@ -99,7 +99,7 @@ const Navbar = ({ children }) => {
                                 location.pathname === item.href
                                   ? "bg-indigo-50 text-indigo-600"
                                   : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
-                                "rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200",
+                                "rounded-xl px-4 py-2 text-base font-semibold transition-all duration-200",
                               )}
                             >
                               {item.name}
@@ -160,7 +160,7 @@ const Navbar = ({ children }) => {
                             <Menu as="div" className="relative ml-3">
                               <Menu.Button className="flex items-center rounded-full bg-white p-0.5 ring-2 ring-slate-200 hover:ring-indigo-300 transition-all overflow-hidden">
                                 {userInfo?.name ? (
-                                  <div className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                                  <div className="h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg font-bold shadow-sm">
                                     {userInfo.name[0].toUpperCase()}
                                   </div>
                                 ) : (

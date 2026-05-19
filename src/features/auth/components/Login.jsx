@@ -74,7 +74,7 @@ function Login() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-bold text-slate-700 ml-1 mb-2"
+                className="block text-base font-bold text-slate-700 ml-1 mb-2"
               >
                 Email Address
               </label>
@@ -89,10 +89,10 @@ function Login() {
                 })}
                 type="email"
                 placeholder="name@company.com"
-                className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base transition-all"
               />
               {errors.email && (
-                <p className="mt-2 text-xs font-bold text-red-500 ml-1">
+                <p className="mt-2 text-sm font-bold text-red-500 ml-1">
                   {errors.email.message}
                 </p>
               )}
@@ -102,14 +102,14 @@ function Login() {
               <div className="flex items-center justify-between ml-1 mb-2">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-bold text-slate-700"
+                  className="block text-base font-bold text-slate-700"
                 >
                   Password
                 </label>
                 <Link
                   to="/forgot-password"
                   size="sm"
-                  className="text-xs font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
+                  className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
                 >
                   Forgot?
                 </Link>
@@ -122,7 +122,7 @@ function Login() {
                   })}
                   type={passwordVisible ? "text" : "password"}
                   placeholder="••••••••"
-                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base transition-all"
                 />
                 <button
                   type="button"
@@ -137,12 +137,12 @@ function Login() {
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-2 text-xs font-bold text-red-500 ml-1">
+                <p className="mt-2 text-sm font-bold text-red-500 ml-1">
                   {errors.password.message}
                 </p>
               )}
               {error && (
-                <p className="mt-2 text-xs font-bold text-red-500 ml-1">
+                <p className="mt-2 text-sm font-bold text-red-500 ml-1">
                   {error.message}
                 </p>
               )}
@@ -152,7 +152,7 @@ function Login() {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
               type="submit"
-              className="flex w-full justify-center rounded-2xl bg-slate-900 px-4 py-4 text-sm font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-2xl bg-slate-900 px-4 py-4 text-base font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign In
             </motion.button>
@@ -163,7 +163,7 @@ function Login() {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-slate-100" />
               </div>
-              <div className="relative flex justify-center text-xs font-bold uppercase tracking-widest">
+              <div className="relative flex justify-center text-sm font-bold uppercase tracking-widest">
                 <span className="bg-white/0 px-4 text-slate-400">
                   New here?
                 </span>
@@ -173,7 +173,7 @@ function Login() {
             <div className="mt-6">
               <Link
                 to="/signup"
-                className="flex w-full justify-center rounded-2xl bg-white px-4 py-4 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 transition-all"
+                className="flex w-full justify-center rounded-2xl bg-white px-4 py-4 text-base font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 transition-all"
               >
                 Create Account
               </Link>

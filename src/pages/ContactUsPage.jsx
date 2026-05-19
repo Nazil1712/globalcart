@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
-import { EnvelopeIcon, PhoneIcon, MapPinIcon } from "@heroicons/react/24/outline";
+import {
+  EnvelopeIcon,
+  PhoneIcon,
+  MapPinIcon,
+} from "@heroicons/react/24/outline";
 
 const ContactUsPage = () => {
   return (
@@ -31,7 +35,8 @@ const ContactUsPage = () => {
                 .
               </h1>
               <p className="text-slate-400 text-lg lg:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
-                Have a question, feedback, or just want to say hello? We'd love to hear from you.
+                Have a question, feedback, or just want to say hello? We'd love
+                to hear from you.
               </p>
             </div>
           </div>
@@ -41,11 +46,18 @@ const ContactUsPage = () => {
             <div className="grid lg:grid-cols-3 gap-12">
               {/* Contact Form (Takes 2 cols) */}
               <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm p-10 rounded-3xl shadow-2xl border border-gray-100/50">
-                <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">Send us a message</h2>
+                <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">
+                  Send us a message
+                </h2>
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-700">Name</label>
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium leading-6 text-gray-700"
+                      >
+                        Name
+                      </label>
                       <input
                         type="text"
                         id="name"
@@ -54,7 +66,12 @@ const ContactUsPage = () => {
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-700">Email</label>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium leading-6 text-gray-700"
+                      >
+                        Email
+                      </label>
                       <input
                         type="email"
                         id="email"
@@ -64,7 +81,12 @@ const ContactUsPage = () => {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium leading-6 text-gray-700">Subject</label>
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium leading-6 text-gray-700"
+                    >
+                      Subject
+                    </label>
                     <input
                       type="text"
                       id="subject"
@@ -73,7 +95,12 @@ const ContactUsPage = () => {
                     />
                   </div>
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-700">Message</label>
+                    <label
+                      htmlFor="message"
+                      className="block text-sm font-medium leading-6 text-gray-700"
+                    >
+                      Message
+                    </label>
                     <textarea
                       id="message"
                       rows={5}
@@ -97,15 +124,21 @@ const ContactUsPage = () => {
               <div className="space-y-8">
                 {/* Info Card */}
                 <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-gray-100/50">
-                  <h2 className="text-xl font-black text-slate-900 mb-6 tracking-tight">Contact Information</h2>
+                  <h2 className="text-xl font-black text-slate-900 mb-6 tracking-tight">
+                    Contact Information
+                  </h2>
                   <div className="space-y-6">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-600 flex-shrink-0">
                         <EnvelopeIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900">Email</p>
-                        <p className="text-sm text-slate-500">support@globalcart.com</p>
+                        <p className="text-sm font-bold text-slate-900">
+                          Email
+                        </p>
+                        <p className="text-sm text-slate-500">
+                          support@globalcart.com
+                        </p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
@@ -113,8 +146,10 @@ const ContactUsPage = () => {
                         <PhoneIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900">Phone</p>
-                        <p className="text-sm text-slate-500">+1 (555) 000-0000</p>
+                        <p className="text-sm font-bold text-slate-900">
+                          Phone
+                        </p>
+                        <p className="text-sm text-slate-500">+91 8469026605</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-4">
@@ -122,8 +157,14 @@ const ContactUsPage = () => {
                         <MapPinIcon className="h-5 w-5" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-900">Address</p>
-                        <p className="text-sm text-slate-500">123 Premium Way, Suite 100<br />New York, NY 10001</p>
+                        <p className="text-sm font-bold text-slate-900">
+                          Address
+                        </p>
+                        <p className="text-sm text-slate-500">
+                          203 Anam Heights
+                          <br />
+                          India, Gujarat, Vadodara - 390017
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -132,19 +173,13 @@ const ContactUsPage = () => {
                 {/* Opening Hours */}
                 <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-indigo-600/10 blur-[50px] rounded-full -mr-20 -mt-20" />
-                  <h2 className="text-xl font-black mb-4 relative z-10">Opening Hours</h2>
+                  <h2 className="text-xl font-black mb-4 relative z-10">
+                    Opening Hours
+                  </h2>
                   <div className="space-y-2 text-sm text-slate-400 relative z-10">
                     <div className="flex justify-between">
-                      <span>Monday - Friday</span>
-                      <span className="text-white font-bold">9am - 6pm</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Saturday</span>
-                      <span className="text-white font-bold">10am - 4pm</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Sunday</span>
-                      <span className="text-indigo-400 font-bold">Closed</span>
+                      <span>Daily (Mon - Sun)</span>
+                      <span className="text-white font-bold">9:00 AM - 9:00 PM</span>
                     </div>
                   </div>
                 </div>

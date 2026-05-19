@@ -145,7 +145,7 @@ export default function ProductDetails() {
         product && (
           <div className="pt-6">
             <nav aria-label="Breadcrumb" className="mb-8">
-              <ol className="flex items-center space-x-2 text-sm text-slate-500">
+              <ol className="flex items-center space-x-2 text-base text-slate-500">
                 <li>
                   <Link
                     to="/"
@@ -396,10 +396,12 @@ export default function ProductDetails() {
                         transition={{ delay: 0.2 + i * 0.1 }}
                         className={`${feat.color} p-5 rounded-3xl border border-white/50 shadow-sm`}
                       >
-                        <p className="text-[10px] font-black opacity-60 uppercase tracking-wider mb-1">
+                        <p className="text-[12px] font-black opacity-60 uppercase tracking-wider mb-1">
                           {feat.label}
                         </p>
-                        <p className={`text-sm font-extrabold`}>{feat.value}</p>
+                        <p className={`text-base font-extrabold`}>
+                          {feat.value}
+                        </p>
                       </motion.div>
                     ))}
                   </div>
@@ -442,10 +444,10 @@ export default function ProductDetails() {
                     <div className="w-14 h-14 bg-slate-50 group-hover:bg-indigo-50 rounded-2xl flex items-center justify-center mb-4 transition-colors duration-300">
                       <badge.icon className="w-7 h-7 text-slate-400 group-hover:text-indigo-600 transition-colors duration-300" />
                     </div>
-                    <h4 className="text-sm font-black text-slate-900 mb-1">
+                    <h4 className="text-base font-black text-slate-900 mb-1">
                       {badge.title}
                     </h4>
-                    <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider">
+                    <p className="text-[12px] text-slate-500 font-medium uppercase tracking-wider">
                       {badge.desc}
                     </p>
                   </motion.div>
@@ -572,7 +574,7 @@ export default function ProductDetails() {
                           />
                         </div>
                         <div className="p-6">
-                          <h4 className="text-sm font-bold text-slate-900 mb-1 truncate group-hover:text-indigo-600">
+                          <h4 className="text-base font-bold text-slate-900 mb-1 truncate group-hover:text-indigo-600">
                             {item.title}
                           </h4>
                           <div className="flex items-center justify-between">
