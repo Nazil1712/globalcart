@@ -23,8 +23,9 @@ import {
   fetchAllBrandsAsync,
   fetchAllCategoriesAsync,
   fetchProductsByFilterAsync,
+  setSearchQuery,
 } from "../productSlice";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import ProductListShimmer from "../../shimmer/ProductListShimmer";
 import {
@@ -61,19 +62,29 @@ export default function Productlist() {
   const brands = useSelector((state) => state.product.brands);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [filter, setFilter] = useState({});
+  const [searchParams] = useSearchParams();
+  const categoryParam = searchParams.get("category");
+
+  useEffect(() => {
+    if (categoryParam) {
+      setFilter({ category: [categoryParam] });
+    } else {
+      setFilter({});
+    }
+  }, [categoryParam]);
   const [sort, setSort] = useState({});
-  const [search, setSearch] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  const searchQuery = useSelector((state) => state.product.searchQuery) || "";
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
   const productStatus = useSelector((state) => state.product.status);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSearch(searchInput);
+      setDebouncedSearch(searchQuery);
     }, 500);
     return () => clearTimeout(timer);
-  }, [searchInput]);
+  }, [searchQuery]);
 
   const filters = [
     {
@@ -90,8 +101,8 @@ export default function Productlist() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination, search }));
-  }, [dispatch, filter, sort, page, search]);
+    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination, search: debouncedSearch }));
+  }, [dispatch, filter, sort, page, debouncedSearch]);
 
   useEffect(() => {
     setPage(1);
@@ -182,11 +193,11 @@ export default function Productlist() {
 
             <div className="flex items-center gap-4">
               {/* Modern Search Bar */}
-              <div className="relative group">
+              <div className="relative group hidden md:block">
                 <input
                   type="text"
-                  value={searchInput}
-                  onChange={(e) => setSearchInput(e.target.value)}
+                  value={searchQuery}
+                  onChange={(e) => dispatch(setSearchQuery(e.target.value))}
                   placeholder="Search products..."
                   className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-base font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
                 />
@@ -732,13 +743,13 @@ const ProductGrid = ({ products }) => {
                   alt={product.title}
                   className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-4">
+                <div className="absolute top-4 left-3 md:left-4">
                   <span className="glass px-3 py-1.5 rounded-full text-[10px] font-bold text-slate-800 tracking-wider uppercase">
                     {product.category}
                   </span>
                 </div>
                 {
-                  <div className="absolute top-4 left-60">
+                  <div className="absolute top-4 left-28 md:left-60">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
@@ -795,7 +806,7 @@ const ProductGrid = ({ products }) => {
                   <div className="flex items-center gap-2">
                     {/* Add to Cart or Quantity Selector */}
                     {cartItem ? (
-                      <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -830,7 +841,7 @@ const ProductGrid = ({ products }) => {
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
-                        className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-colors flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all flex items-center gap-1.5 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
                       >
                         <ShoppingBagIcon className="w-3.5 h-3.5" />
                         Add

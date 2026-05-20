@@ -9,6 +9,7 @@ const initialState = {
   status: 'idle',
   totalItems : 0,
   exchangeRate: 83.0,
+  searchQuery: "",
 };
 
 
@@ -79,6 +80,9 @@ export const productSlice = createSlice({
     increment: (state) => {
       state.value += 1;
     },
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -132,6 +136,6 @@ export const productSlice = createSlice({
   },
 });
 
-export const { increment } = productSlice.actions;
+export const { increment, setSearchQuery } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -85,3 +85,9 @@ code {
   }
 }
 
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 90px;
+  }
+}
+

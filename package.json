@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite",
+    "mobile":"vite --mode mobile",
     "build": "vite build",
     "serve": "vite preview"
   },
