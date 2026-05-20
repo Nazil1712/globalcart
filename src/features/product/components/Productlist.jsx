@@ -296,28 +296,28 @@ export default function Productlist() {
               {/* Product grid */}
               <div className="w-full">
                 {productStatus === "loading" ? (
-                  <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-4 md:gap-x-6 md:gap-y-10 sm:grid-cols-3 xl:grid-cols-4 px-2 md:px-0">
                     {Array.from({ length: 8 }).map((_, i) => (
                       <div
                         key={i}
-                        className="bg-white rounded-3xl premium-shadow overflow-hidden flex flex-col h-full"
+                        className="bg-white rounded-2xl md:rounded-3xl premium-shadow overflow-hidden flex flex-col h-full md:block md:h-auto"
                       >
                         <div className="bg-slate-200 animate-pulse aspect-h-1 aspect-w-1 w-full lg:h-72"></div>
-                        <div className="p-6 flex-1 flex flex-col space-y-4">
+                        <div className="p-3 md:p-6 flex-1 flex flex-col space-y-3 md:space-y-4">
                           <div className="flex justify-between items-start gap-2">
-                            <div className="bg-slate-200 animate-pulse w-3/4 h-5 rounded-lg"></div>
-                            <div className="bg-slate-200 animate-pulse w-10 h-5 rounded-lg"></div>
+                            <div className="bg-slate-200 animate-pulse w-3/4 h-4 md:h-5 rounded-lg"></div>
+                            <div className="bg-slate-200 animate-pulse w-8 md:w-10 h-4 md:h-5 rounded-lg"></div>
                           </div>
-                          <div className="space-y-2 flex-1">
-                            <div className="bg-slate-200 animate-pulse w-full h-3 rounded-lg"></div>
-                            <div className="bg-slate-200 animate-pulse w-5/6 h-3 rounded-lg"></div>
+                          <div className="space-y-2 flex-1 md:flex-none">
+                            <div className="bg-slate-200 animate-pulse w-full h-2 md:h-3 rounded-lg"></div>
+                            <div className="bg-slate-200 animate-pulse w-5/6 h-2 md:h-3 rounded-lg"></div>
                           </div>
-                          <div className="flex items-end justify-between pt-2">
+                          <div className="flex items-end justify-between pt-2 mt-auto md:mt-0">
                             <div className="space-y-1">
-                              <div className="bg-slate-200 animate-pulse w-16 h-6 rounded-lg"></div>
-                              <div className="bg-slate-200 animate-pulse w-10 h-3 rounded-lg"></div>
+                              <div className="bg-slate-200 animate-pulse w-12 md:w-16 h-5 md:h-6 rounded-lg"></div>
+                              <div className="bg-slate-200 animate-pulse w-8 md:w-10 h-2 md:h-3 rounded-lg"></div>
                             </div>
-                            <div className="bg-slate-200 animate-pulse w-24 h-9 rounded-xl"></div>
+                            <div className="bg-slate-200 animate-pulse w-16 md:w-24 h-7 md:h-9 rounded-lg md:rounded-xl"></div>
                           </div>
                         </div>
                       </div>
@@ -716,7 +716,7 @@ const ProductGrid = ({ products }) => {
       variants={container}
       initial="hidden"
       animate="show"
-      className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 xl:grid-cols-4"
+      className="grid grid-cols-2 gap-x-3 gap-y-4 sm:grid-cols-3 md:gap-x-6 md:gap-y-10 xl:grid-cols-4 px-2 md:px-0"
     >
       {products.map((product) => {
         const pricediscounted = Math.round(
@@ -735,7 +735,7 @@ const ProductGrid = ({ products }) => {
           <motion.div key={product.id} variants={item}>
             <Link
               to={`/product-detail/${product.id}`}
-              className="group block relative bg-white rounded-3xl premium-shadow premium-shadow-hover overflow-hidden"
+              className="group block relative bg-white rounded-2xl md:rounded-3xl premium-shadow premium-shadow-hover overflow-hidden h-full flex flex-col md:block md:h-auto"
             >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden bg-slate-100 lg:h-72 relative">
                 <img
@@ -743,61 +743,61 @@ const ProductGrid = ({ products }) => {
                   alt={product.title}
                   className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute top-4 left-3 md:left-4">
-                  <span className="glass px-3 py-1.5 rounded-full text-[10px] font-bold text-slate-800 tracking-wider uppercase">
+                <div className="absolute top-2 md:top-4 left-2 md:left-4">
+                  <span className="glass px-2 md:px-3 py-1 md:py-1.5 rounded-full text-[8px] md:text-[10px] font-bold text-slate-800 tracking-wider uppercase">
                     {product.category}
                   </span>
                 </div>
                 {
-                  <div className="absolute top-4 left-28 md:left-60">
+                  <div className="absolute top-2 md:top-4 left-[122px] md:right-auto md:left-60 z-10">
                     <button
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                         handleWishlist(product);
                       }}
-                      className="p-1.5 bg-slate-50 text-slate-400 hover:text-red-500 transition-all border border-slate-100 rounded-lg"
+                      className="p-1.5 md:p-1.5 bg-white/80 md:bg-slate-50 text-slate-400 hover:text-red-500 transition-all border border-white/40 md:border-slate-100 rounded-full md:rounded-lg shadow-sm md:shadow-none"
                     >
                       {isInWishlist ? (
-                        <HeartIconSolid className="w-4 h-4 text-red-500" />
+                        <HeartIconSolid className="w-4 h-4 md:w-4 md:h-4 text-red-500" />
                       ) : (
-                        <HeartIconOutline className="w-4 h-4" />
+                        <HeartIconOutline className="w-4 h-4 md:w-4 md:h-4" />
                       )}
                     </button>
                   </div>
                 }
               </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
+              <div className="p-3 md:p-6 flex flex-col flex-1 md:block">
+                <div className="flex justify-between items-start mb-1 md:mb-2 gap-2 md:gap-0">
+                  <h3 className="text-sm md:text-base font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
                     {product.title}
                   </h3>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1 bg-amber-50 px-2 py-1 rounded-lg">
-                      <StarIcon className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                      <span className="text-xs font-bold text-amber-700">
+                  <div className="flex items-center gap-1 md:gap-2 shrink-0">
+                    <div className="flex items-center gap-1 bg-amber-50 px-1.5 md:px-2 py-0.5 md:py-1 rounded-lg">
+                      <StarIcon className="w-3 h-3 md:w-3.5 md:h-3.5 text-amber-500 fill-amber-500" />
+                      <span className="text-[10px] md:text-xs font-bold text-amber-700">
                         {product.rating}
                       </span>
                     </div>
                   </div>
                 </div>
-                <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+                <p className="text-[10px] md:text-xs text-slate-500 mb-3 md:mb-4 line-clamp-2 leading-relaxed flex-1 md:flex-none">
                   {product.description ||
                     "Premium quality product with exceptional features."}
                 </p>
-                <div className="flex items-end justify-between">
+                <div className="flex items-end justify-between mt-auto md:mt-0">
                   <div className="flex flex-col">
                     {pricediscounted !== price ? (
                       <>
-                        <span className="text-xl font-extrabold text-slate-900">
+                        <span className="text-base md:text-xl font-extrabold text-slate-900 leading-tight md:leading-normal">
                           ₹{formatPrice(pricediscounted)}
                         </span>
-                        <span className="text-xs font-medium line-through text-slate-400">
+                        <span className="text-[9px] md:text-xs font-medium line-through text-slate-400">
                           ₹{formatPrice(price)}
                         </span>
                       </>
                     ) : (
-                      <span className="text-xl font-extrabold text-slate-900">
+                      <span className="text-base md:text-xl font-extrabold text-slate-900 leading-tight md:leading-normal">
                         ₹{formatPrice(price)}
                       </span>
                     )}
@@ -806,18 +806,18 @@ const ProductGrid = ({ products }) => {
                   <div className="flex items-center gap-2">
                     {/* Add to Cart or Quantity Selector */}
                     {cartItem ? (
-                      <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="flex items-center border border-slate-200 rounded-lg md:rounded-xl overflow-hidden bg-slate-50 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
                         <button
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
                             handleQuantity(cartItem.quantity - 1, cartItem);
                           }}
-                          className="p-1.5 hover:bg-slate-100 transition-colors"
+                          className="p-1 md:p-1.5 hover:bg-slate-100 transition-colors"
                         >
-                          <MinusIcon className="w-3.5 h-3.5 text-slate-600" />
+                          <MinusIcon className="w-3 h-3 md:w-3.5 md:h-3.5 text-slate-600" />
                         </button>
-                        <span className="px-2 font-bold text-slate-900 text-xs">
+                        <span className="px-1.5 md:px-2 font-bold text-slate-900 text-[10px] md:text-xs">
                           {cartItem.quantity}
                         </span>
                         <button
@@ -826,10 +826,10 @@ const ProductGrid = ({ products }) => {
                             e.stopPropagation();
                             handleQuantity(cartItem.quantity + 1, cartItem);
                           }}
-                          className="p-1.5 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                          className="p-1 md:p-1.5 hover:bg-slate-100 transition-colors disabled:opacity-50"
                           disabled={cartItem.quantity >= 10}
                         >
-                          <PlusIcon className="w-3.5 h-3.5 text-slate-600" />
+                          <PlusIcon className="w-3 h-3 md:w-3.5 md:h-3.5 text-slate-600" />
                         </button>
                       </div>
                     ) : (
@@ -841,9 +841,9 @@ const ProductGrid = ({ products }) => {
                           e.stopPropagation();
                           handleAddToCart(product);
                         }}
-                        className="bg-indigo-600 text-white px-3 py-2 rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all flex items-center gap-1.5 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
+                        className="bg-indigo-600 text-white px-2.5 md:px-3 py-1.5 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-xs font-bold hover:bg-indigo-700 transition-all flex items-center gap-1 md:gap-1.5 shadow-sm opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300"
                       >
-                        <ShoppingBagIcon className="w-3.5 h-3.5" />
+                        <ShoppingBagIcon className="w-3.5 h-3.5 md:w-3.5 md:h-3.5" />
                         Add
                       </motion.button>
                     )}

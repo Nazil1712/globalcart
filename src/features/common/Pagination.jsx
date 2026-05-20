@@ -10,24 +10,33 @@ const Pagination = ({ page, setPage, handlePage, totalItems, totalPages }) => {
   return (
     <div className="flex items-center justify-between px-4 py-8 sm:px-6">
       {/* Mobile Pagination */}
-      <div className="flex flex-1 justify-between sm:hidden gap-4">
+      <div className="flex flex-1 justify-between items-center sm:hidden gap-2 bg-white/40 backdrop-blur-2xl p-2 rounded-3xl border border-white/60 shadow-lg mt-4 mx-2">
         <button
           onClick={() => {
             if (page > 1) handlePage(page - 1);
           }}
           disabled={page === 1}
-          className="relative inline-flex flex-1 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-md px-4 py-3 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white hover:text-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white/80 text-slate-600 shadow-sm hover:text-indigo-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
-          Previous
+          <ChevronLeftIcon className="h-6 w-6" aria-hidden="true" />
         </button>
+        
+        <div className="flex flex-col items-center justify-center px-4">
+          <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Page</span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-xl font-black text-indigo-600 leading-none">{page}</span>
+            <span className="text-sm font-bold text-slate-400 leading-none">/ {totalPages}</span>
+          </div>
+        </div>
+
         <button
           onClick={() => {
             if (page < totalPages) handlePage(page + 1);
           }}
           disabled={page === totalPages}
-          className="relative inline-flex flex-1 items-center justify-center rounded-2xl bg-white/80 backdrop-blur-md px-4 py-3 text-sm font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white hover:text-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 text-white shadow-md shadow-indigo-500/30 hover:bg-indigo-500 transition-all disabled:opacity-50 disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed cursor-pointer"
         >
-          Next
+          <ChevronRightIcon className="h-6 w-6" aria-hidden="true" />
         </button>
       </div>
 
