@@ -101,7 +101,14 @@ export default function Productlist() {
 
   useEffect(() => {
     const pagination = { _page: page, _limit: ITEMS_PER_PAGE };
-    dispatch(fetchProductsByFilterAsync({ filter, sort, pagination, search: debouncedSearch }));
+    dispatch(
+      fetchProductsByFilterAsync({
+        filter,
+        sort,
+        pagination,
+        search: debouncedSearch,
+      }),
+    );
   }, [dispatch, filter, sort, page, debouncedSearch]);
 
   useEffect(() => {
@@ -172,13 +179,6 @@ export default function Productlist() {
     <div className="bg-transparent">
       <div>
         {/* Mobile filter dialog */}
-        <MobileFilter
-          mobileFiltersOpen={mobileFiltersOpen}
-          setMobileFiltersOpen={setMobileFiltersOpen}
-          handleFilter={handleFilter}
-          handleSort={handleSort}
-          filters={filters}
-        />
 
         <main className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
@@ -204,7 +204,10 @@ export default function Productlist() {
                 <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
               </div>
 
-              <Menu as="div" className="relative inline-block text-left z-30 w-full sm:w-auto">
+              <Menu
+                as="div"
+                className="relative inline-block text-left z-30 w-full sm:w-auto"
+              >
                 <div>
                   <Menu.Button className="group flex items-center justify-between sm:justify-center gap-2 rounded-xl md:rounded-2xl bg-white md:bg-white/40 backdrop-blur-md w-full px-5 py-3 md:py-2.5 text-sm md:text-base font-bold text-slate-700 shadow-sm border border-slate-200 md:border-white/60 hover:bg-slate-50 md:hover:bg-white/60 transition-all">
                     Sort By
@@ -264,20 +267,38 @@ export default function Productlist() {
                   </Menu.Items>
                 </Transition>
               </Menu>
+            </div>
 
-              {/* <button
-                type="button"
-                className="hidden sm:flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
-              >
-                <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
-              </button> */}
-              {/* <button
-                type="button"
-                className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
-                onClick={() => setMobileFiltersOpen(true)}
-              >
-                <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button> */}
+            {/* Mobile Horizontal Scrollable Brands */}
+            <div className="lg:hidden mt-4 -mx-4 px-4 overflow-x-auto no-scrollbar flex items-center gap-3 relative z-10 pb-2">
+              <div className="flex items-center gap-1.5 shrink-0 pr-2 border-r border-slate-200">
+                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  Brands
+                </span>
+              </div>
+              {brands?.map((brand) => {
+                const isChecked = filter?.brand?.includes(brand.value);
+                return (
+                  <button
+                    key={brand.value}
+                    onClick={() =>
+                      handleFilter(
+                        { target: { checked: !isChecked } },
+                        { id: "brand" },
+                        brand,
+                      )
+                    }
+                    className={classNames(
+                      "flex items-center justify-center shrink-0 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 border-2",
+                      isChecked
+                        ? "bg-indigo-600 border-indigo-600 text-white shadow-md shadow-indigo-200 scale-[1.02]"
+                        : "bg-white border-slate-200 text-slate-600 hover:border-indigo-300",
+                    )}
+                  >
+                    {brand.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -352,6 +373,7 @@ const MobileFilter = ({
   handleFilter,
   handleSort,
   filters,
+  activeFilters,
 }) => {
   return (
     <div>
@@ -373,22 +395,29 @@ const MobileFilter = ({
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
 
-          <div className="fixed inset-0 z-40 flex">
+          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center pointer-events-none">
             <Transition.Child
               as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="translate-x-full"
+              enter="transition ease-out duration-300 transform"
+              enterFrom="translate-y-full sm:translate-y-8 opacity-0"
+              enterTo="translate-y-0 opacity-100"
+              leave="transition ease-in duration-200 transform"
+              leaveFrom="translate-y-0 opacity-100"
+              leaveTo="translate-y-full sm:translate-y-8 opacity-0"
             >
-              <Dialog.Panel className="relative ml-auto flex h-full w-full max-w-xs flex-col overflow-y-auto bg-white py-4 pb-12 shadow-xl">
-                <div className="flex items-center justify-between px-4">
-                  <h2 className="text-lg font-medium text-gray-900">Filters</h2>
+              <Dialog.Panel className="relative flex w-full max-w-md flex-col overflow-hidden bg-white/95 backdrop-blur-2xl sm:rounded-3xl rounded-t-[2.5rem] pb-8 shadow-2xl pointer-events-auto max-h-[85vh]">
+                {/* Drag Handle */}
+                <div className="w-full flex justify-center pt-4 pb-2">
+                  <div className="w-12 h-1.5 bg-slate-200 rounded-full" />
+                </div>
+
+                <div className="flex items-center justify-between px-6 pb-4 border-b border-slate-100">
+                  <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                    Filters
+                  </h2>
                   <button
                     type="button"
-                    className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
                     onClick={() => setMobileFiltersOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
@@ -397,68 +426,68 @@ const MobileFilter = ({
                 </div>
 
                 {/* Filters For mobile view*/}
-                <form className="mt-4 border-t border-gray-200">
+                <form className="overflow-y-auto px-6 py-4 space-y-6 no-scrollbar">
                   {filters.map((section) => (
-                    <Disclosure
-                      as="div"
-                      key={section.id}
-                      className="border-t border-gray-200 px-4 py-6"
-                    >
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </Disclosure.Button>
-                          </h3>
-                          <Disclosure.Panel className="pt-6">
-                            <div className="space-y-6">
-                              {section.options.map((option, optionIdx) => (
-                                <div
-                                  key={option.value}
-                                  className="flex items-center"
-                                >
-                                  <input
-                                    id={`filter-mobile-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    onChange={(e) =>
-                                      handleFilter(e, section, option)
-                                    }
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 cursor-pointer"
-                                  />
-                                  <label
-                                    htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                    className="ml-3 min-w-0 flex-1 text-gray-500 cursor-pointer"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
-                            </div>
-                          </Disclosure.Panel>
-                        </>
-                      )}
-                    </Disclosure>
+                    <div key={section.id} className="space-y-4">
+                      <h3 className="text-lg font-bold text-slate-900 tracking-tight">
+                        {section.name}
+                      </h3>
+                      <div className="flex flex-wrap gap-3">
+                        {section.options.map((option, optionIdx) => {
+                          const isChecked = activeFilters?.[
+                            section.id
+                          ]?.includes(option.value);
+                          return (
+                            <label
+                              key={option.value}
+                              htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                              className={classNames(
+                                "cursor-pointer flex items-center justify-center px-4 py-2.5 rounded-2xl text-sm font-bold transition-all duration-200 border-2",
+                                isChecked
+                                  ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200 scale-105"
+                                  : "bg-white border-slate-200 text-slate-600 hover:border-indigo-300",
+                              )}
+                            >
+                              <input
+                                id={`filter-mobile-${section.id}-${optionIdx}`}
+                                name={`${section.id}[]`}
+                                defaultValue={option.value}
+                                type="checkbox"
+                                checked={isChecked || false}
+                                onChange={(e) =>
+                                  handleFilter(e, section, option)
+                                }
+                                className="sr-only"
+                              />
+                              {option.label}
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
                   ))}
                 </form>
+
+                <div className="px-6 pt-4 border-t border-slate-100 mt-auto">
+                  <button
+                    type="button"
+                    onClick={() => setMobileFiltersOpen(false)}
+                    className="w-full bg-slate-900 text-white py-4 rounded-2xl text-base font-bold shadow-xl shadow-slate-200 hover:bg-indigo-600 transition-all flex items-center justify-center gap-2"
+                  >
+                    Apply Filters
+                    {Object.values(activeFilters || {}).reduce(
+                      (acc, curr) => acc + (curr ? curr.length : 0),
+                      0,
+                    ) > 0 && (
+                      <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">
+                        {Object.values(activeFilters || {}).reduce(
+                          (acc, curr) => acc + (curr ? curr.length : 0),
+                          0,
+                        )}
+                      </span>
+                    )}
+                  </button>
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

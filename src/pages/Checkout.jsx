@@ -145,7 +145,7 @@ export default function Checkout() {
                     <input
                       type="text"
                       {...register("name", { required: "Name is Required" })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                       placeholder="John Doe"
                     />
                     {errors.name && (
@@ -168,7 +168,7 @@ export default function Checkout() {
                           message: "Email is not valid",
                         },
                       })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                       placeholder="john@example.com"
                     />
                     {errors.email && (
@@ -187,7 +187,7 @@ export default function Checkout() {
                       {...register("phone", {
                         required: "Phone No. is required!",
                       })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
@@ -201,7 +201,7 @@ export default function Checkout() {
                       {...register("street", {
                         required: "Street-address is required",
                       })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                       placeholder="123 Main St"
                     />
                   </div>
@@ -213,7 +213,7 @@ export default function Checkout() {
                     <input
                       type="text"
                       {...register("city", { required: "City is required" })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                     />
                   </div>
 
@@ -224,7 +224,7 @@ export default function Checkout() {
                     <input
                       type="text"
                       {...register("state", { required: "state is required" })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                     />
                   </div>
 
@@ -237,7 +237,7 @@ export default function Checkout() {
                       {...register("pincode", {
                         required: "pincode is required",
                       })}
-                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm transition-all"
+                      className="block w-full rounded-2xl border-slate-200 bg-slate-50/50 py-4 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm transition-all"
                     />
                   </div>
                 </div>
@@ -349,25 +349,25 @@ export default function Checkout() {
               </div>
 
               <div className="p-5 md:p-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                   <div
                     onClick={() => setPaymentMethod("cash")}
-                    className={`cursor-pointer flex items-center gap-4 p-6 rounded-3xl border-2 transition-all ${
+                    className={`cursor-pointer flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 transition-all ${
                       paymentMethod === "cash"
                         ? "border-indigo-600 bg-indigo-50/50 ring-4 ring-indigo-50"
                         : "border-slate-100 bg-slate-50/50 hover:border-slate-200"
                     }`}
                   >
                     <div
-                      className={`p-3 rounded-2xl ${paymentMethod === "cash" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}
+                      className={`p-2.5 md:p-3 rounded-xl md:rounded-2xl ${paymentMethod === "cash" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}
                     >
-                      <BanknotesIcon className="w-6 h-6" />
+                      <BanknotesIcon className="w-5 h-5 md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900">
+                      <p className="font-bold text-slate-900 text-sm md:text-base">
                         Cash on Delivery
                       </p>
-                      <p className="text-xs font-medium text-slate-500">
+                      <p className="text-[10px] md:text-xs font-medium text-slate-500">
                         Pay when you receive
                       </p>
                     </div>
@@ -375,20 +375,20 @@ export default function Checkout() {
 
                   <div
                     onClick={() => setPaymentMethod("card")}
-                    className={`cursor-pointer flex items-center gap-4 p-6 rounded-3xl border-2 transition-all ${
+                    className={`cursor-pointer flex items-center gap-3 md:gap-4 p-4 md:p-6 rounded-2xl md:rounded-3xl border-2 transition-all ${
                       paymentMethod === "card"
                         ? "border-indigo-600 bg-indigo-50/50 ring-4 ring-indigo-50"
                         : "border-slate-100 bg-slate-50/50 hover:border-slate-200"
                     }`}
                   >
                     <div
-                      className={`p-3 rounded-2xl ${paymentMethod === "card" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}
+                      className={`p-2.5 md:p-3 rounded-xl md:rounded-2xl ${paymentMethod === "card" ? "bg-indigo-600 text-white" : "bg-white text-slate-400 shadow-sm"}`}
                     >
-                      <CreditCardIcon className="w-6 h-6" />
+                      <CreditCardIcon className="w-5 h-5 md:w-6 md:h-6" />
                     </div>
                     <div>
-                      <p className="font-bold text-slate-900">Online Payment</p>
-                      <p className="text-xs font-medium text-slate-500">
+                      <p className="font-bold text-slate-900 text-sm md:text-base">Online Payment</p>
+                      <p className="text-[10px] md:text-xs font-medium text-slate-500">
                         Secure card checkout
                       </p>
                     </div>

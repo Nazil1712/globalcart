@@ -17,24 +17,24 @@ const ContactUsPage = () => {
           transition={{ duration: 0.5 }}
         >
           {/* Hero Section */}
-          <div className="relative overflow-hidden rounded-[3.5rem] bg-slate-900 mb-16 premium-shadow">
+          <div className="relative overflow-hidden rounded-[2rem] md:rounded-[3.5rem] bg-slate-900 mb-8 md:mb-16 premium-shadow mx-2 md:mx-0">
             {/* Background Elements */}
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 via-slate-900 to-purple-900/30" />
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/20 blur-[120px] rounded-full -mr-48 -mt-48 animate-pulse" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 blur-[100px] rounded-full -ml-32 -mb-32" />
+            <div className="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-indigo-600/20 blur-[120px] rounded-full -mr-24 md:-mr-48 -mt-24 md:-mt-48 animate-pulse" />
+            <div className="absolute bottom-0 left-0 w-[300px] md:w-[400px] h-[300px] md:h-[400px] bg-purple-600/10 blur-[100px] rounded-full -ml-16 md:-ml-32 -mb-16 md:-mb-32" />
 
-            <div className="relative px-8 py-20 lg:px-20 lg:py-24 text-center">
-              <span className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-4 py-2 rounded-full text-[10px] font-black text-indigo-400 tracking-widest uppercase mb-8">
+            <div className="relative px-4 py-10 md:px-8 md:py-20 lg:px-20 lg:py-24 text-center">
+              <span className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-[9px] md:text-[10px] font-black text-indigo-400 tracking-widest uppercase mb-4 md:mb-8">
                 Contact Us
               </span>
-              <h1 className="text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-8 tracking-tighter">
+              <h1 className="text-3xl md:text-5xl lg:text-7xl font-black text-white leading-[1.1] mb-4 md:mb-8 tracking-tighter">
                 Let's start a{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400 block sm:inline">
                   Conversation
                 </span>
                 .
               </h1>
-              <p className="text-slate-400 text-lg lg:text-xl font-medium leading-relaxed mb-10 max-w-2xl mx-auto">
+              <p className="text-slate-400 text-sm md:text-lg lg:text-xl font-medium leading-relaxed mb-4 md:mb-10 max-w-2xl mx-auto">
                 Have a question, feedback, or just want to say hello? We'd love
                 to hear from you.
               </p>
@@ -42,11 +42,11 @@ const ContactUsPage = () => {
           </div>
 
           {/* Contact Content */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
-            <div className="grid lg:grid-cols-3 gap-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 md:mb-24">
+            <div className="grid lg:grid-cols-3 gap-8 md:gap-12">
               {/* Contact Form (Takes 2 cols) */}
-              <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm p-10 rounded-3xl shadow-2xl border border-gray-100/50">
-                <h2 className="text-2xl font-black text-slate-900 mb-6 tracking-tight">
+              <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm p-6 md:p-10 rounded-[2.5rem] md:rounded-3xl shadow-2xl border border-gray-100/50">
+                <h2 className="text-xl md:text-2xl font-black text-slate-900 mb-6 tracking-tight">
                   Send us a message
                 </h2>
                 <form className="space-y-6">
@@ -61,7 +61,7 @@ const ContactUsPage = () => {
                       <input
                         type="text"
                         id="name"
-                        className="mt-2 block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-12"
+                        className="mt-2 block w-full rounded-2xl border-0 py-4 md:py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm sm:leading-6"
                         placeholder="John Doe"
                       />
                     </div>
@@ -75,7 +75,7 @@ const ContactUsPage = () => {
                       <input
                         type="email"
                         id="email"
-                        className="mt-2 block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-12"
+                        className="mt-2 block w-full rounded-2xl border-0 py-4 md:py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm sm:leading-6"
                         placeholder="you@example.com"
                       />
                     </div>
@@ -90,7 +90,7 @@ const ContactUsPage = () => {
                     <input
                       type="text"
                       id="subject"
-                      className="mt-2 block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 pr-12"
+                      className="mt-2 block w-full rounded-2xl border-0 py-4 md:py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm sm:leading-6"
                       placeholder="How can we help?"
                     />
                   </div>
@@ -104,7 +104,7 @@ const ContactUsPage = () => {
                     <textarea
                       id="message"
                       rows={5}
-                      className="mt-2 block w-full rounded-2xl border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="mt-2 block w-full rounded-2xl border-0 py-4 md:py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base md:text-sm sm:leading-6"
                       placeholder="Your message here..."
                       defaultValue={""}
                     />
@@ -121,10 +121,10 @@ const ContactUsPage = () => {
               </div>
 
               {/* Contact Info (Takes 1 col) */}
-              <div className="space-y-8">
+              <div className="space-y-6 md:space-y-8">
                 {/* Info Card */}
-                <div className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-gray-100/50">
-                  <h2 className="text-xl font-black text-slate-900 mb-6 tracking-tight">
+                <div className="bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-[2.5rem] md:rounded-3xl shadow-2xl border border-gray-100/50">
+                  <h2 className="text-lg md:text-xl font-black text-slate-900 mb-6 tracking-tight">
                     Contact Information
                   </h2>
                   <div className="space-y-6">

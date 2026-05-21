@@ -605,9 +605,10 @@ const Navbar = ({ children }) => {
                 icon: ClipboardDocumentListIcon,
               },
               {
-                name: "Categories",
-                action: "categories",
-                icon: Squares2X2Icon,
+                name: "Wishlist",
+                href: "/wishlist",
+                icon: HeartIcon,
+                badge: wishlistItems?.length,
               },
               {
                 name: "Cart",
@@ -616,16 +617,15 @@ const Navbar = ({ children }) => {
                 badge: totalItems,
               },
               {
-                name: "Wishlist",
-                href: "/wishlist",
-                icon: HeartIcon,
-                badge: wishlistItems?.length,
+                name: "Profile",
+                action: "profile",
+                icon: UserIcon,
               },
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive =
-                tab.action === "categories"
-                  ? isCategoriesDrawerOpen || !!activeCategory
+                tab.action === "profile"
+                  ? isProfileDrawerOpen
                   : tab.href === "/"
                     ? (location.pathname === "/" ||
                         location.pathname === "/home") &&
@@ -653,11 +653,11 @@ const Navbar = ({ children }) => {
                 </div>
               );
 
-              if (tab.action === "categories") {
+              if (tab.action === "profile") {
                 return (
                   <button
                     key={tab.name}
-                    onClick={() => setIsCategoriesDrawerOpen(true)}
+                    onClick={() => setIsProfileDrawerOpen(true)}
                     className="flex-1 py-2 focus:outline-none flex justify-center cursor-pointer"
                   >
                     {content}
