@@ -4,8 +4,9 @@ import Userorders from "../features/user/components/Userorders";
 function UserordersPage() {
   return (
     <>
-      <Navbar />
-      <Userorders />
+      <Navbar>
+        <Userorders />
+      </Navbar>
     </>
   );
 }

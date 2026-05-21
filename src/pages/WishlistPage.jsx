@@ -2,7 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Footer from "../features/common/Footer";
 import Navbar from "../features/navbar/Navbar";
 import { deleteFromWishlistAsync } from "../features/wishlist/wishlistSlice";
-import { addToCartAsync, updateCartAsync, deleteFromCartAsync } from "../features/cart/cartSlice";
+import {
+  addToCartAsync,
+  updateCartAsync,
+  deleteFromCartAsync,
+} from "../features/cart/cartSlice";
 import { discountedPrice, formatPrice } from "../app/constants";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -51,14 +55,14 @@ function WishlistPage() {
   return (
     <div className="bg-slate-50/50 min-h-screen">
       <Navbar>
-        <div className="py-12">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
-            <div>
-              <span className="inline-flex items-center gap-2 bg-indigo-50 border border-indigo-100 px-3 py-1 imged-full text-[10px] rounded-2xl font-black text-indigo-600 tracking-widest uppercase mb-3">
+        <div className="py-8 md:py-12">
+          <div className="flex flex-row items-center justify-between mb-8 md:mb-12 gap-3 md:gap-6">
+            <div className="text-left">
+              <span className="inline-flex items-center gap-1.5 md:gap-2 bg-indigo-50 border border-indigo-100 px-2 md:px-3 py-1 imged-full text-[8px] md:text-[10px] rounded-2xl font-black text-indigo-600 tracking-widest uppercase mb-2 md:mb-3">
                 Your Collection
               </span>
-              <h1 className="text-5xl font-black text-slate-900 mb-2 flex items-center gap-3">
-                <span className="w-2 h-10 bg-indigo-600 rounded-full" />
+              <h1 className="text-2xl sm:text-3xl md:text-5xl font-black text-slate-900 mb-2 flex items-center justify-start gap-2 md:gap-3">
+                <span className="w-1.5 md:w-2 h-6 sm:h-8 md:h-10 bg-indigo-600 rounded-full" />
                 My Wishlist
               </h1>
               {wishlistItems?.length > 0 ? (
@@ -72,33 +76,36 @@ function WishlistPage() {
             </div>
             <Link
               to="/"
-              className="bg-white text-slate-700 px-6 py-3 rounded-2xl text-sm font-bold border border-slate-200 hover:border-indigo-600 hover:text-indigo-600 transition-all shadow-sm"
+              className="bg-white text-slate-700 px-3 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl text-xs sm:text-sm font-bold border border-slate-200 hover:border-indigo-600 hover:text-indigo-600 transition-all shadow-sm shrink-0"
             >
-              Continue Shopping
+              <span className="flex flex-col md:flex-row md:gap-1">
+                {" "}
+                <span>Continue</span> <span>Shopping</span>
+              </span>
             </Link>
           </div>
 
           {wishlistItems?.length === 0 ? (
-            <div className="text-center py-24 bg-white rounded-[3rem] premium-shadow border border-slate-100/50">
-              <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                <HeartIcon className="w-10 h-10 text-slate-300" />
+            <div className="text-center py-16 md:py-24 bg-white rounded-[2rem] md:rounded-[3rem] premium-shadow border border-slate-100/50 px-4">
+              <div className="w-20 h-20 md:w-24 md:h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                <HeartIcon className="w-8 h-8 md:w-10 md:h-10 text-slate-300" />
               </div>
-              <h3 className="text-3xl font-black text-slate-900 mb-2">
+              <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-2">
                 Your wishlist is empty
               </h3>
-              <p className="text-slate-500 font-medium mb-10 max-w-sm mx-auto">
+              <p className="text-sm md:text-base text-slate-500 font-medium mb-8 md:mb-10 max-w-sm mx-auto">
                 Add items that you like to your wishlist to see them here and
                 track them.
               </p>
               <Link
                 to="/"
-                className="inline-flex items-center justify-center bg-indigo-600 text-white px-10 py-4 rounded-2xl text-sm font-bold shadow-2xl shadow-indigo-200 hover:bg-indigo-500 transition-all uppercase tracking-wider"
+                className="inline-flex items-center justify-center bg-indigo-600 text-white px-6 py-3.5 md:px-10 md:py-4 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold shadow-2xl shadow-indigo-200 hover:bg-indigo-500 transition-all uppercase tracking-wider"
               >
                 Go Shopping
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 px-2 md:px-0">
               <AnimatePresence>
                 {wishlistItems?.map((item) => {
                   const product = item.product;
@@ -115,7 +122,7 @@ function WishlistPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.9 }}
                       transition={{ duration: 0.4 }}
-                      className="group bg-white rounded-[2.5rem] premium-shadow premium-shadow-hover overflow-hidden transition-all flex flex-col border border-slate-100/50 relative"
+                      className="group bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow premium-shadow-hover overflow-hidden transition-all flex flex-col border border-slate-100/50 relative"
                     >
                       <div className="aspect-h-1 aspect-w-1 overflow-hidden bg-slate-50 relative">
                         <img
@@ -124,20 +131,20 @@ function WishlistPage() {
                           className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
-                      <div className="p-6 flex-1 flex flex-col">
+                      <div className="p-4 md:p-6 flex-1 flex flex-col">
                         <Link
                           to={`/product-detail/${product.id}`}
                           className="flex-1"
                         >
-                          <span className="text-[10px] font-black text-indigo-600 uppercase tracking-wider block mb-1">
+                          <span className="text-[9px] md:text-[10px] font-black text-indigo-600 uppercase tracking-wider block mb-1">
                             {product.category}
                           </span>
-                          <h4 className="text-base font-bold text-slate-900 mb-2 truncate group-hover:text-indigo-600 transition-colors">
+                          <h4 className="text-sm md:text-base font-bold text-slate-900 mb-1 md:mb-2 line-clamp-2 md:line-clamp-1 group-hover:text-indigo-600 transition-colors min-h-[40px] md:min-h-0">
                             {product.title}
                           </h4>
 
-                          <div className="flex items-baseline gap-2 mb-4">
-                            <span className="text-xl font-black text-slate-900">
+                          <div className="flex flex-wrap items-baseline gap-1 md:gap-2 mb-3 md:mb-4">
+                            <span className="text-base md:text-xl font-black text-slate-900">
                               ₹
                               {formatPrice(
                                 Math.round(
@@ -149,7 +156,7 @@ function WishlistPage() {
                               )}
                             </span>
                             {product.discountPercentage > 0 && (
-                              <span className="text-sm text-slate-400 line-through font-medium">
+                              <span className="text-[10px] md:text-sm text-slate-400 line-through font-medium">
                                 ₹
                                 {formatPrice(
                                   Math.round(product.price * exchangeRate),
@@ -157,35 +164,41 @@ function WishlistPage() {
                               </span>
                             )}
                             {product.discountPercentage > 0 && (
-                              <span className="text-xs text-green-600 font-bold ml-1">
+                              <span className="text-[9px] md:text-xs text-green-600 font-bold md:ml-1 w-full md:w-auto mt-0.5 md:mt-0">
                                 ({product.discountPercentage}% OFF)
                               </span>
                             )}
                           </div>
                         </Link>
 
-                        <div className="flex gap-3 mt-auto">
+                        <div className="flex flex-row gap-2 md:gap-3 mt-auto">
                           {cartItem ? (
-                            <div className="flex-1 flex items-center justify-between border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
+                            <div className="flex-1 flex items-center justify-between border border-slate-200 rounded-lg md:rounded-xl overflow-hidden bg-slate-50">
                               <button
                                 onClick={() =>
-                                  handleQuantity(cartItem.quantity - 1, cartItem)
+                                  handleQuantity(
+                                    cartItem.quantity - 1,
+                                    cartItem,
+                                  )
                                 }
-                                className="p-3 hover:bg-slate-100 transition-colors"
+                                className="p-2 md:p-3 hover:bg-slate-100 transition-colors"
                               >
-                                <MinusIcon className="w-4 h-4 text-slate-600" />
+                                <MinusIcon className="w-3 h-3 md:w-4 md:h-4 text-slate-600" />
                               </button>
-                              <span className="px-3 font-bold text-slate-900 text-sm">
+                              <span className="px-2 md:px-3 font-bold text-slate-900 text-xs md:text-sm">
                                 {cartItem.quantity}
                               </span>
                               <button
                                 onClick={() =>
-                                  handleQuantity(cartItem.quantity + 1, cartItem)
+                                  handleQuantity(
+                                    cartItem.quantity + 1,
+                                    cartItem,
+                                  )
                                 }
-                                className="p-3 hover:bg-slate-100 transition-colors disabled:opacity-50"
+                                className="p-2 md:p-3 hover:bg-slate-100 transition-colors disabled:opacity-50"
                                 disabled={cartItem.quantity >= 10}
                               >
-                                <PlusIcon className="w-4 h-4 text-slate-600" />
+                                <PlusIcon className="w-3 h-3 md:w-4 md:h-4 text-slate-600" />
                               </button>
                             </div>
                           ) : (
@@ -196,17 +209,20 @@ function WishlistPage() {
                               }}
                               whileTap={{ scale: 0.98 }}
                               onClick={() => handleAddToCart(product)}
-                              className="flex-1 bg-indigo-600 text-white px-4 py-3.5 rounded-xl text-xs font-bold shadow-lg shadow-indigo-100 hover:shadow-indigo-200 transition-all flex items-center justify-center gap-2"
+                              className="flex-1 bg-indigo-600 text-white px-2 md:px-4 py-2.5 md:py-3.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-bold shadow-lg shadow-indigo-100 hover:shadow-indigo-200 transition-all flex items-center justify-center gap-1.5 md:gap-2"
                             >
-                              <ShoppingBagIcon className="w-4 h-4" />
-                              Add to Cart
+                              <ShoppingBagIcon className="w-3 h-3 md:w-4 md:h-4" />
+                              <span className="hidden sm:inline">
+                                Add to Cart
+                              </span>
+                              <span className="sm:hidden">Add</span>
                             </motion.button>
                           )}
                           <button
                             onClick={() => setItemToRemove(product.id)}
-                            className="p-3.5 bg-white text-slate-400 hover:text-red-500 hover:border-red-200 transition-all border border-slate-200 rounded-xl shadow-sm"
+                            className="p-2.5 md:p-3.5 bg-white text-slate-400 hover:text-red-500 hover:border-red-200 transition-all border border-slate-200 rounded-lg md:rounded-xl shadow-sm"
                           >
-                            <TrashIcon className="w-5 h-5" />
+                            <TrashIcon className="w-4 h-4 md:w-5 md:h-5" />
                           </button>
                         </div>
                       </div>

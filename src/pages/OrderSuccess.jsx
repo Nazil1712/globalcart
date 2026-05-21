@@ -31,7 +31,7 @@ function OrderSuccess() {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="glass bg-white/70 rounded-[3.5rem] p-8 md:p-16 text-center premium-shadow border border-white relative overflow-hidden"
+          className="glass bg-white/70 rounded-[2.5rem] md:rounded-[3.5rem] p-6 md:p-16 text-center premium-shadow border border-white relative overflow-hidden"
         >
           {/* Decorative background pulse */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-emerald-500/10 blur-[80px] rounded-full -mt-32" />
@@ -50,7 +50,7 @@ function OrderSuccess() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight"
+              className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight"
             >
               Order Confirmed!
             </motion.h1>
@@ -73,7 +73,7 @@ function OrderSuccess() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="text-slate-500 font-medium text-lg leading-relaxed max-w-md mx-auto"
+              className="text-slate-500 font-medium text-sm md:text-lg leading-relaxed max-w-md mx-auto"
             >
               Thank you for your purchase. We're getting your order ready for
               shipment. You'll receive an email confirmation shortly.
@@ -89,7 +89,7 @@ function OrderSuccess() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full sm:w-auto bg-indigo-600 text-white px-10 py-4 rounded-2xl text-sm font-black shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all uppercase tracking-widest"
+                  className="w-full sm:w-auto bg-indigo-600 text-white px-6 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl text-xs md:text-sm font-black shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all uppercase tracking-widest"
                 >
                   Continue Shopping
                 </motion.button>
@@ -98,7 +98,7 @@ function OrderSuccess() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full sm:w-auto bg-slate-900 text-white px-10 py-4 rounded-2xl text-sm font-black shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all uppercase tracking-widest flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto bg-slate-900 text-white px-6 md:px-10 py-3.5 md:py-4 rounded-xl md:rounded-2xl text-xs md:text-sm font-black shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all uppercase tracking-widest flex items-center justify-center gap-2"
                 >
                   Track Order
                   <ArrowRightIcon className="w-4 h-4" />

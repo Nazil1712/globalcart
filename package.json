@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vite",
-    "mobile":"vite --mode mobile",
+    "mobile": "vite --mode mobile",
     "build": "vite build",
     "serve": "vite preview"
   },
@@ -25,6 +25,7 @@
     "dotenv": "^17.2.1",
     "express": "^4.18.3",
     "framer-motion": "^12.38.0",
+    "lucide-react": "^1.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.1",

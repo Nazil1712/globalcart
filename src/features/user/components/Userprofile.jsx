@@ -76,9 +76,9 @@ export default function Userprofile() {
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass bg-white/70 rounded-[3rem] p-8 md:p-12 premium-shadow border border-white mb-12 flex flex-col md:flex-row items-center gap-8"
+            className="glass bg-white/70 rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 premium-shadow border border-white mb-8 md:mb-12 flex flex-col md:flex-row items-center gap-6 md:gap-8"
           >
-            <div className="h-32 w-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-5xl font-black shadow-2xl">
+            <div className="h-24 w-24 md:h-32 md:w-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-4xl md:text-5xl font-black shadow-2xl">
               {userInfo.name ? userInfo.name[0].toUpperCase() : "G"}
             </div>
             <div className="flex-1 text-center md:text-left space-y-4">
@@ -123,7 +123,7 @@ export default function Userprofile() {
                 </form>
               ) : (
                 <div>
-                  <h1 className="text-4xl font-black text-slate-900 tracking-tight">
+                  <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
                     {userInfo.name ? userInfo.name : "Guest User"}
                   </h1>
                   <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-2">
@@ -150,7 +150,7 @@ export default function Userprofile() {
                   setProfileName(userInfo.name || "");
                   setProfileEmail(userInfo.email || "");
                 }}
-                className="px-6 py-3 rounded-2xl bg-slate-900 text-white text-sm font-bold shadow-xl hover:bg-indigo-600 transition-all"
+                className="px-5 py-2.5 md:px-6 md:py-3 rounded-xl md:rounded-2xl bg-slate-900 text-white text-xs md:text-sm font-bold shadow-xl hover:bg-indigo-600 transition-all w-full md:w-auto"
               >
                 Edit Profile
               </motion.button>
@@ -158,10 +158,10 @@ export default function Userprofile() {
           </motion.div>
 
           {/* Address Management Section */}
-          <div className="space-y-8">
-            <header className="flex justify-between items-end px-4">
+          <div className="space-y-6 md:space-y-8">
+            <header className="flex flex-col sm:flex-row justify-between sm:items-end px-2 md:px-4 gap-4">
               <div>
-                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Shipping Addresses</h2>
+                <h2 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight">Shipping Addresses</h2>
                 <p className="text-slate-500 font-medium text-sm">Manage your delivery locations</p>
               </div>
               {!showAddAddressForm && (
@@ -169,7 +169,7 @@ export default function Userprofile() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={(e) => handleAdd(e)}
-                  className="flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                  className="flex items-center justify-center gap-2 bg-indigo-600 text-white px-4 py-2 md:px-6 md:py-3 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all w-full sm:w-auto"
                 >
                   <PlusCircleIcon className="w-5 h-5" />
                   Add New
@@ -186,14 +186,14 @@ export default function Userprofile() {
                   exit={{ opacity: 0, height: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 p-8 mb-8">
+                  <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] premium-shadow border border-slate-100 p-5 md:p-8 mb-6 md:mb-8">
                     <form
                       onSubmit={handleSubmit((data) => {
                         dispatch(updateUserAsync({ ...userInfo, addresses: [...addresses, data] }));
                         handleCancel();
                       })}
                     >
-                      <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                      <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:gap-y-6 sm:grid-cols-6">
                         <div className="sm:col-span-3">
                           <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">Full Name</label>
                           <input
@@ -251,9 +251,9 @@ export default function Userprofile() {
                           />
                         </div>
                       </div>
-                      <div className="mt-8 flex justify-end gap-4">
-                        <button onClick={handleCancel} type="button" className="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors">Cancel</button>
-                        <button type="submit" className="bg-indigo-600 text-white px-8 py-3 rounded-2xl text-sm font-bold shadow-lg shadow-indigo-100">Save Address</button>
+                      <div className="mt-6 md:mt-8 flex justify-end gap-3 md:gap-4">
+                        <button onClick={handleCancel} type="button" className="text-xs md:text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors">Cancel</button>
+                        <button type="submit" className="bg-indigo-600 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold shadow-lg shadow-indigo-100">Save Address</button>
                       </div>
                     </form>
                   </div>
@@ -271,7 +271,7 @@ export default function Userprofile() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ delay: index * 0.05 }}
-                    className="group bg-white rounded-[2.5rem] p-8 premium-shadow border border-slate-100 hover:border-indigo-200 transition-all relative"
+                    className="group bg-white rounded-[2rem] md:rounded-[2.5rem] p-5 md:p-8 premium-shadow border border-slate-100 hover:border-indigo-200 transition-all relative"
                   >
                     {selectedAddressIndex === index ? (
                       <form
@@ -330,12 +330,12 @@ export default function Userprofile() {
             </div>
 
             {(!addresses || addresses.length === 0) && !showAddAddressForm && (
-              <div className="text-center py-20 bg-white rounded-[3rem] premium-shadow border border-slate-100">
-                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <MapPinIcon className="w-10 h-10 text-slate-300" />
+              <div className="text-center py-16 md:py-20 bg-white rounded-[2rem] md:rounded-[3rem] premium-shadow border border-slate-100">
+                <div className="bg-slate-50 w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                  <MapPinIcon className="w-8 h-8 md:w-10 md:h-10 text-slate-300" />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">No addresses saved</h3>
-                <p className="text-slate-500 font-medium">Add an address to speed up your checkout process.</p>
+                <h3 className="text-xl md:text-2xl font-black text-slate-900 mb-2">No addresses saved</h3>
+                <p className="text-sm md:text-base text-slate-500 font-medium px-4">Add an address to speed up your checkout process.</p>
               </div>
             )}
           </div>

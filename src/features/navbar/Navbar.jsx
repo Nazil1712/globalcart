@@ -21,6 +21,23 @@ import {
   BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 import {
+  Glasses,
+  Bike,
+  Dumbbell,
+  ChefHat,
+  Shirt,
+  Watch,
+  Laptop,
+  Smartphone,
+  Sofa,
+  Sparkles as SparklesLucide,
+  Car,
+  SportShoe,
+  Blender,
+  BlenderIcon,
+  Gem,
+} from "lucide-react";
+import {
   Link,
   useLocation,
   useNavigate,
@@ -90,6 +107,7 @@ const Navbar = ({ children }) => {
   }, [isCategoriesDrawerOpen, categories, dispatch]);
 
   const [showMobileNav, setShowMobileNav] = useState(true);
+  const [showMobileBottomBar, setShowMobileBottomBar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
@@ -106,6 +124,22 @@ const Navbar = ({ children }) => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (typeof window !== "undefined") {
+        if (window.scrollY > lastScrollY && window.scrollY > 50) {
+          setShowMobileBottomBar(false);
+        } else {
+          setShowMobileBottomBar(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -452,34 +486,42 @@ const Navbar = ({ children }) => {
                     lowerCat.includes("mobile") ||
                     lowerCat.includes("smart")
                   )
-                    Icon = DevicePhoneMobileIcon;
+                    Icon = Smartphone;
                   else if (
                     lowerCat.includes("laptop") ||
                     lowerCat.includes("computer") ||
                     lowerCat.includes("tech") ||
                     lowerCat.includes("tablet")
                   )
-                    Icon = ComputerDesktopIcon;
+                    Icon = Laptop;
                   else if (
                     lowerCat.includes("beauty") ||
                     lowerCat.includes("skin") ||
                     lowerCat.includes("fragrance") ||
                     lowerCat.includes("perfume")
                   )
-                    Icon = SparklesIcon;
+                    Icon = SparklesLucide;
+                  else if (
+                    lowerCat.includes("shoe") ||
+                    lowerCat.includes("sneaker") ||
+                    lowerCat.includes("footwear")
+                  )
+                    Icon = SportShoe;
+                  else if (lowerCat.includes("kitchen")) Icon = BlenderIcon;
                   else if (
                     lowerCat.includes("grocer") ||
                     lowerCat.includes("food") ||
                     lowerCat.includes("snack")
                   )
-                    Icon = ShoppingBagOutlineIcon;
+                    Icon = ChefHat;
                   else if (
                     lowerCat.includes("decor") ||
                     lowerCat.includes("home") ||
                     lowerCat.includes("furniture") ||
                     lowerCat.includes("light")
                   )
-                    Icon = HomeIcon;
+                    Icon = Sofa;
+                  else if (lowerCat.includes("watch")) Icon = Watch;
                   else if (
                     lowerCat.includes("vacation") ||
                     lowerCat.includes("travel") ||
@@ -487,33 +529,40 @@ const Navbar = ({ children }) => {
                     lowerCat.includes("luggage")
                   )
                     Icon = BriefcaseIcon;
+                  else if (lowerCat.includes("jewellery")) Icon = Gem;
                   else if (
                     lowerCat.includes("shirt") ||
                     lowerCat.includes("dress") ||
+                    lowerCat.includes("top") ||
                     lowerCat.includes("cloth") ||
                     lowerCat.includes("apparel") ||
                     lowerCat.includes("men") ||
                     lowerCat.includes("women")
                   )
-                    Icon = UserIcon;
-                  else if (
-                    lowerCat.includes("shoe") ||
-                    lowerCat.includes("sneaker") ||
-                    lowerCat.includes("footwear")
-                  )
-                    Icon = SparklesIcon;
-                  else if (
-                    lowerCat.includes("watch") ||
-                    lowerCat.includes("jewelry") ||
-                    lowerCat.includes("ring")
-                  )
-                    Icon = SparklesIcon;
+                    Icon = Shirt;
+                  else if (lowerCat.includes("ring")) Icon = SparklesLucide;
                   else if (
                     lowerCat.includes("motorcycle") ||
-                    lowerCat.includes("auto") ||
-                    lowerCat.includes("vehicle")
+                    lowerCat.includes("bike")
                   )
-                    Icon = TagIcon;
+                    Icon = Bike;
+                  else if (
+                    lowerCat.includes("auto") ||
+                    lowerCat.includes("vehicle") ||
+                    lowerCat.includes("car")
+                  )
+                    Icon = Car;
+                  else if (
+                    lowerCat.includes("goggle") ||
+                    lowerCat.includes("glass") ||
+                    lowerCat.includes("sunglass")
+                  )
+                    Icon = Glasses;
+                  else if (
+                    lowerCat.includes("sport") ||
+                    lowerCat.includes("fitness")
+                  )
+                    Icon = Dumbbell;
 
                   return (
                     <button
@@ -524,9 +573,12 @@ const Navbar = ({ children }) => {
                       className={`flex flex-col items-center gap-1.5 shrink-0 px-2 pb-2 border-b-2 transition-colors ${isCatActive ? "border-indigo-600 text-indigo-600" : "border-transparent text-slate-500 hover:text-slate-800"}`}
                     >
                       <Icon className="w-6 h-6" />
-                      <span className="text-[11px] font-bold">
-                        {catLabel.split("-")[0].charAt(0).toUpperCase() +
-                          catLabel.split("-")[0].slice(1)}
+                      <span className="text-[11px] font-bold capitalize">
+                        {catLabel.toLowerCase().startsWith("womens-")
+                          ? catLabel.replace(/womens-/i, "")
+                          : catLabel.toLowerCase().startsWith("mens-")
+                            ? catLabel.replace(/mens-/i, "")
+                            : catLabel.split("-")[0]}
                       </span>
                     </button>
                   );
@@ -538,7 +590,7 @@ const Navbar = ({ children }) => {
           {/* Mobile Bottom Navigation Bar */}
           <motion.div
             initial={{ y: 0 }}
-            animate={{ y: showMobileNav ? 0 : "100%" }}
+            animate={{ y: showMobileBottomBar ? 0 : "100%" }}
             transition={{ duration: 0.3 }}
             className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white opacity-100 border-t border-slate-100 rounded-t-[2.5rem] shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex justify-around items-center h-20 px-2"
             style={{

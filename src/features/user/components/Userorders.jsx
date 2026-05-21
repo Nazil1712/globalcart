@@ -73,7 +73,7 @@ export default function Userorders() {
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-black tracking-tight text-slate-900 mb-2"
+            className="text-3xl md:text-4xl font-black tracking-tight text-slate-900 mb-2"
           >
             Your Orders
           </motion.h1>
@@ -91,19 +91,19 @@ export default function Userorders() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+                  className="bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
                 >
                   {/* Order Header */}
-                  <div className="p-8 border-b border-slate-50 flex flex-wrap justify-between items-center gap-4">
+                  <div className="p-5 md:p-8 border-b border-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="space-y-1">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
                         Order Reference
                       </p>
-                      <h3 className="text-xl font-black text-slate-900">
+                      <h3 className="text-lg md:text-xl font-black text-slate-900">
                         #{order.id.slice(-8).toUpperCase()}
                       </h3>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                       <span
                         className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${getStatusColor(order.status)}`}
                       >
@@ -141,14 +141,14 @@ export default function Userorders() {
                   </div>
 
                   {/* Items List */}
-                  <div className="p-8">
+                  <div className="p-5 md:p-8">
                     <ul className="space-y-6">
                       {order.items.map((item) => (
                         <li
                           key={item.product.id}
-                          className="flex items-center gap-6 group"
+                          className="flex items-start md:items-center gap-4 md:gap-6 group"
                         >
-                          <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
+                          <div className="h-20 w-20 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
                             <img
                               src={item.product.thumbnail}
                               alt={item.product.title}
@@ -157,7 +157,7 @@ export default function Userorders() {
                           </div>
 
                           <div className="flex-1 flex flex-col justify-center">
-                            <div className="flex justify-between items-start">
+                            <div className="flex flex-col sm:flex-row justify-between items-start gap-1 sm:gap-0">
                               <div>
                                 <h4 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                                   {item.product.title}
@@ -166,7 +166,7 @@ export default function Userorders() {
                                   {item.product.brand}
                                 </p>
                               </div>
-                              <div className="text-right">
+                              <div className="text-left sm:text-right mt-1 sm:mt-0">
                                 <p className="text-lg font-black text-slate-900">
                                   ₹
                                   {formatPrice(Math.round(discountedPrice(
@@ -186,7 +186,7 @@ export default function Userorders() {
                   </div>
 
                   {/* Order Footer & Shipping */}
-                  <div className="p-8 bg-slate-50/50 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="p-5 md:p-8 bg-slate-50/50 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                     <div className="space-y-4">
                       <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
                         Shipping Address
@@ -209,8 +209,8 @@ export default function Userorders() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-end items-end space-y-4">
-                      <div className="text-right space-y-1">
+                    <div className="flex flex-col md:justify-end md:items-end space-y-4">
+                      <div className="text-left md:text-right space-y-1">
                         <p className="text-xs font-black text-slate-400 uppercase tracking-widest">
                           Total Amount Paid
                         </p>

@@ -45,7 +45,7 @@ export default function Cart() {
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-black tracking-tight text-slate-900 mb-2"
+            className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-2"
           >
             Your Shopping Cart
           </motion.h1>
@@ -63,18 +63,18 @@ export default function Cart() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-[3rem] premium-shadow p-12 text-center border border-slate-100"
+            className="bg-white rounded-[2rem] md:rounded-[3rem] premium-shadow p-6 py-12 md:p-12 text-center border border-slate-100"
           >
             <div className="max-w-md mx-auto">
               <img
                 src={emptyCartUpper}
                 alt="empty_cart_img"
-                className="mx-auto w-64 h-auto mb-8 grayscale opacity-50"
+                className="mx-auto w-48 md:w-64 h-auto mb-6 md:mb-8 grayscale opacity-50"
               />
-              <h2 className="text-3xl font-black text-slate-900 mb-4">
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-3 md:mb-4">
                 Your cart is empty
               </h2>
-              <p className="text-slate-500 mb-10 font-medium">
+              <p className="text-sm md:text-base text-slate-500 mb-8 md:mb-10 font-medium px-4">
                 Looks like you haven't added anything to your cart yet. Explore
                 our latest products and find something you love!
               </p>
@@ -82,7 +82,7 @@ export default function Cart() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-indigo-600 text-white px-10 py-4 rounded-2xl text-lg font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                  className="bg-indigo-600 text-white px-8 py-3.5 md:px-10 md:py-4 rounded-xl md:rounded-2xl text-sm md:text-lg font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
                 >
                   Continue Shopping
                 </motion.button>
@@ -101,9 +101,9 @@ export default function Cart() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 20 }}
                     transition={{ delay: index * 0.1 }}
-                    className="group bg-white rounded-[2rem] p-6 premium-shadow border border-slate-100 flex gap-6 items-center"
+                    className="group bg-white rounded-3xl md:rounded-[2rem] p-4 md:p-6 premium-shadow border border-slate-100 flex gap-4 md:gap-6 items-start md:items-center"
                   >
-                    <div className="h-32 w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
+                    <div className="h-24 w-24 md:h-32 md:w-32 flex-shrink-0 overflow-hidden rounded-2xl bg-slate-50 border border-slate-100 group-hover:scale-105 transition-transform">
                       <img
                         src={product.product.thumbnail}
                         alt={product.product.title}
@@ -112,9 +112,9 @@ export default function Cart() {
                     </div>
 
                     <div className="flex-1 flex flex-col justify-between py-2">
-                      <div className="flex justify-between items-start">
+                      <div className="flex flex-col sm:flex-row justify-between items-start sm:gap-4">
                         <div>
-                          <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
+                          <h3 className="text-lg md:text-xl font-bold text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors line-clamp-2 md:line-clamp-none">
                             <Link to={`/product-detail/${product.product.id}`}>
                               {product.product.title}
                             </Link>
@@ -123,7 +123,7 @@ export default function Cart() {
                             {product.product.brand}
                           </p>
                         </div>
-                        <p className="text-xl font-black text-slate-900">
+                        <p className="text-lg md:text-xl font-black text-slate-900 mt-2 sm:mt-0">
                           ₹
                           {formatPrice(Math.round(discountedPrice(
                             product.product.price,
@@ -132,9 +132,9 @@ export default function Cart() {
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between mt-6">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs font-bold text-slate-400 uppercase">
+                      <div className="flex items-center justify-between mt-4 md:mt-6">
+                        <div className="flex items-center gap-2 md:gap-3">
+                          <span className="text-[10px] md:text-xs font-bold text-slate-400 uppercase hidden sm:inline">
                             Quantity
                           </span>
                           <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden bg-slate-50">
@@ -155,7 +155,7 @@ export default function Cart() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1 md:gap-2">
                           <PopupBox
                             title={`Remove item?`}
                             message={`Do you want to remove ${product.product.title} from your cart?`}
@@ -184,9 +184,9 @@ export default function Cart() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[2.5rem] p-8 premium-shadow border border-slate-100 sticky top-28"
+              className="bg-white rounded-3xl md:rounded-[2.5rem] p-6 md:p-8 premium-shadow border border-slate-100 sticky top-28"
             >
-              <h2 className="text-2xl font-black text-slate-900 mb-8">
+              <h2 className="text-xl md:text-2xl font-black text-slate-900 mb-6 md:mb-8">
                 Order Summary
               </h2>
 

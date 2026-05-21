@@ -99,7 +99,7 @@ export default function Checkout() {
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-black tracking-tight text-slate-900 mb-2"
+            className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 mb-2"
           >
             Checkout
           </motion.h1>
@@ -108,25 +108,25 @@ export default function Checkout() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 gap-x-12 gap-y-12 lg:grid-cols-12 items-start">
+        <div className="grid grid-cols-1 gap-x-12 gap-y-8 md:gap-y-12 lg:grid-cols-12 items-start">
           {/* Main Content: Forms & Addresses */}
-          <div className="lg:col-span-7 space-y-10">
+          <div className="lg:col-span-7 space-y-6 md:space-y-10">
             {/* Address Form Section */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+              className="bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
             >
-              <div className="p-8 border-b border-slate-50">
-                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-600 text-white text-lg font-black">
+              <div className="p-5 md:p-8 border-b border-slate-50">
+                <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-xl bg-indigo-600 text-white text-base md:text-lg font-black">
                     1
                   </span>
                   Personal Details
                 </h2>
               </div>
               <form
-                className="p-8"
+                className="p-5 md:p-8"
                 onSubmit={handleSubmit((data) => {
                   dispatch(
                     updateUserAsync({
@@ -137,7 +137,7 @@ export default function Checkout() {
                   reset();
                 })}
               >
-                <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-4 md:gap-y-6 sm:grid-cols-6">
                   <div className="sm:col-span-3">
                     <label className="block text-sm font-bold text-slate-700 mb-2 ml-1">
                       Full Name
@@ -246,7 +246,7 @@ export default function Checkout() {
                   <button
                     onClick={() => reset()}
                     type="button"
-                    className="text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors px-4"
+                    className="text-xs md:text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors px-4"
                   >
                     Reset
                   </button>
@@ -254,7 +254,7 @@ export default function Checkout() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    className="bg-indigo-600 text-white px-8 py-3.5 rounded-2xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
+                    className="bg-indigo-600 text-white px-6 py-3 md:px-8 md:py-3.5 rounded-xl md:rounded-2xl text-xs md:text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all"
                   >
                     Add Address
                   </motion.button>
@@ -267,11 +267,11 @@ export default function Checkout() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+              className="bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
             >
-              <div className="p-8 border-b border-slate-50 flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-lg font-black">
+              <div className="p-5 md:p-8 border-b border-slate-50 flex justify-between items-center">
+                <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-base md:text-lg font-black">
                     2
                   </span>
                   Shipping Address
@@ -283,7 +283,7 @@ export default function Checkout() {
                 )}
               </div>
 
-              <div className="p-8">
+              <div className="p-5 md:p-8">
                 {addresses && addresses.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {addresses.map((addr, index) => (
@@ -337,18 +337,18 @@ export default function Checkout() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
+              className="bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow border border-slate-100 overflow-hidden"
             >
-              <div className="p-8 border-b border-slate-50">
-                <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-lg font-black">
+              <div className="p-5 md:p-8 border-b border-slate-50">
+                <h2 className="text-xl md:text-2xl font-bold text-slate-900 flex items-center gap-3">
+                  <span className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-xl bg-slate-900 text-white text-base md:text-lg font-black">
                     3
                   </span>
                   Payment Method
                 </h2>
               </div>
 
-              <div className="p-8">
+              <div className="p-5 md:p-8">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div
                     onClick={() => setPaymentMethod("cash")}
@@ -403,15 +403,15 @@ export default function Checkout() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-[2.5rem] premium-shadow border border-slate-100 sticky top-28 overflow-hidden"
+              className="bg-white rounded-3xl md:rounded-[2.5rem] premium-shadow border border-slate-100 sticky top-28 overflow-hidden"
             >
-              <div className="p-8 border-b border-slate-50">
-                <h2 className="text-2xl font-black text-slate-900">
+              <div className="p-5 md:p-8 border-b border-slate-50">
+                <h2 className="text-xl md:text-2xl font-black text-slate-900">
                   Order Summary
                 </h2>
               </div>
 
-              <div className="p-8">
+              <div className="p-5 md:p-8">
                 <div className="space-y-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                   {items.map((product) => (
                     <div key={product.product.id} className="flex gap-4 group">
