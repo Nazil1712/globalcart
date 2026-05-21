@@ -82,29 +82,29 @@ const Footer = () => {
       {/* Newsletter Section */}
       <div className="border-b border-slate-800">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
-          <div className="lg:flex lg:items-center lg:justify-between">
-            <div className="max-w-xl">
-              <h2 className="text-3xl font-black text-white tracking-tight sm:text-4xl">
+          <div className="lg:flex lg:items-center lg:justify-between text-center md:text-left">
+            <div className="max-w-xl mx-auto md:mx-0">
+              <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight sm:text-4xl">
                 Join our newsletter
               </h2>
-              <p className="mt-4 text-lg text-slate-400">
+              <p className="mt-3 md:mt-4 text-sm md:text-lg text-slate-400">
                 Get the latest updates on new products and exclusive offers
                 delivered to your inbox.
               </p>
             </div>
-            <div className="mt-8 lg:mt-0 lg:ml-8">
-              <form className="sm:flex max-w-md">
+            <div className="mt-6 md:mt-8 lg:mt-0 lg:ml-8">
+              <form className="flex flex-col sm:flex-row max-w-md mx-auto md:mx-0 gap-3 sm:gap-0">
                 <input
                   type="email"
                   required
-                  className="w-full bg-slate-800 border-transparent rounded-2xl px-5 py-4 text-base text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-slate-700 transition-all"
+                  className="w-full bg-slate-800 border-transparent rounded-[1.25rem] md:rounded-2xl px-5 py-3.5 md:py-4 text-sm md:text-base text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-slate-700 transition-all text-center sm:text-left"
                   placeholder="Enter your email"
                 />
-                <div className="mt-3 sm:mt-0 sm:ml-3">
+                <div className="mt-0 sm:ml-3">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-full bg-indigo-600 border border-transparent rounded-2xl py-4 px-8 flex items-center justify-center text-base font-black text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all uppercase tracking-widest"
+                    className="w-full bg-indigo-600 border border-transparent rounded-[1.25rem] md:rounded-2xl py-3.5 md:py-4 px-8 flex items-center justify-center text-sm md:text-base font-black text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all uppercase tracking-widest"
                   >
                     Subscribe
                   </motion.button>
@@ -124,18 +124,15 @@ const Footer = () => {
               <div>
                 <img
                   src={globalcart}
-                  className="h-10 w-auto"
+                  className="h-9 md:h-10 md:w-auto"
                   alt="GlobalCart Logo"
                 />
               </div>
-              {/* <span className="text-2xl font-black text-white tracking-tighter">
-                Global <span className="text-indigo-500">Cart</span>
-              </span> */}
               <span className="text-2xl font-black text-white tracking-tighter">
-                <img src={globalCartText} className="w-[270px]" />
+                <img src={globalCartText} className="w-[200px] md:w-[270px]" />
               </span>
             </Link>
-            <p className="text-slate-400 text-lg leading-relaxed mb-8 max-w-sm">
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 max-w-sm">
               Your ultimate destination for premium lifestyle products. Quality,
               style, and exceptional service in every box.
             </p>
@@ -181,7 +178,7 @@ const Footer = () => {
                 {({ open }) => (
                   <>
                     <Disclosure.Button className="flex w-full justify-between items-center py-3 outline-none">
-                      <span className="text-sm font-black text-white uppercase tracking-[0.2em]">{section.title}</span>
+                      <span className={`text-sm font-black  uppercase tracking-[0.2em] ${open ? 'text-indigo-500' : 'text-white'}`}>{section.title}</span>
                       <ChevronDownIcon className={`w-5 h-5 text-indigo-500 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
                     </Disclosure.Button>
                     <Transition

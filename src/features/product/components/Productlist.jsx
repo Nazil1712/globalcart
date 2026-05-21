@@ -183,30 +183,30 @@ export default function Productlist() {
         <main className="mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-200 pb-8 pt-12 gap-4">
             <div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 mb-1 md:mb-2">
                 Discover Products
               </h1>
-              <p className="text-slate-500 text-lg">
+              <p className="text-sm md:text-lg text-slate-500">
                 Browse our curated collection of premium goods
               </p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3 md:gap-4 w-full md:w-auto">
               {/* Modern Search Bar */}
-              <div className="relative group hidden md:block">
+              <div className="relative group w-full md:w-auto">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => dispatch(setSearchQuery(e.target.value))}
                   placeholder="Search products..."
-                  className="w-48 sm:w-64 bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl px-4 py-2.5 pl-11 text-base font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white/80 transition-all"
+                  className="w-full sm:w-64 bg-white md:bg-white/40 backdrop-blur-md border border-slate-200 md:border-white/60 rounded-xl md:rounded-2xl px-4 py-3 md:py-2.5 pl-11 text-sm md:text-base font-medium text-slate-700 shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white md:focus:bg-white/80 transition-all"
                 />
                 <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 transition-colors group-focus-within:text-indigo-500" />
               </div>
 
-              <Menu as="div" className="relative inline-block text-left z-30">
+              <Menu as="div" className="relative inline-block text-left z-30 w-full sm:w-auto">
                 <div>
-                  <Menu.Button className="group flex items-center justify-center gap-2 rounded-2xl bg-white/40 backdrop-blur-md px-5 py-2.5 text-base font-bold text-slate-700 shadow-sm border border-white/60 hover:bg-white/60 transition-all">
+                  <Menu.Button className="group flex items-center justify-between sm:justify-center gap-2 rounded-xl md:rounded-2xl bg-white md:bg-white/40 backdrop-blur-md w-full px-5 py-3 md:py-2.5 text-sm md:text-base font-bold text-slate-700 shadow-sm border border-slate-200 md:border-white/60 hover:bg-slate-50 md:hover:bg-white/60 transition-all">
                     Sort By
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-indigo-500 group-hover:text-indigo-600 transition-transform duration-300 group-ui-open:rotate-180"
@@ -224,7 +224,7 @@ export default function Productlist() {
                   leaveFrom="transform opacity-100 scale-100 translate-y-0"
                   leaveTo="transform opacity-0 scale-95 translate-y-2"
                 >
-                  <Menu.Items className="absolute right-0 z-[60] mt-3 w-56 origin-top-right rounded-[2rem] bg-white/80 backdrop-blur-3xl shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] ring-1 ring-black/5 focus:outline-none p-2 border border-white/60">
+                  <Menu.Items className="absolute right-0 left-0 sm:left-auto z-[60] mt-2 w-full sm:w-56 origin-top rounded-[1.25rem] md:rounded-[2rem] bg-white/95 md:bg-white/80 backdrop-blur-3xl shadow-xl ring-1 ring-black/5 focus:outline-none p-2 border border-slate-100 md:border-white/60">
                     <div className="py-1">
                       {sortOptions.map((option) => (
                         <Menu.Item key={option.name}>
@@ -233,8 +233,8 @@ export default function Productlist() {
                               className={classNames(
                                 option.current
                                   ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
-                                  : "text-slate-600 hover:bg-white hover:shadow-sm",
-                                "group flex w-full items-center px-4 py-3 text-base rounded-xl font-semibold transition-all duration-200",
+                                  : "text-slate-600 hover:bg-slate-50 md:hover:bg-white hover:shadow-sm",
+                                "group flex w-full items-center px-4 py-3 text-sm md:text-base rounded-xl font-semibold transition-all duration-200",
                               )}
                               onClick={() => handleSort(option)}
                             >
@@ -271,13 +271,13 @@ export default function Productlist() {
               >
                 <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
               </button> */}
-              <button
+              {/* <button
                 type="button"
                 className="lg:hidden flex items-center justify-center rounded-xl bg-white p-2.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-300 hover:text-slate-500"
                 onClick={() => setMobileFiltersOpen(true)}
               >
                 <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-              </button>
+              </button> */}
             </div>
           </div>
 

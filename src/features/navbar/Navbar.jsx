@@ -13,10 +13,24 @@ import {
   EnvelopeIcon,
   ArrowLeftOnRectangleIcon,
   ChevronRightIcon,
+  DevicePhoneMobileIcon,
+  ComputerDesktopIcon,
+  SparklesIcon,
+  ShoppingBagIcon as ShoppingBagOutlineIcon,
+  TagIcon,
+  BriefcaseIcon,
 } from "@heroicons/react/24/outline";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchAllCategoriesAsync, setSearchQuery } from "../product/productSlice";
+import {
+  fetchAllCategoriesAsync,
+  setSearchQuery,
+} from "../product/productSlice";
 import globalcart from "../../images/gc.png";
 import NavbarShimmer from "../shimmer/NavbarShimmer";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -81,18 +95,17 @@ const Navbar = ({ children }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
-        if (window.scrollY > lastScrollY && window.scrollY > 50) {
+        if (window.scrollY > 250) {
           setShowMobileNav(false);
         } else {
           setShowMobileNav(true);
         }
-        setLastScrollY(window.scrollY);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+  }, []);
 
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
@@ -120,7 +133,10 @@ const Navbar = ({ children }) => {
         <NavbarShimmer />
       ) : (
         <>
-          <Disclosure as="nav" className="sticky top-0 z-50 glass hidden md:block">
+          <Disclosure
+            as="nav"
+            className="sticky top-0 z-50 glass hidden md:block"
+          >
             {({ open }) => (
               <>
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -373,84 +389,203 @@ const Navbar = ({ children }) => {
           </Disclosure>
 
           {/* Mobile Sticky Top Header */}
-          <motion.div 
+          <motion.div
             initial={{ y: 0 }}
             animate={{ y: showMobileNav ? 0 : -64 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="sticky top-0 z-50 flex flex-col md:hidden w-full shadow-sm"
           >
             <div className="glass flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 border-b border-slate-100">
-            <div className="flex items-center gap-3">
-              <Link to="/" className="flex-shrink-0 group">
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="h-9 w-auto"
-                  src={globalcart}
-                  alt="GlobalCart"
-                />
-              </Link>
-            </div>
-            
-            {/* Profile Avatar Button */}
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setIsProfileDrawerOpen(true)}
-              className="flex items-center rounded-full bg-white p-0.5 ring-2 ring-slate-200 focus:outline-none overflow-hidden cursor-pointer"
-            >
-              {userInfo?.name ? (
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
-                  {userInfo.name[0].toUpperCase()}
-                </div>
-              ) : (
-                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
-                  <UserCircleIcon className="w-5 h-5" />
-                </div>
-              )}
-            </motion.button>
-            </div>
-            
-            {/* Mobile Search Bar */}
-            <div className="bg-white px-4 py-3 border-b border-slate-100 shadow-sm flex-1">
-              <div className="relative w-full">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => dispatch(setSearchQuery(e.target.value))}
-                  placeholder="Search products..."
-                  className="w-full bg-slate-100/80 border-none rounded-xl px-4 py-2.5 pl-10 text-sm font-medium text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                />
-                <MagnifyingGlassIcon className="w-5 h-5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <div className="flex items-center gap-3">
+                <Link to="/" className="flex-shrink-0 group">
+                  <motion.img
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="h-9 w-auto"
+                    src={globalcart}
+                    alt="GlobalCart"
+                  />
+                </Link>
               </div>
+
+              {/* Profile Avatar Button */}
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsProfileDrawerOpen(true)}
+                className="flex items-center rounded-full bg-white p-0.5 ring-2 ring-slate-200 focus:outline-none overflow-hidden cursor-pointer"
+              >
+                {userInfo?.name ? (
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                    {userInfo.name[0].toUpperCase()}
+                  </div>
+                ) : (
+                  <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                    <UserCircleIcon className="w-5 h-5" />
+                  </div>
+                )}
+              </motion.button>
             </div>
+
+            {/* Mobile Horizontal Scrollable Categories */}
+            {(location.pathname === "/" || location.pathname === "/home") && (
+              <div className="bg-white px-2 pt-3 border-b border-slate-100 shadow-sm overflow-x-auto no-scrollbar flex items-center gap-6 md:hidden relative z-40">
+                <button
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                  className={`flex flex-col items-center gap-1.5 shrink-0 px-2 pb-2 border-b-2 transition-colors ${!activeCategory ? "border-indigo-600 text-indigo-600" : "border-transparent text-slate-500 hover:text-slate-800"}`}
+                >
+                  <ShoppingBagOutlineIcon className="w-6 h-6" />
+                  <span className="text-[11px] font-bold">All</span>
+                </button>
+
+                {categories?.map((cat) => {
+                  const catValue = typeof cat === "object" ? cat.value : cat;
+                  const catLabel = typeof cat === "object" ? cat.label : cat;
+                  const isCatActive = activeCategory === catValue;
+
+                  // Map icons based on label
+                  let Icon = TagIcon;
+                  const lowerCat = catLabel.toLowerCase();
+                  if (
+                    lowerCat.includes("phone") ||
+                    lowerCat.includes("mobile") ||
+                    lowerCat.includes("smart")
+                  )
+                    Icon = DevicePhoneMobileIcon;
+                  else if (
+                    lowerCat.includes("laptop") ||
+                    lowerCat.includes("computer") ||
+                    lowerCat.includes("tech") ||
+                    lowerCat.includes("tablet")
+                  )
+                    Icon = ComputerDesktopIcon;
+                  else if (
+                    lowerCat.includes("beauty") ||
+                    lowerCat.includes("skin") ||
+                    lowerCat.includes("fragrance") ||
+                    lowerCat.includes("perfume")
+                  )
+                    Icon = SparklesIcon;
+                  else if (
+                    lowerCat.includes("grocer") ||
+                    lowerCat.includes("food") ||
+                    lowerCat.includes("snack")
+                  )
+                    Icon = ShoppingBagOutlineIcon;
+                  else if (
+                    lowerCat.includes("decor") ||
+                    lowerCat.includes("home") ||
+                    lowerCat.includes("furniture") ||
+                    lowerCat.includes("light")
+                  )
+                    Icon = HomeIcon;
+                  else if (
+                    lowerCat.includes("vacation") ||
+                    lowerCat.includes("travel") ||
+                    lowerCat.includes("bag") ||
+                    lowerCat.includes("luggage")
+                  )
+                    Icon = BriefcaseIcon;
+                  else if (
+                    lowerCat.includes("shirt") ||
+                    lowerCat.includes("dress") ||
+                    lowerCat.includes("cloth") ||
+                    lowerCat.includes("apparel") ||
+                    lowerCat.includes("men") ||
+                    lowerCat.includes("women")
+                  )
+                    Icon = UserIcon;
+                  else if (
+                    lowerCat.includes("shoe") ||
+                    lowerCat.includes("sneaker") ||
+                    lowerCat.includes("footwear")
+                  )
+                    Icon = SparklesIcon;
+                  else if (
+                    lowerCat.includes("watch") ||
+                    lowerCat.includes("jewelry") ||
+                    lowerCat.includes("ring")
+                  )
+                    Icon = SparklesIcon;
+                  else if (
+                    lowerCat.includes("motorcycle") ||
+                    lowerCat.includes("auto") ||
+                    lowerCat.includes("vehicle")
+                  )
+                    Icon = TagIcon;
+
+                  return (
+                    <button
+                      key={catValue}
+                      onClick={() => {
+                        navigate(`/?category=${catValue}`);
+                      }}
+                      className={`flex flex-col items-center gap-1.5 shrink-0 px-2 pb-2 border-b-2 transition-colors ${isCatActive ? "border-indigo-600 text-indigo-600" : "border-transparent text-slate-500 hover:text-slate-800"}`}
+                    >
+                      <Icon className="w-6 h-6" />
+                      <span className="text-[11px] font-bold">
+                        {catLabel.split("-")[0].charAt(0).toUpperCase() +
+                          catLabel.split("-")[0].slice(1)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </motion.div>
 
           {/* Mobile Bottom Navigation Bar */}
-          <motion.div 
+          <motion.div
             initial={{ y: 0 }}
             animate={{ y: showMobileNav ? 0 : "100%" }}
             transition={{ duration: 0.3 }}
             className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white opacity-100 border-t border-slate-100 rounded-t-[2.5rem] shadow-[0_-10px_30px_rgba(0,0,0,0.05)] flex justify-around items-center h-20 px-2"
-            style={{ paddingBottom: "calc(8px + env(safe-area-inset-bottom, 0px))" }}
+            style={{
+              paddingBottom: "calc(8px + env(safe-area-inset-bottom, 0px))",
+            }}
           >
             {[
               { name: "Home", href: "/", icon: HomeIcon },
-              { name: "Orders", href: "/orders", icon: ClipboardDocumentListIcon },
-              { name: "Categories", action: "categories", icon: Squares2X2Icon },
-              { name: "Cart", href: "/cart", icon: ShoppingCartIcon, badge: totalItems },
-              { name: "Wishlist", href: "/wishlist", icon: HeartIcon, badge: wishlistItems?.length },
+              {
+                name: "Orders",
+                href: "/orders",
+                icon: ClipboardDocumentListIcon,
+              },
+              {
+                name: "Categories",
+                action: "categories",
+                icon: Squares2X2Icon,
+              },
+              {
+                name: "Cart",
+                href: "/cart",
+                icon: ShoppingCartIcon,
+                badge: totalItems,
+              },
+              {
+                name: "Wishlist",
+                href: "/wishlist",
+                icon: HeartIcon,
+                badge: wishlistItems?.length,
+              },
             ].map((tab) => {
               const Icon = tab.icon;
-              const isActive = tab.action === "categories" 
-                ? isCategoriesDrawerOpen || !!activeCategory
-                : tab.href === "/" 
-                  ? (location.pathname === "/" || location.pathname === "/home") && !activeCategory
-                  : location.pathname === tab.href;
+              const isActive =
+                tab.action === "categories"
+                  ? isCategoriesDrawerOpen || !!activeCategory
+                  : tab.href === "/"
+                    ? (location.pathname === "/" ||
+                        location.pathname === "/home") &&
+                      !activeCategory
+                    : location.pathname === tab.href;
 
               const content = (
                 <div className="flex flex-col items-center justify-center gap-1 w-full relative">
                   <div className="relative flex items-center justify-center">
-                    <Icon className={`h-6 w-6 transition-all duration-200 ${isActive ? "text-indigo-600 scale-110 stroke-2" : "text-slate-400"}`} />
+                    <Icon
+                      className={`h-6 w-6 transition-all duration-200 ${isActive ? "text-indigo-600 scale-110 stroke-2" : "text-slate-400"}`}
+                    />
                     {/* Badge */}
                     {tab.badge > 0 && (
                       <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-600 text-[9px] font-bold text-white ring-1 ring-white">
@@ -458,7 +593,9 @@ const Navbar = ({ children }) => {
                       </span>
                     )}
                   </div>
-                  <span className={`text-[10px] tracking-wide transition-all duration-200 ${isActive ? "text-indigo-600 font-extrabold scale-105" : "text-slate-400 font-medium"}`}>
+                  <span
+                    className={`text-[10px] tracking-wide transition-all duration-200 ${isActive ? "text-indigo-600 font-extrabold scale-105" : "text-slate-400 font-medium"}`}
+                  >
                     {tab.name}
                   </span>
                 </div>
@@ -590,7 +727,7 @@ const Navbar = ({ children }) => {
                   onClick={() => setIsProfileDrawerOpen(false)}
                   className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
                 />
-                
+
                 {/* Drawer Content */}
                 <motion.div
                   initial={{ x: "100%" }}
@@ -601,7 +738,9 @@ const Navbar = ({ children }) => {
                 >
                   {/* Close button */}
                   <div className="flex items-center justify-between mb-8">
-                    <span className="text-base font-extrabold tracking-tight text-slate-800">Account Options</span>
+                    <span className="text-base font-extrabold tracking-tight text-slate-800">
+                      Account Options
+                    </span>
                     <motion.button
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setIsProfileDrawerOpen(false)}
@@ -642,9 +781,21 @@ const Navbar = ({ children }) => {
                   <div className="flex-1 space-y-2 overflow-y-auto pr-1 no-scrollbar">
                     {[
                       { name: "My Profile", href: "/profile", icon: UserIcon },
-                      { name: "My Orders", href: "/orders", icon: ShoppingBagIcon },
-                      { name: "About Us", href: "/about-us", icon: InformationCircleIcon },
-                      { name: "Contact Us", href: "/contact-us", icon: EnvelopeIcon },
+                      {
+                        name: "My Orders",
+                        href: "/orders",
+                        icon: ShoppingBagIcon,
+                      },
+                      {
+                        name: "About Us",
+                        href: "/about-us",
+                        icon: InformationCircleIcon,
+                      },
+                      {
+                        name: "Contact Us",
+                        href: "/contact-us",
+                        icon: EnvelopeIcon,
+                      },
                     ].map((link) => {
                       const Icon = link.icon;
                       return (
@@ -658,7 +809,9 @@ const Navbar = ({ children }) => {
                             <div className="p-2 bg-slate-100 rounded-xl group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-all">
                               <Icon className="w-5 h-5" />
                             </div>
-                            <span className="text-sm font-bold">{link.name}</span>
+                            <span className="text-sm font-bold">
+                              {link.name}
+                            </span>
                           </div>
                           <ChevronRightIcon className="w-4 h-4 text-slate-400 group-hover:text-indigo-500 transition-colors" />
                         </Link>
@@ -701,7 +854,7 @@ const Navbar = ({ children }) => {
                   onClick={() => setIsCategoriesDrawerOpen(false)}
                   className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
                 />
-                
+
                 {/* Drawer Content */}
                 <motion.div
                   initial={{ y: "100%" }}
@@ -716,8 +869,12 @@ const Navbar = ({ children }) => {
                   {/* Header */}
                   <div className="flex items-center justify-between mb-6">
                     <div>
-                      <h2 className="text-xl font-extrabold tracking-tight text-slate-800">Shop by Category</h2>
-                      <p className="text-xs font-semibold text-slate-400 mt-1">Select a category to filter products</p>
+                      <h2 className="text-xl font-extrabold tracking-tight text-slate-800">
+                        Shop by Category
+                      </h2>
+                      <p className="text-xs font-semibold text-slate-400 mt-1">
+                        Select a category to filter products
+                      </p>
                     </div>
                     <motion.button
                       whileTap={{ scale: 0.9 }}
@@ -744,21 +901,30 @@ const Navbar = ({ children }) => {
                             : "bg-slate-50/80 border-slate-100 hover:bg-slate-100/50"
                         }`}
                       >
-                        <div className={`p-2.5 rounded-2xl mb-2 ${!activeCategory ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-600"}`}>
+                        <div
+                          className={`p-2.5 rounded-2xl mb-2 ${!activeCategory ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-600"}`}
+                        >
                           <Squares2X2Icon className="w-6 h-6" />
                         </div>
-                        <span className="text-sm font-extrabold text-slate-800">All Products</span>
+                        <span className="text-sm font-extrabold text-slate-800">
+                          All Products
+                        </span>
                       </motion.button>
 
                       {categories?.map((cat) => {
-                        const catValue = typeof cat === "object" ? cat.value : cat;
-                        const catLabel = typeof cat === "object" ? cat.label : cat;
+                        const catValue =
+                          typeof cat === "object" ? cat.value : cat;
+                        const catLabel =
+                          typeof cat === "object" ? cat.label : cat;
                         const isCatActive = activeCategory === catValue;
-                        
+
                         const formatCategoryName = (name) => {
                           return name
                             .split("-")
-                            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                            .map(
+                              (word) =>
+                                word.charAt(0).toUpperCase() + word.slice(1),
+                            )
                             .join(" ");
                         };
 
@@ -776,7 +942,9 @@ const Navbar = ({ children }) => {
                                 : "bg-slate-50/80 border-slate-100 hover:bg-slate-100/50"
                             }`}
                           >
-                            <div className={`p-2.5 rounded-2xl mb-2 ${isCatActive ? "bg-indigo-600 text-white animate-pulse" : "bg-slate-100 text-slate-500"}`}>
+                            <div
+                              className={`p-2.5 rounded-2xl mb-2 ${isCatActive ? "bg-indigo-600 text-white animate-pulse" : "bg-slate-100 text-slate-500"}`}
+                            >
                               <Squares2X2Icon className="w-5 h-5" />
                             </div>
                             <span className="text-xs font-black text-slate-800 tracking-tight leading-tight truncate w-full">
