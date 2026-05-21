@@ -67,6 +67,7 @@ const Navbar = ({ children }) => {
 
   const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
   const [isCategoriesDrawerOpen, setIsCategoriesDrawerOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     if (isCategoriesDrawerOpen && (!categories || categories.length === 0)) {
@@ -374,20 +375,22 @@ const Navbar = ({ children }) => {
           {/* Mobile Sticky Top Header */}
           <motion.div 
             initial={{ y: 0 }}
-            animate={{ y: showMobileNav ? 0 : "-100%" }}
-            transition={{ duration: 0.3 }}
+            animate={{ y: showMobileNav ? 0 : -64 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="sticky top-0 z-50 flex flex-col md:hidden w-full shadow-sm"
           >
-            <div className="glass flex h-16 items-center justify-between px-4 sm:px-6 border-b border-slate-100">
-            <Link to="/" className="flex-shrink-0 group">
-              <motion.img
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="h-10 w-auto"
-                src={globalcart}
-                alt="GlobalCart"
-              />
-            </Link>
+            <div className="glass flex h-16 shrink-0 items-center justify-between px-4 sm:px-6 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <Link to="/" className="flex-shrink-0 group">
+                <motion.img
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="h-9 w-auto"
+                  src={globalcart}
+                  alt="GlobalCart"
+                />
+              </Link>
+            </div>
             
             {/* Profile Avatar Button */}
             <motion.button
@@ -408,7 +411,7 @@ const Navbar = ({ children }) => {
             </div>
             
             {/* Mobile Search Bar */}
-            <div className="bg-white px-4 py-3 border-b border-slate-100 shadow-sm">
+            <div className="bg-white px-4 py-3 border-b border-slate-100 shadow-sm flex-1">
               <div className="relative w-full">
                 <input
                   type="text"
@@ -484,6 +487,96 @@ const Navbar = ({ children }) => {
               );
             })}
           </motion.div>
+
+          {/* Mobile Hamburger Menu Drawer */}
+          {/* <AnimatePresence>
+            {isMobileMenuOpen && (
+              <div className="fixed inset-0 z-[60] md:hidden">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+                />
+                
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "-100%" }}
+                  transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                  className="absolute left-0 top-0 bottom-0 w-[85%] max-w-sm bg-[#111111] shadow-2xl flex flex-col z-[60] overflow-hidden"
+                >
+                  <div className="flex items-center justify-between p-5 border-b border-white/10">
+                    <img src={globalcart} className="h-8 brightness-200" alt="Logo" />
+                    <button
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="p-2 rounded-full hover:bg-white/10 text-white transition-colors"
+                    >
+                      <XMarkIcon className="w-6 h-6" />
+                    </button>
+                  </div>
+                  
+                  <div className="flex-1 overflow-y-auto p-4 space-y-1">
+                    {[
+                      {
+                        title: "Quick Links",
+                        links: [
+                          { name: "Home", href: "/" },
+                          { name: "About Us", href: "/about-us" },
+                          { name: "My Profile", href: "/profile" },
+                          { name: "My Orders", href: "/orders" }
+                        ]
+                      },
+                      {
+                        title: "Categories",
+                        links: categories ? categories.slice(0, 5).map(c => ({ name: typeof c === 'object' ? c.label : c, href: `/?category=${typeof c === 'object' ? c.value : c}` })) : []
+                      },
+                      {
+                        title: "Contact Us",
+                        links: [
+                          { name: "Contact Form", href: "/contact-us" },
+                          { name: "Support Center", href: "#" }
+                        ]
+                      }
+                    ].map((section) => (
+                      <Disclosure as="div" key={section.title} className="border-b border-white/5 py-1">
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button className="flex w-full justify-between items-center py-4 px-2 outline-none">
+                              <span className="text-lg font-bold text-white tracking-wide">{section.title}</span>
+                              <ChevronDownIcon className={classNames(open ? "rotate-180" : "", "w-5 h-5 text-[#00ff88] transition-transform duration-300")} />
+                            </Disclosure.Button>
+                            <Transition
+                              enter="transition duration-200 ease-out"
+                              enterFrom="transform scale-95 opacity-0"
+                              enterTo="transform scale-100 opacity-100"
+                              leave="transition duration-100 ease-out"
+                              leaveFrom="transform scale-100 opacity-100"
+                              leaveTo="transform scale-95 opacity-0"
+                            >
+                              <Disclosure.Panel className="px-4 pb-4 space-y-3">
+                                {section.links.map(link => (
+                                  <Link
+                                    key={link.name}
+                                    to={link.href}
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    className="block text-[#a0a0a0] hover:text-[#00ff88] font-medium transition-colors py-1 capitalize"
+                                  >
+                                    {link.name}
+                                  </Link>
+                                ))}
+                              </Disclosure.Panel>
+                            </Transition>
+                          </>
+                        )}
+                      </Disclosure>
+                    ))}
+                  </div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence> */}
 
           {/* Profile Side Drawer */}
           <AnimatePresence>

@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import globalcart from "../../images/gc.png";
 import globalCartText from "../../images/gc_text.png";
+import { Disclosure, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -151,9 +153,9 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Desktop Links */}
           {footerSections.map((section) => (
-            <div key={section.title}>
+            <div key={section.title} className="hidden md:block">
               <h3 className="text-sm font-black text-white uppercase tracking-[0.2em] mb-8">
                 {section.title}
               </h3>
@@ -171,6 +173,42 @@ const Footer = () => {
               </ul>
             </div>
           ))}
+
+          {/* Mobile Accordion Links */}
+          <div className="col-span-2 md:hidden space-y-2 mt-4">
+            {footerSections.map((section) => (
+              <Disclosure as="div" key={section.title} className="border-b border-slate-800 py-2">
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button className="flex w-full justify-between items-center py-3 outline-none">
+                      <span className="text-sm font-black text-white uppercase tracking-[0.2em]">{section.title}</span>
+                      <ChevronDownIcon className={`w-5 h-5 text-indigo-500 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+                    </Disclosure.Button>
+                    <Transition
+                      enter="transition duration-200 ease-out"
+                      enterFrom="transform scale-95 opacity-0"
+                      enterTo="transform scale-100 opacity-100"
+                      leave="transition duration-100 ease-out"
+                      leaveFrom="transform scale-100 opacity-100"
+                      leaveTo="transform scale-95 opacity-0"
+                    >
+                      <Disclosure.Panel className="px-2 pt-2 pb-4 space-y-4">
+                        {section.links.map((link) => (
+                          <Link
+                            key={link.name}
+                            to={link.href}
+                            className="block text-slate-400 hover:text-indigo-400 transition-colors font-medium"
+                          >
+                            {link.name}
+                          </Link>
+                        ))}
+                      </Disclosure.Panel>
+                    </Transition>
+                  </>
+                )}
+              </Disclosure>
+            ))}
+          </div>
         </div>
       </div>
 

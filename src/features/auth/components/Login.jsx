@@ -38,19 +38,19 @@ function Login() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="sm:mx-auto sm:w-full sm:max-w-md"
+        className="sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0"
       >
         <Link to="/">
           <img
-            className="mx-auto h-16 w-auto mb-8"
+            className="mx-auto h-12 md:h-16 w-auto mb-4 md:mb-8"
             src={globalcart}
             alt="GlobalCart"
           />
         </Link>
-        <h2 className="text-center text-4xl font-black text-slate-900 tracking-tight">
+        <h2 className="text-center text-3xl md:text-4xl font-black text-slate-900 tracking-tight">
           Welcome Back
         </h2>
-        <p className="mt-2 text-center text-slate-500 font-medium">
+        <p className="mt-2 text-center text-sm md:text-base text-slate-500 font-medium">
           Enter your details to access your account
         </p>
       </motion.div>
@@ -59,9 +59,9 @@ function Login() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="mt-10 sm:mx-auto sm:w-full sm:max-w-md"
+        className="mt-6 md:mt-10 sm:mx-auto sm:w-full sm:max-w-md px-4 sm:px-0"
       >
-        <div className="bg-white/80 backdrop-blur-xl py-10 px-8 premium-shadow rounded-[2.5rem] border border-white">
+        <div className="bg-white/80 backdrop-blur-xl py-8 px-6 md:py-10 md:px-8 premium-shadow rounded-[2rem] md:rounded-[2.5rem] border border-white">
           <form
             noValidate
             className="space-y-6"
@@ -74,7 +74,7 @@ function Login() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-base font-bold text-slate-700 ml-1 mb-2"
+                className="block text-sm md:text-base font-bold text-slate-700 ml-1 mb-2"
               >
                 Email Address
               </label>
@@ -89,7 +89,7 @@ function Login() {
                 })}
                 type="email"
                 placeholder="name@company.com"
-                className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base transition-all"
+                className="block w-full rounded-xl md:rounded-2xl border-slate-200 bg-white/50 py-3 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm md:text-base transition-all"
               />
               {errors.email && (
                 <p className="mt-2 text-sm font-bold text-red-500 ml-1">
@@ -102,14 +102,14 @@ function Login() {
               <div className="flex items-center justify-between ml-1 mb-2">
                 <label
                   htmlFor="password"
-                  className="block text-base font-bold text-slate-700"
+                  className="block text-sm md:text-base font-bold text-slate-700"
                 >
                   Password
                 </label>
                 <Link
                   to="/forgot-password"
                   size="sm"
-                  className="text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
+                  className="text-xs md:text-sm font-bold text-indigo-600 hover:text-indigo-500 transition-colors"
                 >
                   Forgot?
                 </Link>
@@ -122,7 +122,7 @@ function Login() {
                   })}
                   type={passwordVisible ? "text" : "password"}
                   placeholder="••••••••"
-                  className="block w-full rounded-2xl border-slate-200 bg-white/50 py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-base transition-all"
+                  className="block w-full rounded-xl md:rounded-2xl border-slate-200 bg-white/50 py-3 md:py-3.5 px-4 text-slate-900 shadow-sm ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 text-sm md:text-base transition-all"
                 />
                 <button
                   type="button"
@@ -152,7 +152,7 @@ function Login() {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
               type="submit"
-              className="flex w-full justify-center rounded-2xl bg-slate-900 px-4 py-4 text-base font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="flex w-full justify-center rounded-xl md:rounded-2xl bg-slate-900 px-4 py-3 md:py-4 text-sm md:text-base font-bold leading-6 text-white shadow-xl hover:bg-indigo-600 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Sign In
             </motion.button>
@@ -173,7 +173,7 @@ function Login() {
             <div className="mt-6">
               <Link
                 to="/signup"
-                className="flex w-full justify-center rounded-2xl bg-white px-4 py-4 text-base font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 transition-all"
+                className="flex w-full justify-center rounded-xl md:rounded-2xl bg-white px-4 py-3 md:py-4 text-sm md:text-base font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 transition-all"
               >
                 Create Account
               </Link>
