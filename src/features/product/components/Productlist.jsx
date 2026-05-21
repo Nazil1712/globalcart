@@ -276,7 +276,7 @@ export default function Productlist() {
                   Brands
                 </span>
               </div>
-              {brands?.map((brand) => {
+              {[...(brands || [])].sort((a, b) => a.label.localeCompare(b.label)).map((brand) => {
                 const isChecked = filter?.brand?.includes(brand.value);
                 return (
                   <button
