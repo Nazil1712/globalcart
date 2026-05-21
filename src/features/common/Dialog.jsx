@@ -52,50 +52,50 @@ const PopupBox = ({
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
-          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              enterFrom="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
               enterTo="opacity-100 translate-y-0 sm:scale-100"
               leave="ease-in duration-200"
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              leaveTo="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <Dialog.Panel className="relative transform overflow-hidden rounded-[2rem] bg-white/95 backdrop-blur-2xl text-center md:text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md premium-shadow border border-white">
+                <div className="px-6 pb-6 pt-8 sm:p-8">
+                  <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6">
+                    <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-[1.5rem] bg-red-50/80 ring-8 ring-red-50/50">
                       <ExclamationTriangleIcon
-                        className="h-6 w-6 text-red-600"
+                        className="h-8 w-8 text-red-500"
                         aria-hidden="true"
                       />
                     </div>
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div className="mt-2 text-center sm:mt-1 sm:text-left flex-1">
                       <Dialog.Title
                         as="h3"
-                        className="text-base font-semibold leading-6 text-gray-900"
+                        className="text-xl font-black leading-6 text-slate-900 tracking-tight"
                       >
                         {title}
                       </Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-sm text-gray-500">{message}</p>
+                      <div className="mt-3">
+                        <p className="text-sm font-medium text-slate-500 leading-relaxed">{message}</p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <div className="bg-slate-50/80 px-6 py-5 sm:flex sm:flex-row-reverse sm:px-8 border-t border-slate-100 gap-3">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    className="inline-flex w-full justify-center rounded-2xl bg-red-500 px-5 py-3.5 md:py-2.5 text-sm font-bold text-white shadow-lg shadow-red-200 hover:bg-red-600 transition-all duration-200"
                     onClick={() => handleDanger()}
                   >
                     {dangerOption}
                   </button>
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    className="mt-3 sm:mt-0 inline-flex w-full justify-center rounded-2xl bg-white px-5 py-3.5 md:py-2.5 text-sm font-bold text-slate-700 shadow-sm ring-1 ring-inset ring-slate-200 hover:bg-slate-50 hover:text-slate-900 transition-all duration-200"
                     onClick={() => handleCancle()}
                     ref={cancelButtonRef}
                   >

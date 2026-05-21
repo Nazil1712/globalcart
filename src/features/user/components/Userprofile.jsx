@@ -297,7 +297,7 @@ export default function Userprofile() {
                           <div className="p-3 rounded-2xl bg-indigo-50 text-indigo-600">
                             <MapPinIcon className="w-6 h-6" />
                           </div>
-                          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="flex gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
